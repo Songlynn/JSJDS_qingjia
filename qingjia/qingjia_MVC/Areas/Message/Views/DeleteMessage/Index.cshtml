@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "未销假名单";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/basestyle.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/css/deletenamelist.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script src="~/Content/js/flowBox.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            $('input[name="email"]').on("click", function () {
+                alert("发邮件");
+            });
+            $('input[name="message"]').on("click", function () {
+                alert("发短信");
+            });
+        });
+    </script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>未销假名单</h2>
+    </div>
+    <div class="main-content" id="main-content">
+        @*<input type="image" name="email" src="~/Content/image/deletenamelist-email.png" />
+        <input type="image" name="message" src="~/Content/image/deletenamelist-message.png" />*@
+        <div class="content-container" id="content-container">
+            @Html.Action("_NameContent")
+        </div>
+    </div>
+</div>
+
+}
+
+

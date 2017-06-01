@@ -1,0 +1,103 @@
+﻿@model IEnumerable<qingjia_MVC.Models.vw_StudenBatch>
+@{
+    Layout = null;
+}
+
+
+    <div class="content-title">
+        <img src="~/Content/image/nightnamelist-audit.png">
+        <span>审核</span>
+    </div>
+<input type="hidden" id="ChangeBatch" value="@ViewBag.ChangeBatch" />
+    <input type="image" name="agreemore" src="~/Content/image/nightnamelist-more.png">
+    <div class="content">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="input-sm" value=""></th>
+                    <th>驳回</th>
+                    <th>同意</th>
+                    <th>状态</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>班级</th>
+                    <th>更改原因</th>
+                    <th>更改批次</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="input-sm" value="@item.ID">
+                        </td>
+                        <td>
+                            <input type="image" name="back" src="~/Content/image/auditleave-back.png">
+                        </td>
+                        <td>
+                            <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                        </td>
+                        @if (item.AuditState.Trim() == "0")
+                        {
+                            <td>未审核</td>
+                        }
+                        else
+                        {
+                            <td>已审核</td>
+                        }
+                        <td>@item.StudentID</td>
+                        <td><span>@item.ST_Name</span></td>
+                        <td><span>@item.ST_Class</span></td>
+                        <td><span class="reason">@item.Reason</span></td>
+                        @switch (item.Batch)
+                        {
+                            case 1:
+                                {
+                                    <td>第一批次</td>
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    <td>第二批次</td>
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    <td>第三批次</td>
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <ul class="pagination">
+                            <li>
+                                <a>首页</a>
+                            </li>
+                            <li>
+                                <a>&laquo;</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>&raquo;</a>
+                            </li>
+                            <li>
+                                <a>尾页</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>

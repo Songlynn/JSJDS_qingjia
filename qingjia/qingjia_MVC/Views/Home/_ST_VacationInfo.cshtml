@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+    //是否在请假时间段内
+    var isVacation = ViewBag.vacation;
+
+    //是否有导出权限 1代表有、0代表没有
+    var isGetVacation = ViewBag.isGetVacation;
+}
+@if (isVacation == 1)
+{
+    <div class="content-line">
+        <div class="vacation">
+            <div class="content-title">
+                <img src="~/Content/image/default-teacher-title4.png">
+                <span>节假日信息</span>
+            </div>
+            <div class="content">
+                <div class="times">
+                    <label>节假日时间段：</label>
+                    <span>@ViewBag.StartTime</span>
+                    <span>-</span>
+                    <span>@ViewBag.EndTime</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">请假截止时间：</label>
+                    <span class="form-control-static">@ViewBag.DeadLine</span><span class="form-control-static">进行中</span>
+                </div>
+                @if (isGetVacation == "1")
+                {
+                    <input type="image" name="vacation" src="~/Content/image/default-teacher-getvacation.png">
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="content-line">
+        <div class="vacation">
+            <div class="content-title">
+                <img src="~/Content/image/default-teacher-title4.png">
+                <span>节假日信息</span>
+            </div>
+            <div class="content">
+                <div class="times">
+                    <label>节假日时间段：</label>
+                    <span>@ViewBag.StartTime</span>
+                    <span>-</span>
+                    <span>@ViewBag.EndTime</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">请假截止时间：</label>
+                    <span class="form-control-static">@ViewBag.DeadLine</span><span class="form-control-static">尚未开始</span>
+                </div>
+                @if (isGetVacation == "1")
+                {
+                    <input type="image" name="vacation" src="~/Content/image/default-teacher-getvacation.png">
+                }
+            </div>
+        </div>
+    </div>
+}

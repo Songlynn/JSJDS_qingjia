@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+    var total = ViewBag.LeaveTotal;
+    var leave = ViewBag.LeaveLeave;
+    var back = ViewBag.LeaveBack;
+}
+<div class="basic">
+    <div class="content-title">
+        <img src="~/Content/image/default-stu-title1.png">
+        <span>基本信息</span>
+    </div>
+    <div class="content">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>姓名：</th>
+                    <td>@ViewBag.BasicName</td>
+                    <th>学院：</th>
+                    <td>管理学院</td>
+                </tr>
+                <tr>
+                    <th>班级：</th>
+                    <td>@ViewBag.BasicClass</td>
+                    <th>年级：</th>
+                    <td>@ViewBag.BasicGrade</td>
+                </tr>
+                <tr>
+                    <th>学号：</th>
+                    <td>@ViewBag.BasicNum</td>
+                    <th>辅导员：</th>
+                    <td>@ViewBag.BasicTeacher</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="leave">
+    <div class="content-title">
+        <img src="~/Content/image/default-stu-title2.png">
+        <span>请假信息</span>
+    </div>
+    <div class="content">
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <th>待审核情况：</th>
+                    @if (leave == 0)
+                    {
+                        <td>无</td>
+                    }
+                    else
+                    {
+                        <td>@leave</td>
+                    }
+                </tr>
+                <tr>
+                    <th>待销假情况：</th>
+                    @if (back == 0)
+                    {
+                        <td>无</td>
+                    }
+                    else
+                    {
+                        <td>@back</td>
+                    }
+                </tr>
+                @if (total != 0)
+                {
+                    <tr>
+                        <th>累计请假：</th>
+                        <td><span>@total</span>次</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

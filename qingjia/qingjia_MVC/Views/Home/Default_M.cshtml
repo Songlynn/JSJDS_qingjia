@@ -1,0 +1,506 @@
+﻿@model IEnumerable<qingjia_MVC.Models.T_Teacher>
+@{
+    ViewBag.Title = "管理员界面";
+}
+
+@section head{
+    <link href="~/Content/css/default-manager.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script src="~/Content/js/pages2.js"></script>
+    <script src="~/Areas/Statistics/JS/echarts.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        var tr = $('.manager .table>tbody>tr');
+        Pages(tr, 6, 1);
+
+        //每天请假类型统计
+        $.ajax({
+            //注意URL的格式
+            url: '/Statistics/LeaveList/GetData?type=leavelist',
+            dataType: 'json',
+            type: 'post',
+            success: function (response) {
+                //alert('加载成功！');
+                //console.log(response);
+                LeaveListStatistic(response);
+            },
+            error: function () {
+                //alert('发生错误！');
+            }
+        });
+
+        function LeaveListStatistic(jsonData) {
+            var jsonObj = jsonData[0];
+            var data, indexNameArr, timeArr;
+
+            data = jsonObj["data"];
+            indexNameArr = jsonObj["indexNameArr"];
+            timeArr = new Array();
+            for (var k in data) {
+                timeArr.push(k);
+                ////console.log(k);
+            }
+
+            var totalArr = new Array();
+            for (var i in data) {
+                totalArr.push(data[i][0]);
+            }
+
+            var series = new Array();
+            for (var i = 0 ; i < indexNameArr.length; i++) {
+                var obj = new Object();
+                obj.name = indexNameArr[i];
+                obj.type = 'bar';
+                var objData = new Array();
+                for (var k in data) {
+                    objData.push(data[k][i]);
+                }
+                obj.data = objData;
+                if (indexNameArr[i] != '全部请假') {
+                    obj.stack = '请假类型';
+                }
+                series.push(obj);
+            }
+
+            var option = {
+                //title: {
+                //    show: true,
+                //    text: '每日登录数据统计'
+                //},
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        label: {
+                            show: true
+                        }
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                legend: {
+                    data: indexNameArr,
+
+                    //itemGap: 5
+                },
+                grid: {
+                    top: '12%',
+                    left: '1%',
+                    right: '10%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: timeArr
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '登录次数',
+                        //axisLabel: {
+                        //    formatter: function (a) {
+                        //        a = +a;
+                        //        return isFinite(a)
+                        //            ? echarts.format.addCommas(+a / 1000)
+                        //            : '';
+                        //    }
+                        //}
+                    }
+                ],
+                dataZoom: [
+                    {
+                        show: true,
+                        start: 94,
+                        end: 100
+                    },
+                    {
+                        type: 'inside',
+                        start: 94,
+                        end: 100
+                    },
+                    {
+                        show: true,
+                        yAxisIndex: 0,
+                        filterMode: 'empty',
+                        width: 30,
+                        height: '80%',
+                        showDataShadow: false,
+                        left: '93%'
+                    }
+                ],
+                series: series
+            };
+
+            var mychart = echarts.init(document.getElementById('EchartDiv_01'));
+            mychart.setOption(option);
+            //alert('绘制完成');
+            //$("#barDiv").show();
+        }
+
+        $('input[name="add"]').on("click", function () {
+            var url = '@Url.Action("addTeacher")';
+            layer.ready(function () {
+                function Check(div) {
+                    var teacherID = div.find('input[name="teacherID"]').val();
+                    var teacherName = div.find('input[name="teacherName"]').val();
+                    var teacherSex = div.find('input[name="teacherSex"]').val();
+                    var teacherGrade = div.find('input[name="teacherGrade"]').val();
+                    var teacherTel = div.find('input[name="teacherTel"]').val();
+                    var teacherEmail = div.find('input[name="teacherEmail"]').val();
+
+                    var reTel = /^1\d{10}$/;
+                    var reEmail = /^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/;
+
+                    if (teacherID == "" || teacherName == "" || teacherSex == "" || teacherGrade == "" || teacherTel == "" || teacherEmail == "") {
+                        layer.msg('存在未填项！');
+                        return false;
+                    }
+
+                    if (teacherSex != "男" && teacherSex != "女") {
+                        layer.msg('性别错误！请输入男或女！');
+                        return false;
+                    }
+
+                    if (teacherGrade.length != 5) {
+                        layer.msg('年级不符合格式！');
+                        return false;
+                    }
+
+                    if (reTel.test(teacherTel) == false) {
+                        layer.msg('电话号码格式错误！');
+                        return false;
+                    }
+
+                    if (reEmail.test(teacherEmail) == false) {
+                        layer.msg('邮箱格式错误！');
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                //通知
+                function notify(message, icons) {
+                    layer.msg(message, {
+                        icon: icons,
+                        time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                        offset: 't',
+                        skin: 'layui-layer-lan'
+                    });
+                }
+
+                layer.open({
+                    id: "addClass",
+                    type: 2,
+                    title: '添加辅导员',
+                    skin: 'demo-class',
+                    area: ['400px', '600px'],
+                    btn: ['添加', '取消'],
+                    closeBtn: 1,
+                    anim: 0,
+                    scrollbar: false,
+                    move: '.layui-layer-title',
+                    content: url,
+                    yes: function (index, layero) {
+                        var str = "layui-layer-iframe" + index;
+                        var div = $(window.frames[str].document);
+                        if (Check(div)) {
+                            var teacherID = div.find('input[name="teacherID"]').val();
+                            var teacherName = div.find('input[name="teacherName"]').val();
+                            var teacherSex = div.find('input[name="teacherSex"]').val();
+                            var teacherGrade = div.find('input[name="teacherGrade"]').val();
+                            var teacherTel = div.find('input[name="teacherTel"]').val();
+                            var teacherEmail = div.find('input[name="teacherEmail"]').val();
+
+                            var data = { "teacherID": teacherID, "teacherName": teacherName, "teacherSex": teacherSex, "teacherGrade": teacherGrade, "teacherTel": teacherTel, "teacherEmail": teacherEmail };
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Home/btnAddClick',
+                                contentType: 'application/json',
+                                data: JSON.stringify(data),
+                                success: function (response) {
+                                    if (response == "0") {
+                                        layer.close(index);
+                                        layer.msg('保存失败！');
+                                    }
+                                    if (response == "1") {
+                                        layer.close(index);
+                                        layer.msg('保存成功！');
+                                        $.ajax({
+                                            url: '/Home/M_Info',
+                                            success: function (response) {
+                                                $('#infoTable').html(response);
+                                                var tr = $('.manager .table>tbody>tr');
+                                                Pages(tr, 6, 1);
+                                            },
+                                            error: function () {
+
+                                            }
+                                        });
+                                    }
+                                    if (response == "2") {
+                                        layer.close(index);
+                                        layer.msg('账号已存在！');
+                                    }
+                                    //$('#Class').html(response);
+                                    //console.log(response);
+                                    //notify('添加班级成功！', 1);
+                                },
+                                error: function () {
+                                    notify("发生错误！", 2);
+                                    layer.close(index);
+                                }
+                            });
+
+                        }
+                    }
+                });
+            });
+        });
+
+        $('input[name="delete"]').on("click", function () {
+            var idList = [];
+
+            $('.table').find('tr').each(function () {
+                var cb = $(this).find('input:checkbox');
+                if (cb.is(':checked')) {
+                    idList.push(cb.val());
+                }
+            });
+
+            console.log(idList);
+
+            layer.ready(function () {
+
+                //通知
+                function notify(message, icons) {
+                    layer.msg(message, {
+                        icon: icons,
+                        time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                        offset: 't',
+                        skin: 'layui-layer-lan'
+                    });
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/btnDeleteClick',
+                    contentType: 'application/json',
+                    data: JSON.stringify(idList),
+                    success: function (response) {
+                        if (response == "0") {
+                            //layer.close(index);
+                            layer.msg('删除失败！');
+                        }
+                        else {
+                            //layer.close(index);
+                            layer.msg('成功删除' + response + '条信息！');
+                            //window.location.href = '@Url.Action("M_Info")';
+                            $.ajax({
+                                url: '/Home/M_Info',
+                                success: function (response) {
+                                    $('#infoTable').html(response);
+                                    var tr = $('.manager .table>tbody>tr');
+                                    Pages(tr, 6, 1);
+                                },
+                                error: function () {
+
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        notify("未知错误！", 2);
+                        //layer.close(index);
+                    }
+                });
+
+            });
+        });
+
+        $('#content').on("click",'input[name="audit"]', function () {
+            var teacherID = $(this).parent().prev().find('input:checkbox').val();
+            //alert(teacherID);
+            $.ajax({
+                url: '/Home/GetTeacherInfo?teacherID=' + teacherID,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    //通知
+                    function notify(message, icons) {
+                        layer.msg(message, {
+                            icon: icons,
+                            time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                            offset: 't',
+                            skin: 'layui-layer-lan'
+                        });
+                    }
+
+                    function Check(div) {
+                        var teacherID = div.find('input[name="teacherID"]').val();
+                        var teacherName = div.find('input[name="teacherName"]').val();
+                        var teacherSex = div.find('input[name="teacherSex"]').val();
+                        var teacherGrade = div.find('input[name="teacherGrade"]').val();
+                        var teacherTel = div.find('input[name="teacherTel"]').val();
+                        var teacherEmail = div.find('input[name="teacherEmail"]').val();
+
+                        var reTel = /^1\d{10}$/;
+                        var reEmail = /^\w+((-\w+)|(\.\w+))*\@{@Html.Raw("@");}[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+
+                        if (teacherID == "" || teacherName == "" || teacherSex == "" || teacherGrade == "" || teacherTel == "" || teacherEmail == "") {
+                            layer.msg('存在未填项！');
+                            return false;
+                        }
+
+                        if (teacherSex != "男" && teacherSex != "女") {
+                            layer.msg('性别错误！请输入男或女！');
+                            return false;
+                        }
+
+                        if (teacherGrade.length != 5) {
+                            layer.msg('年级不符合格式！');
+                            return false;
+                        }
+
+                        if (reTel.test(teacherTel) == false) {
+                            layer.msg('电话号码格式错误！');
+                            return false;
+                        }
+
+                        //alert(teacherEmail);
+                        if (reEmail.test(teacherEmail) == false) {
+
+                            layer.msg('邮箱格式错误！');
+                            return false;
+                        }
+
+                        return true;
+                    }
+
+                    var url = '@Url.Action("editTeacher")?teacherID=' + response["ID"] + '&teacherName=' + response["Name"] + '&teacherTel=' + response["Tel"] + '&teacherGrade=' + response["Grade"] + '&teacherEmail=' + response["Email"] + '&teacherSex=' + response["Sex"];
+                    //获取数据
+                    layer.open({
+                        id: "addClass",
+                        type: 2,
+                        title: '修改辅导员信息',
+                        skin: 'demo-class',
+                        area: ['400px', '600px'],
+                        btn: ['保存', '取消'],
+                        closeBtn: 1,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        content: url,
+                        yes: function (index, layero) {
+                            var str = "layui-layer-iframe" + index;
+                            var div = $(window.frames[str].document);
+                            if (Check(div)) {
+                                var teacherID = div.find('input[name="teacherID"]').val();
+                                var teacherName = div.find('input[name="teacherName"]').val();
+                                var teacherSex = div.find('input[name="teacherSex"]').val();
+                                var teacherGrade = div.find('input[name="teacherGrade"]').val();
+                                var teacherEmail = div.find('input[name="teacherEmail"]').val();
+                                var teacherTel = div.find('input[name="teacherTel"]').val();
+
+                                var data = { "teacherID": teacherID, "teacherName": teacherName, "teacherSex": teacherSex, "teacherGrade": teacherGrade, "teacherTel": teacherTel, "teacherEmail": teacherEmail };
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/Home/btnEditClick',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(data),
+                                    success: function (response) {
+                                        if (response == "0") {
+                                            layer.close(index);
+                                            layer.msg('修改失败！');
+                                        }
+                                        if (response == "1") {
+                                            layer.close(index);
+                                            layer.msg('修改成功！');
+                                            $.ajax({
+                                                url: '/Home/M_Info',
+                                                success: function (response) {
+                                                    $('#infoTable').html(response);
+                                                    var tr = $('.manager .table>tbody>tr');
+                                                    Pages(tr, 6, 1);
+                                                },
+                                                error: function () {
+
+                                                }
+                                            });
+                                        }
+                                        if (response == "2") {
+                                            layer.close(index);
+                                            layer.msg('未知错误！');
+                                        }
+                                        //$('#Class').html(response);
+                                        //console.log(response);
+                                        //notify('添加班级成功！', 1);
+                                    },
+                                    error: function () {
+                                        notify("发生错误！", 2);
+                                        layer.close(index);
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+                },
+                error: function () {
+
+                }
+            });
+        });
+    });
+    </script>
+}
+
+@section body{
+    <div class="main">
+        <div class="main-title">
+            <h2>请假系统</h2>
+            <span>&raquo;&nbsp;管理员端口</span>
+        </div>
+        <div class="main-content">
+            <div class="content-block data">
+                <div class="content-title">
+                    <img src="~/Content/image/defaule-manager-title1.png" />
+                    <span>每日登录数据统计</span>
+                </div>
+                <div class="content">
+                    <div id="EchartDiv_01" style="width:100%; height:500px;"></div>
+                </div>
+            </div>
+            <div class="content-block manager">
+                <div class="content-title">
+                    <img src="~/Content/image/defaule-manager-title2.png" />
+                    <span>辅导员管理</span>
+                </div>
+                <div class="content" id="content">
+                    <div class="content-tool">
+                        <input type="image" name="add" src="~/Content/image/putinfo-stu-add.png" />
+                        <input type="image" name="delete" src="~/Content/image/putinfo-stu-delete.png" />
+                    </div>
+                    <div id="infoTable">
+                        @Html.Action("M_Info")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,193 @@
+﻿.ui-widget-content{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 95%;
+    min-width: 900px;
+    margin: 0 auto;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom:5px;
+    border-bottom:1px solid #d7d2d2;
+}
+.main .main-title h2{
+    font-size: 1.8em;
+    color: rgb(241, 189, 88);
+    font-weight: bolder;
+    margin-top:0;
+    margin-bottom:0;
+}
+.main .main-content{
+    width: 95%;
+    min-width: 900px;
+    margin: 10px auto 0;
+    position: relative;
+}
+.main .main-content .content-left{
+    width: 160px;
+    position: absolute;
+    top: 10px;
+    left: 0px;
+}
+.content-left .left-title{
+    width:100%;
+}
+.content-left .left-title img{
+    width: 60px;
+    margin-left:20px;
+}
+
+.content-left ul li{
+    margin: 15px 0;
+}
+.content-left ul li img{
+    height: 30px;
+}
+.content-left ul li a{
+    display: inline-block;
+    height: 20px;
+    vertical-align: bottom;
+    border-bottom: 1px solid #7c7e88;
+    font-weight: 600;
+}
+.content-left ul li:nth-child(4n+1) a{
+    color: rgb(31,117,140);
+}
+.content-left ul li:nth-child(4n+2) a{
+    color: rgb(223,104,0);
+}
+.content-left ul li:nth-child(4n+3) a{
+    color: rgb(24,52,28);
+}
+.content-left ul li:nth-child(4n+0) a{
+    color: rgb(188,83,63);
+}
+.content-left ul li a:hover{
+    color: rgb(241, 189, 88);
+}
+
+.main .main-content .content-right{
+    width: auto;
+    margin: 0 0 0 180px;
+}
+.content-right .content-title{
+    width: 100%;
+    height: 50px;
+    position: relative;
+}
+.content-right .content-title h3{
+    width: 200px;
+    height: 34px;
+    line-height: 34px;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    text-indent: 1em;
+    font-weight: bolder;
+}
+.content-right .content-title .input-group{
+    width: 250px;
+    height: 35px;
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+}
+.content-right .content-title .input-group input[type=text]{
+    width: 220px;
+    height: 30px;
+    border-top: 0;
+    border-bottom: 1px solid rgb(241, 189, 88);
+    border-left: 0;
+    border-right: 0;
+    background: transparent;
+    padding-left: 5px;
+    color: #7c7e88;
+}
+.content-right .content-title .input-group input[type=text]:focus{
+    border-bottom: 2px solid rgb(241, 189, 88);
+}
+.content-right .content-title .input-group input[name="search"]{
+    width:auto;
+    height:25px;
+}
+.content-right .content-title .input-group .input-group-btn.search input:hover{
+    position: relative;
+    left: 2px;
+    top: 2px;
+}
+.content-right .content-title .input-group .cancel{
+    position: absolute;
+    right: 30px;
+    top: 5px;
+    display: none;
+}
+.content-right .content-title .input-group .cancel input{
+    width:20px;
+}
+.content-right .content{
+    width: 100%;
+}
+.content .table{
+    width: 100%;
+    margin: 0 auto 0;
+}
+.content .table >thead>tr>th,
+.content .table >tbody>tr>td {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+/*.content .table >tbody>tr>td{
+    border-right:1px solid #ddd;
+}*/
+.content .table >thead>tr>th:first-child,
+.content .table >tbody>tr>td:first-child{
+    min-width:40px;
+}
+/*.content .table >tbody>tr>td:last-child{
+    border-right:0px solid #ddd;
+}*/
+.content .table>tbody>tr>td:last-child input[name="send"]{
+    width:18px;
+    height:18px;
+    position:relative;
+    top:2px;
+}
+.content .table >tbody>tr.expand > td{
+    text-align: left;
+    border-top: 0;
+}
+.table >tbody>tr.expand{
+    display: none;
+}
+.content .table .expand>td:last-child{
+    padding: 5px 0 10px;
+}
+.detail tbody>tr>th{
+    width: 100px;
+    text-align: right;
+    vertical-align: top;
+}
+.detail tbody>tr>td{
+    width: 270px;
+    text-align: left;
+}
+.pagination > li > a{
+    color: rgb(86,149,151);
+    background-color: rgb(226,239,238);
+    border-color: #FFFFFF;
+    font-size: 0.8em;
+}
+.pagination > li > a:hover{
+    background-color: rgb(86,149,151);
+}
+.pagination > .active > a,
+.pagination > .active > a:hover{
+    background-color: rgb(86,149,151);
+    border-color: rgb(86,149,151);
+}

@@ -1,0 +1,263 @@
+﻿@model IEnumerable<qingjia_MVC.Areas.Message.Controllers.BatchClassModel>
+@{
+    Layout = null;
+    var F = Html.F();
+}
+<form class="form-horizontal" role="form">
+    <div class="basic content-block">
+        <div class="block-line two">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-teacher.png">
+                <label class="control-label">辅导员：</label>
+                <span class="form-control-static">@ViewBag.TeacherName</span>
+            </div>
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-grade.png">
+                <label class="control-label">年级：</label>
+                <span class="form-control-static">@ViewBag.Grade</span>
+            </div>
+        </div>
+        <div class="block-line one">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-date.png">
+                <label class="control-label">点名日期：</label>
+            </div>
+            <div class="picker">
+                @(F.DatePicker()
+                                .ID("dpDate")
+                                .DateFormatString("yyyy-MM-dd")
+                                .ShowRedStar(false)
+                                .ShowLabel(false)
+                                .EnableEdit(false)
+                                .MinDate(DateTime.Now)
+                                .Text(ViewBag.Date)
+                )
+            </div>
+        </div>
+    </div>
+    <div class="content-block batch">
+        <h3>第一批晚点名</h3>
+        <div class="block-line two">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-clock1.png">
+                <label class="control-label">点名时间：</label>
+            </div>
+            <div class="picker">
+                @(F.TimePicker()
+                            .ID("tpFirst")
+                            .Required(true)
+                            .Increment(30)
+                            .MinTimeText("9:00")
+                            .MaxTimeText("21:00")
+                            .EnableEdit(false)
+                            .ShowRedStar(false)
+                            .ShowLabel(false)
+                            .Text(ViewBag.First)
+                )
+            </div>
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-location1.png">
+                <label for="Location1" class="control-label">地点：</label>
+                @if (@ViewBag.FirstLoacation == "未设定")
+                {
+                    <input type="text" class="form-control" name="location" id="Location1" placeholder="@ViewBag.FirstLoacation">
+                }
+                else
+                {
+                    <input type="text" class="form-control" name="location" id="Location1" value="@ViewBag.FirstLoacation">
+                }
+            </div>
+        </div>
+        <div class="block-line one classes">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-class1.png">
+                <label class="control-label">班级：</label>
+                <div id="_FirstClassTable" class="classlist">
+                    <table>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    @foreach (var batchmodel in list.BatchClassList)
+                                    {
+                                        if (batchmodel.Batch == 1)
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes1" value="@batchmodel.ID" checked="checked">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes1" value="@batchmodel.ID">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @*<img class="split" src="~/Content/image/nightmessage-class-split1.png">*@
+        </div>
+    </div>
+    <div class="content-block batch">
+        <h3>第二批晚点名</h3>
+        <div class="block-line two">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-clock2.png">
+                <label class="control-label">点名时间：</label>
+            </div>
+            <div class="picker">
+                @(F.TimePicker()
+                            .ID("tpSecond")
+                            .Required(true)
+                            .Increment(30)
+                            .Text(ViewBag.Second)
+                            .MinTimeText("9:00")
+                            .MaxTimeText("21:00")
+                            .EnableEdit(false)
+                            .ShowRedStar(false)
+                            .ShowLabel(false)
+                .OnClientBlur("checkTime('tpFirst','tpSecond')")
+                )
+            </div>
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-location2.png">
+                <label for="Location2" class="control-label">地点：</label>
+                @if (@ViewBag.SecondLoacation == "未设定")
+                {
+                    <input type="text" class="form-control" name="location" id="Location2" placeholder="@ViewBag.SecondLoacation">
+                }
+                else
+                {
+                    <input type="text" class="form-control" name="location" id="Location2" value="@ViewBag.SecondLoacation">
+                }
+            </div>
+        </div>
+        <div class="block-line one classes">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-class2.png">
+                <label class="control-label">班级：</label>
+                <div id="_SecondClassTable" class="classlist">
+                    <table>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    @foreach (var batchmodel in list.BatchClassList)
+                                    {
+                                        if (batchmodel.Batch == 2)
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes2" value="@batchmodel.ID" checked="checked">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes2" value="@batchmodel.ID">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @*<img class="split" src="~/Content/image/nightmessage-class-split2.png">*@
+        </div>
+    </div>
+    <div class="content-block batch">
+        <h3>第三批晚点名</h3>
+        <div class="block-line two">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-clock3.png">
+                <label class="control-label">点名时间：</label>
+            </div>
+            <div class="picker">
+                @(F.TimePicker()
+                            .ID("tpThird")
+                            .Required(true)
+                            .Increment(30)
+                            .Text(ViewBag.Third)
+                            .MinTimeText("9:00")
+                            .MaxTimeText("21:00")
+                            .EnableEdit(false)
+                            .ShowRedStar(false)
+                            .ShowLabel(false)
+                            .OnClientBlur("checkTime('tpSecond','tpThird')")
+                )
+            </div>
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-location3.png">
+                <label for="Location3" class="control-label">地点：</label>
+                @if (@ViewBag.ThirdLoacation == "未设定")
+                {
+                    <input type="text" class="form-control" name="location" id="Location3" placeholder="@ViewBag.ThirdLoacation">
+                }
+                else
+                {
+                    <input type="text" class="form-control" name="location" id="Location3" value="@ViewBag.ThirdLoacation">
+                }
+            </div>
+        </div>
+        <div class="block-line one classes">
+            <div class="form-group">
+                <img src="~/Content/image/nightmessage-class3.png">
+                <label class="control-label">班级：</label>
+                <div id="_ThirdClassTable" class="classlist">
+                    <table>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    @foreach (var batchmodel in list.BatchClassList)
+                                    {
+                                        if (batchmodel.Batch == 3)
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes3" value="@batchmodel.ID" checked="checked">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="classes4" value="@batchmodel.ID">
+                                                    <span>@batchmodel.ClassName</span>
+                                                </label>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @*<img class="split" src="~/Content/image/nightmessage-class-split3.png">*@
+        </div>
+    </div>
+    <div class="save">
+        <input type="image" name="submit" src="~/Content/image/nightmessage-save.png">
+    </div>
+</form>
+

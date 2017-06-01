@@ -1,0 +1,90 @@
+﻿@model IEnumerable<qingjia_MVC.Controllers.BatchModel>
+@{
+    Layout = null;
+    int batch = ViewBag.NightBatch;
+}
+
+
+<div class="night">
+        <div class="content-title">
+            <img src="~/Content/image/default-stu-title3.png">
+            <span>晚点名信息</span>
+        </div>
+        <div class="content">
+            <table class="info table">
+                <tbody>
+                    <tr>
+                        <th>辅导员：</th>
+                        <td>@ViewBag.NightTeacher</td>
+                        <th>所在批次：</th>
+                        @if (batch == 1)
+                        {
+                            <td>第一批</td>
+                        }
+                        else if (batch == 2)
+                        {
+                            <td>第二批</td>
+                        }
+                        else if (batch == 3)
+                        {
+                            <td>第三批</td>
+                        }
+                        else
+                        {
+                            <td>未知错误</td>
+                        }
+                    </tr>
+                    <tr>
+                        <th>请假截止时间：</th>
+                        <td>@ViewBag.NightDeadLine</td>
+                        <td colspan="2">
+                            <a href="javascript:void(0);" onclick="toBatch(); return false;">修改晚点名批次</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="nightlist table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>批次</th>
+                        <th>时间</th>
+                        <th>地点</th>
+                        <th>班级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.batchName == batch.ToString())
+                        {
+                            <tr class="active">
+                                <td>@item.batchName</td>
+                                <td>@item.batchTime</td>
+                                <td>@item.batchLoacation</td>
+                                <td>
+                                    @foreach (var className in item.batchClass)
+                                    {
+                                        @className
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@item.batchName</td>
+                                <td>@item.batchTime</td>
+                                <td>@item.batchLoacation</td>
+                                <td>
+                                    @foreach (var className in item.batchClass)
+                                    {
+                                        @className
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

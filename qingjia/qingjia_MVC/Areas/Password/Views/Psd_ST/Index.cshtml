@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Index";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/password_stu.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script>
+
+        function ChangeClick() {
+            var oldpsd = document.getElementById("oldpsd").value;
+            var newpsd = document.getElementById("newpsd").value;
+            var newpsd2 = document.getElementById("newpsd2").value;
+            if (oldpsd == "" || newpsd == "" || newpsd2 == "") {
+                notify('存在未填项');
+                return false;
+            }
+            if (newpsd != newpsd2) {
+                notify('两次输入的新密码不同');
+                return false;
+            }
+            $.ajax({
+                //注意URL的格式
+                url: '/Password/Psd_ST/ChangePsd?oldPsd=' + oldpsd + '&newPsd=' + newpsd,
+                success: function (response) {
+                    notify(response);
+                },
+                error: function () {
+                    notify('发生错误！');
+                }
+            });
+        }
+
+        //此处需要取消默认事件
+        function SecuritySet() {
+            var Q1 = document.getElementById("Q1").value;
+            var A1 = document.getElementById("Q1").value;
+            var Q2 = document.getElementById("Q1").value;
+            var A2 = document.getElementById("Q1").value;
+            var Q3 = document.getElementById("Q1").value;
+            var A3 = document.getElementById("Q1").value;
+
+            if (Q1 != "") {
+                if (A1 == "") {
+                    notify("答案一不能为空！");
+                    return false;
+                }
+                else {
+                    //密保验证问题一
+                }
+            }
+            if (Q2 != "") {
+                if (A2 == "") {
+                    notify("答案二不能为空！");
+                    return false;
+                }
+                else {
+                    //密保验证问题二
+                }
+            }
+            if (Q3 != "") {
+                if (A3 == "") {
+                    notify("答案三不能为空！");
+                    return false;
+                }
+                else {
+                    //密保验证问题三
+                }
+            }
+            if (Q1 == "" && Q2 == "" && Q3 == "") {
+                notify("未输入任何内容！");
+                return false;
+            }
+
+            $.ajax({
+                //注意URL的格式
+                url: '/Password/Psd_ST/SecuritySet?Q1=' + Q1 + '&A1=' + A1 + '&Q2=' + Q2 + '&A2' + A2 + '&Q3=' + Qe + '&A3' + A3,
+                success: function (response) {
+                    notify(response);
+                },
+                error: function () {
+                    notify('发生错误！');
+                }
+            });
+        }
+
+        //通知
+        function notify(message) {
+            F.notify({
+                message: message,
+                target: '_top',
+                header: false,
+                positionX: 'center',
+                positionY: 'top'
+            });
+        }
+    </script>
+    }
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>密码管理</h2>
+    </div>
+    <div class="main-content">
+        <div class="content-block psd-change">
+            <div class="content-title">
+                <img src="~/Content/image/password-stu-title1.png">
+                <span>密码修改</span>
+            </div>
+            <form class="form-horizontal" role="form">
+                <div class="content">
+                    <div class="form-group">
+                        <label for="oldpsd" class="col-sm-3">旧登录密码：</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="oldpsd" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newpsd" class="col-sm-3">新登录密码：</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="newpsd" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newpsd2" class="col-sm-3">新登录密码确认：</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="newpsd2" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-save">
+                    <input type="image" onclick="ChangeClick()" name="savePsd" src="~/Content/image/password-stu-save-change.png">
+                </div>
+            </form>
+        </div>
+        <div class="content-block psd-protect">
+            <div class="content-title">
+                <img src="~/Content/image/password-stu-title2.png">
+                <span>密保设置</span>
+            </div>
+            <form class="form-horizontal" role="form">
+                <div class="content">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="form-group">
+                                    <label for="Q1" class="col-sm-2">问题1：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="Q1">
+                                    </div>
+                                </td>
+                                <td class="form-group">
+                                    <label for="A1" class="col-sm-2">答案1：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="A1">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-group">
+                                    <label for="Q2" class="col-sm-2">问题2：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="Q2">
+                                    </div>
+                                </td>
+                                <td class="form-group">
+                                    <label for="A2" class="col-sm-2">答案2：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="A2">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-group">
+                                    <label for="Q3" class="col-sm-2">问题3：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="Q3">
+                                    </div>
+                                </td>
+                                <td class="form-group">
+                                    <label for="A3" class="col-sm-2">答案3：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="A3">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="content-save">
+                    <input type="image" onclick="SecuritySet()" name="savePsd" src="~/Content/image/password-stu-save-protect.png">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}
+
+
+

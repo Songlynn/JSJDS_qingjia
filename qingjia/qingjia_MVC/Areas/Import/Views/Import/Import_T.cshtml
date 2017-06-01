@@ -1,0 +1,415 @@
+﻿@{
+    ViewBag.Title = "Import_T";
+}
+@section head{
+    <link href="~/Content/css/import-teacher.css" rel="stylesheet" type="text/css">
+    @*<link href="~/Areas/Import/layui/css/layui.css" rel="stylesheet" type="text/css">*@
+    <style>
+        
+    </style>
+
+}
+
+@section script{
+    <script src="~/Content/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Areas/Import/JS/jquery.form.js"></script>
+    <script src="~/Content/js/importTeacher.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    @*<script src="~/Content/js/pages2.js"></script>*@
+    <script>
+        var type = "#Student";
+    $(document).ready(function () {
+        //编辑
+        $('#content').on("click", ".table>tbody>tr input[name='edit']", function (e) {
+            //获取行的请假单号
+            var id = $(this).parent().parent().find('input:checkbox');
+            //alert(tr.val());
+            var url = '@Url.Content("~/Import/Import/editView")' + '?id=' + id.val();
+            layer.ready(function () {
+                layer.open({
+                    //id: "addClass",
+                    type: 2,
+                    title: '编辑班级负责人',
+                    skin: 'demo-class',
+                    area: ['400px', '400px'],
+                    btn: ['保存', '取消'],
+                    closeBtn: 1,
+                    anim: 0,
+                    scrollbar: false,
+                    move: '.layui-layer-title',
+                    content: url,
+                    yes: function (index, layero) {
+                        var str = "layui-layer-iframe" + index;
+                        var div = $(window.frames[str].document);
+                        var id = div.find('input#classid').val();
+                        var stuid = div.find('input#ddlStu-inputEl').val();
+                        var stu = stuid.split('-');
+                        if (stuid == "") {
+                            notify('未选择班级负责人！', 0);
+                        }
+                        else {
+                            $.ajax({
+                                url: '/Import/Import/editClass?classid=' + id + "&stuid="+stu[1],
+                                success: function (response) {
+                                    $('#Class>div').html(response);
+                                    notify('修改负责人成功！', 1);
+                                },
+                                error: function () {
+                                    notify('发生错误！', 2);
+                                }
+                            })
+                            layer.close(index);
+                        }
+                        
+                    }
+                });
+            });
+            
+        });
+
+    });
+
+    $('#mainTab a').click(function (e) {
+        $(this).tab('show');
+        var id = $(this).attr("href");
+        type = id;
+        tab = $(id);
+        //var tr = tab.find('.table>tbody>tr');
+        //Pages(tr, 10, 1);
+        e.preventDefault();
+    });
+
+    //
+    $('input[name="addmore"]').on("click", function () {
+        var url = '@Url.Content("~/Import/Import/addPeople")';
+        layer.ready(function () {
+            layer.open({
+                id:"addClass",
+                type: 2,
+                title: '添加班级账号',
+                skin: 'demo-class',
+                area: ['400px', '400px'],
+                btn: ['添加', '取消'],
+                closeBtn: 1,
+                anim: 0,
+                scrollbar: false,
+                move: '.layui-layer-title',
+                content: url,
+                yes: function (index, layero) {
+                    //alert("yes");
+                    //alert(index);
+                    var str = "layui-layer-iframe" + index;
+                    var div = $(window.frames[str].document);
+                    var id = div.find('input[name="classid"]').val();
+                    var name = div.find('input[name="classname"]').val();
+                    var grade = div.find('input[name="grade"]').val();
+                    $.ajax({
+                        url: '/Import/Import/saveClass?classid=' + id + "&classname=" + name + "&grade=" + grade,
+                        success: function (response) {
+                            $('#Class').html(response);
+                            console.log(response);
+                            notify('添加班级成功！', 1);
+                        },
+                        error: function () {
+                            notify('发生错误！', 2);
+                        }
+                    })
+                    layer.close(index);
+                }
+            });
+        });
+    });
+
+        //删除
+        $('input[name="deletemore"]').on("click", function () {
+            var ids = [];
+
+            ids = getChecked();
+            var num = ids.length;
+            if (num == 0) {
+                layer.alert('不存在选择项！', { icon: 2 });
+                return;
+            }
+            layer.confirm('确定删除选定的' + num + '项？', {
+                btn: ['确定', '取消'] //按钮
+            },
+            function () {
+                //json格式数据
+                var jsonData = [];
+                var deleteData = { "type": type, "data": ids };
+                jsonData.push(deleteData);
+                layer.msg('正在删除', {
+                    icon: 1,
+                    time: 1000
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/Import/Import/Delete",
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    success: function (response) {
+                        layer.closeAll();
+                        if (response == "") {
+                            layer.msg('删除失败', {
+                                icon: 1,
+                                time: 1000
+                            });
+                        }
+                        else {
+
+                            $(".tab-pane.active>div").html(response);
+                            console.log(response);
+                            layer.msg('删除成功', {
+                                icon: 1,
+                                time: 1000
+                            });
+                            //$('#studentA').click();
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            },
+            function () {
+                layer.close();
+            });
+        });
+
+        
+
+        $('#content').on("click", "input[name='btnUpLoad']", function (e) {
+            alert('开始保存');
+            var jsonData = getCheckedData();
+            if (jsonData.length != 0) {
+                //console.log(jsonData);
+                layer.confirm('确定添加' + jsonData.length + '项？', {
+                    btn: ['确定', '取消'] //按钮
+                },
+                function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Import/Import/SaveStudentInfo",
+                        contentType: "application/json",
+                        data: JSON.stringify(jsonData),
+                        success: function (response) {
+                            layer.closeAll();
+                            //console.log(response);
+                            var jsonObj = response;
+                            //$("#Class").html(response);
+                            layer.msg("保存成功：" + jsonObj["successNum"] + "</br>保存失败：" + jsonObj["failNum"], {
+                                icon: 1,
+                                time: 5000 //5秒自动消失
+                            });
+
+                            var dataArr = jsonObj["FailedInfo"];
+                            $.ajax({
+                                type: "POST",
+                                url: "/Import/Import/StudentInfo",
+                                contentType: "application/json",
+                                data: JSON.stringify(dataArr),
+                                success: function (response) {
+                                    $('#ImportInfo').html(response);
+                                },
+                                error: function () { }
+                            });
+                        },
+                        error: function () {
+
+                        }
+                    });
+                },
+                function () {
+                    layer.close();
+                });
+            }
+            else {
+                layer.alert('不存在选择项！', { icon: 2 });
+                return;
+            }
+            e.preventDefault();
+        });
+
+    $('input[name="import"]').on("click", function () {
+        //询问框
+        layer.confirm('请用下载的标准模板导入学生信息！', {
+            btn: ['已下载', '尚未下载'] //按钮
+        }, function () {
+            layer.msg('请选择要导入的Excel文件', {
+                icon: 1,
+                time: 1000
+            });
+            $('#fileupload').click();
+        }, function () {
+            layer.msg('请点击下载模板按钮，下载导入模板', {
+                time: 5000, //5s后自动关闭
+                btn: ['我知道了']
+            });
+        });
+    });
+
+    $('input[name="download"]').on("click", function () {
+        window.location.href = "@Url.Action("DownLoad")";
+    });
+
+        function getChecked() {
+            var tabpane = $('.tab-pane.active');
+            var ids = [];
+            tabpane.find('.table>tbody>tr').each(function () {
+                var cb = $(this).find('input:checkbox');
+                if (cb.is(':checked')) {
+                    ids.push(cb.val());
+                }
+            });
+            //alert(ids.valueOf());
+            return ids;
+        }
+
+        function getCheckedData() {
+            var tabpane = $('.tab-pane.active');
+            var dataArr = [];
+            tabpane.find('.table>tbody>tr').each(function () {
+                var cb = $(this).find('input:checkbox');
+                if (cb.is(':checked')) {
+                    dataArr.push(GetDataBytr(cb.parent().parent()));
+                }
+            });
+            //alert(ids.valueOf());
+            return dataArr;
+        }
+
+        function GetDataBytr(tr) {
+            var trData = {
+                "ID": tr.children('td').eq(2).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Name": tr.children('td').eq(3).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ClassName": tr.children('td').eq(4).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Sex": tr.children('td').eq(5).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Door": tr.children('td').eq(6).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Nation": tr.children('td').eq(7).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Tel": tr.children('td').eq(8).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Email": tr.children('td').eq(9).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "QQ": tr.children('td').eq(10).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ContactName": tr.children('td').eq(11).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ContactTel": tr.children('td').eq(12).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Contact": tr.children('td').eq(13).text().replace(/(^\s*)|(\s*$)/g, "")
+            };
+            return trData;
+        }
+
+        $("#fileupload").on("change", function () {
+            layer.msg('开始上传！', {
+                icon: 1,
+                time: 1000
+            });
+            var path = $('#fileupload').val();
+            if (path.length > 0 && path.indexOf('.xls') > 0) {
+                $("#fileForm").ajaxSubmit({
+                    url: "@Url.Action("ImportExcel", "Import")",
+                    type: "post",
+                    success: function (data) {
+                        layer.close();
+                        layer.msg('上传成功！', {
+                            icon: 1,
+                            time: 1000
+                        });
+                        $('#empty').hide();
+                        $('#ImportInfo').show();
+                        $('input[name="btnUpLoad"]').show();
+                        $('#ImportInfo').html(data);
+                        $('#import').click();
+                    },
+                    error: function () {
+                        layer.alert('上传失败！', { icon: 2 });
+                        return;
+                    }
+                });
+            }
+            else {
+                layer.alert('文件格式有误,请上传Excel文件！', { icon: 2 });
+                return;
+            }
+        });
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+</script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>用户管理</h2>
+    </div>
+    <form id="fileForm" style="display:none;" method="post" enctype="multipart/form-data">
+        <input type="file" id="fileupload" name="Upload" />
+    </form>
+    <div class="main-content" id="content">
+        <div class="content-tool">
+            <ul>
+                <li>
+                    <input type="image" name="deletemore" src="~/Content/image/putinfo-toolist-delete.png">
+                </li>
+                <li>
+                    <input type="image" name="import" src="~/Content/image/putinfo-toolist-put.png">
+                </li>
+                <li>
+                    <input type="image" name="download" src="~/Content/image/putinfo-toolist-download.png">
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <ul id="mainTab" class="content-nav">
+                <li class="active">
+                    <a href="#Student" id="studentA" data-toggle="tab">
+                        <img src="~/Content/image/putinfo-tab-stu.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="#Class" data-toggle="tab">
+                        <img src="~/Content/image/putinfo-tab-class.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="#Info" id="import" data-toggle="tab">
+                        <img src="~/Content/image/putinfo-tab-info.png">
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade in active" id="Student">
+                    <div id="StudengInfo" style="overflow:scroll; height:480px;width:99%">
+                        @Html.Action("StudentInfo")
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="Class">
+                    <input type="image" name="addmore" src="~/Content/image/putinfo-toolist-add.png">
+                    <div style="overflow:scroll; height:440px;width:99%">
+                        @Html.Action("ClassInfo")
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="Info" style="position:relative;">
+                    <input type="image" name="btnUpLoad" src="~/Content/image/putinfo-stu-add.png"style="display:none;" />
+                    <div id="empty" class="empty" style="position:absolute;">
+                        尚未导入信息
+                    </div>
+                    <div id="ImportInfo" style="overflow:scroll; height:435px;width:99%;position:absolute;top:45px;display:none;">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+}
+

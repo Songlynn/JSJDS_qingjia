@@ -1,0 +1,1386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="qingjia0425Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="T_Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Psd" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="RoleID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Wechat" Type="varchar" MaxLength="64" />
+          <Property Name="Q1" Type="nvarchar" MaxLength="64" />
+          <Property Name="A1" Type="nvarchar" MaxLength="64" />
+          <Property Name="Q2" Type="nvarchar" MaxLength="64" />
+          <Property Name="A2" Type="nvarchar" MaxLength="64" />
+          <Property Name="Q3" Type="nvarchar" MaxLength="64" />
+          <Property Name="A3" Type="nvarchar" MaxLength="64" />
+          <Property Name="LoginTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_Batch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Batch" Type="int" Nullable="false" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Datetime" Type="datetime" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="T_BatchLeave">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TypeID" Type="nchar" MaxLength="10" />
+          <Property Name="TypeChildID" Type="nchar" MaxLength="10" />
+          <Property Name="Reason" Type="varchar" MaxLength="100" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="StateLeave" Type="nchar" MaxLength="10" />
+          <Property Name="StateBack" Type="nchar" MaxLength="10" />
+          <Property Name="TimeLeave" Type="datetime" />
+          <Property Name="TimeBack" Type="datetime" />
+          <Property Name="AuditTeacherID" Type="varchar" MaxLength="20" />
+          <Property Name="Notes" Type="varchar" MaxLength="100" />
+          <Property Name="StudentsID" Type="varchar" MaxLength="800" />
+          <Property Name="LeaveInfo" Type="varchar" MaxLength="800" />
+        </EntityType>
+        <EntityType Name="T_ChangeBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="64" />
+          <Property Name="Batch" Type="int" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="Reason" Type="varchar" MaxLength="225" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="AuditState" Type="nchar" MaxLength="10" />
+          <Property Name="AuditTeacherID" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="T_Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Grade" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Total" Type="int" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="MonitorID" Type="varchar" MaxLength="64" />
+          <Property Name="Batch" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="T_Deadline">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Holiday">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="AutoAudit" Type="nchar" MaxLength="10" />
+          <Property Name="TeacherID" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubmitTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_Info">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Grade" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="Deadline" Type="datetime" Nullable="false" />
+          <Property Name="InfoOne" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="InfoTwo" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoThree" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoFour" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoFive" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoSix" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoSeven" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoEight" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoNine" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoTen" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="T_InfoDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="InfoID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="InfoOne" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="InfoTwo" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoThree" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoFour" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoFive" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoSix" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoSeven" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoEight" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoNine" Type="nvarchar" MaxLength="64" />
+          <Property Name="InfoTen" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="T_LeaveList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubmitTime" Type="datetime" Nullable="false" />
+          <Property Name="StateLeave" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StateBack" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="TimeLeave" Type="datetime" Nullable="false" />
+          <Property Name="TimeBack" Type="datetime" />
+          <Property Name="LeaveWay" Type="nvarchar" MaxLength="64" />
+          <Property Name="BackWay" Type="nvarchar" MaxLength="64" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="TypeChildID" Type="int" />
+          <Property Name="Lesson" Type="char" MaxLength="1" />
+          <Property Name="Teacher" Type="nvarchar" MaxLength="64" />
+          <Property Name="AuditTeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="PrintTimes" Type="int" />
+        </EntityType>
+        <EntityType Name="T_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" />
+          <Property Name="FatherID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.T_NightNameList”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="T_NightNameList">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.T_Role”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="T_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="XML" Type="ntext" />
+        </EntityType>
+        <EntityType Name="T_RoleMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="RoleID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="MenuID" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Statistic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="TotalNum" Type="int" />
+          <Property Name="VacationNum" Type="int" />
+          <Property Name="LongNum" Type="int" />
+          <Property Name="ShortNum" Type="int" />
+          <Property Name="NightNum" Type="int" />
+          <Property Name="SelfStudyNum" Type="int" />
+          <Property Name="ClassNum" Type="int" />
+        </EntityType>
+        <EntityType Name="T_Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Tel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="64" />
+          <Property Name="QQ" Type="varchar" MaxLength="64" />
+          <Property Name="ContactOne" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="OneTel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ContactTwo" Type="nvarchar" MaxLength="64" />
+          <Property Name="TwoTel" Type="varchar" MaxLength="64" />
+          <Property Name="ContactThree" Type="nvarchar" MaxLength="64" />
+          <Property Name="ThreeTel" Type="varchar" MaxLength="64" />
+          <Property Name="Sex" Type="nchar" MaxLength="10" />
+          <Property Name="Room" Type="nchar" MaxLength="10" />
+          <Property Name="Nation" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="T_Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Tel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Grade" Type="nchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="64" />
+          <Property Name="Sex" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="T_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="FatherID" Type="int" />
+        </EntityType>
+        <EntityType Name="T_Vacation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="50" />
+          <Property Name="Grade" Type="nchar" MaxLength="10" />
+          <Property Name="TeacherID" Type="nchar" MaxLength="20" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="AutoAudit" Type="nchar" MaxLength="10" />
+          <Property Name="Remark" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_Class”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_Class">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="Grade" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Grade" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Total" Type="int" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="TeacherName" Type="nvarchar" MaxLength="64" />
+          <Property Name="MonitorID" Type="varchar" MaxLength="64" />
+          <Property Name="MonitorName" Type="nvarchar" MaxLength="64" />
+          <Property Name="Batch" Type="uniqueidentifier" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_ClassBatch”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_ClassBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="Batch" />
+            <PropertyRef Name="Datetime" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Batch" Type="int" Nullable="false" />
+          <Property Name="Datetime" Type="datetime" Nullable="false" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_LeaveList”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_LeaveList">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Reason" />
+            <PropertyRef Name="SubmitTime" />
+            <PropertyRef Name="StateLeave" />
+            <PropertyRef Name="StateBack" />
+            <PropertyRef Name="TypeID" />
+            <PropertyRef Name="TimeLeave" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="ST_Tel" />
+            <PropertyRef Name="ST_Class" />
+            <PropertyRef Name="StudentID" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="LeaveType" />
+            <PropertyRef Name="ContactOne" />
+            <PropertyRef Name="OneTel" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubmitTime" Type="datetime" Nullable="false" />
+          <Property Name="StateLeave" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="StateBack" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="TimeLeave" Type="datetime" Nullable="false" />
+          <Property Name="TimeBack" Type="datetime" />
+          <Property Name="LeaveWay" Type="nvarchar" MaxLength="64" />
+          <Property Name="BackWay" Type="nvarchar" MaxLength="64" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="TypeChildID" Type="int" />
+          <Property Name="Lesson" Type="char" MaxLength="1" />
+          <Property Name="Teacher" Type="nvarchar" MaxLength="64" />
+          <Property Name="ST_Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Tel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Grade" Type="nchar" MaxLength="10" />
+          <Property Name="ST_Class" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="ST_Teacher" Type="nvarchar" MaxLength="64" />
+          <Property Name="StudentID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LeaveType" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Dor" Type="nchar" MaxLength="10" />
+          <Property Name="ContactOne" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="OneTel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="PrintTimes" Type="int" />
+          <Property Name="AuditName" Type="nvarchar" MaxLength="64" />
+          <Property Name="Nation" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_NightNameList”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_NightNameList">
+          <Key>
+            <PropertyRef Name="Batch" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="ST_Num" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Datetime" />
+          </Key>
+          <Property Name="Batch" Type="int" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Num" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ST_Teacher" Type="nvarchar" MaxLength="64" />
+          <Property Name="Datetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_StudenBatch”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_StudenBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="64" />
+          <Property Name="ST_Name" Type="nvarchar" MaxLength="64" />
+          <Property Name="ST_Class" Type="varchar" MaxLength="64" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="Reason" Type="varchar" MaxLength="225" />
+          <Property Name="TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="AuditState" Type="nchar" MaxLength="10" />
+          <Property Name="Batch" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“qingjia0425.dbo.vw_Student”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="vw_Student">
+          <Key>
+            <PropertyRef Name="ST_Num" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="ST_Tel" />
+            <PropertyRef Name="ContactOne" />
+            <PropertyRef Name="OneTel" />
+            <PropertyRef Name="ST_Class" />
+          </Key>
+          <Property Name="ST_Num" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Tel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Email" Type="varchar" MaxLength="64" />
+          <Property Name="ST_QQ" Type="varchar" MaxLength="64" />
+          <Property Name="ContactOne" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="OneTel" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ContactTwo" Type="nvarchar" MaxLength="64" />
+          <Property Name="TwoTel" Type="varchar" MaxLength="64" />
+          <Property Name="ContactThree" Type="nvarchar" MaxLength="64" />
+          <Property Name="ThreeTel" Type="varchar" MaxLength="64" />
+          <Property Name="ST_Sex" Type="nchar" MaxLength="10" />
+          <Property Name="ST_Dor" Type="nchar" MaxLength="10" />
+          <Property Name="ST_Class" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="ST_Grade" Type="nchar" MaxLength="10" />
+          <Property Name="MonitorID" Type="varchar" MaxLength="64" />
+          <Property Name="ST_Teacher" Type="nvarchar" MaxLength="64" />
+          <Property Name="ST_TeacherID" Type="varchar" MaxLength="64" />
+          <Property Name="Nation" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Function Name="sp_getNightNameList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TeacherID" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="qingjia0425ModelStoreContainer">
+          <EntitySet Name="T_Account" EntityType="Self.T_Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Batch" EntityType="Self.T_Batch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_BatchLeave" EntityType="Self.T_BatchLeave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_ChangeBatch" EntityType="Self.T_ChangeBatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Class" EntityType="Self.T_Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Deadline" EntityType="Self.T_Deadline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Holiday" EntityType="Self.T_Holiday" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Info" EntityType="Self.T_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_InfoDetail" EntityType="Self.T_InfoDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_LeaveList" EntityType="Self.T_LeaveList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Menu" EntityType="Self.T_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_RoleMenu" EntityType="Self.T_RoleMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Statistic" EntityType="Self.T_Statistic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Student" EntityType="Self.T_Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Teacher" EntityType="Self.T_Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Type" EntityType="Self.T_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Vacation" EntityType="Self.T_Vacation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_NightNameList" EntityType="Self.T_NightNameList" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [T_NightNameList].[ID] AS [ID], 
+    [T_NightNameList].[State] AS [State]
+    FROM [dbo].[T_NightNameList] AS [T_NightNameList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="T_Role" EntityType="Self.T_Role" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [T_Role].[ID] AS [ID], 
+    [T_Role].[Name] AS [Name], 
+    [T_Role].[XML] AS [XML]
+    FROM [dbo].[T_Role] AS [T_Role]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Class" EntityType="Self.vw_Class" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Class].[ID] AS [ID], 
+    [vw_Class].[ClassName] AS [ClassName], 
+    [vw_Class].[Grade] AS [Grade], 
+    [vw_Class].[Total] AS [Total], 
+    [vw_Class].[TeacherID] AS [TeacherID], 
+    [vw_Class].[TeacherName] AS [TeacherName], 
+    [vw_Class].[MonitorID] AS [MonitorID], 
+    [vw_Class].[MonitorName] AS [MonitorName], 
+    [vw_Class].[Batch] AS [Batch]
+    FROM [dbo].[vw_Class] AS [vw_Class]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_ClassBatch" EntityType="Self.vw_ClassBatch" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ClassBatch].[ID] AS [ID], 
+    [vw_ClassBatch].[ClassName] AS [ClassName], 
+    [vw_ClassBatch].[Batch] AS [Batch], 
+    [vw_ClassBatch].[Datetime] AS [Datetime], 
+    [vw_ClassBatch].[TeacherID] AS [TeacherID], 
+    [vw_ClassBatch].[Location] AS [Location]
+    FROM [dbo].[vw_ClassBatch] AS [vw_ClassBatch]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_LeaveList" EntityType="Self.vw_LeaveList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_LeaveList].[ID] AS [ID], 
+    [vw_LeaveList].[Reason] AS [Reason], 
+    [vw_LeaveList].[SubmitTime] AS [SubmitTime], 
+    [vw_LeaveList].[StateLeave] AS [StateLeave], 
+    [vw_LeaveList].[StateBack] AS [StateBack], 
+    [vw_LeaveList].[Notes] AS [Notes], 
+    [vw_LeaveList].[TypeID] AS [TypeID], 
+    [vw_LeaveList].[TimeLeave] AS [TimeLeave], 
+    [vw_LeaveList].[TimeBack] AS [TimeBack], 
+    [vw_LeaveList].[LeaveWay] AS [LeaveWay], 
+    [vw_LeaveList].[BackWay] AS [BackWay], 
+    [vw_LeaveList].[Address] AS [Address], 
+    [vw_LeaveList].[TypeChildID] AS [TypeChildID], 
+    [vw_LeaveList].[Lesson] AS [Lesson], 
+    [vw_LeaveList].[Teacher] AS [Teacher], 
+    [vw_LeaveList].[ST_Name] AS [ST_Name], 
+    [vw_LeaveList].[ST_Tel] AS [ST_Tel], 
+    [vw_LeaveList].[ST_Grade] AS [ST_Grade], 
+    [vw_LeaveList].[ST_Class] AS [ST_Class], 
+    [vw_LeaveList].[ST_TeacherID] AS [ST_TeacherID], 
+    [vw_LeaveList].[ST_Teacher] AS [ST_Teacher], 
+    [vw_LeaveList].[StudentID] AS [StudentID], 
+    [vw_LeaveList].[Type] AS [Type], 
+    [vw_LeaveList].[LeaveType] AS [LeaveType], 
+    [vw_LeaveList].[ST_Dor] AS [ST_Dor], 
+    [vw_LeaveList].[ContactOne] AS [ContactOne], 
+    [vw_LeaveList].[OneTel] AS [OneTel], 
+    [vw_LeaveList].[PrintTimes] AS [PrintTimes], 
+    [vw_LeaveList].[AuditName] AS [AuditName], 
+    [vw_LeaveList].[Nation] AS [Nation]
+    FROM [dbo].[vw_LeaveList] AS [vw_LeaveList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_NightNameList" EntityType="Self.vw_NightNameList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_NightNameList].[Batch] AS [Batch], 
+    [vw_NightNameList].[ClassName] AS [ClassName], 
+    [vw_NightNameList].[ST_Num] AS [ST_Num], 
+    [vw_NightNameList].[ST_Name] AS [ST_Name], 
+    [vw_NightNameList].[State] AS [State], 
+    [vw_NightNameList].[ST_Teacher] AS [ST_Teacher], 
+    [vw_NightNameList].[Datetime] AS [Datetime]
+    FROM [dbo].[vw_NightNameList] AS [vw_NightNameList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_StudenBatch" EntityType="Self.vw_StudenBatch" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_StudenBatch].[ID] AS [ID], 
+    [vw_StudenBatch].[StudentID] AS [StudentID], 
+    [vw_StudenBatch].[ST_Name] AS [ST_Name], 
+    [vw_StudenBatch].[ST_Class] AS [ST_Class], 
+    [vw_StudenBatch].[Datetime] AS [Datetime], 
+    [vw_StudenBatch].[Reason] AS [Reason], 
+    [vw_StudenBatch].[TeacherID] AS [TeacherID], 
+    [vw_StudenBatch].[AuditState] AS [AuditState], 
+    [vw_StudenBatch].[Batch] AS [Batch]
+    FROM [dbo].[vw_StudenBatch] AS [vw_StudenBatch]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Student" EntityType="Self.vw_Student" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Student].[ST_Num] AS [ST_Num], 
+    [vw_Student].[ST_Name] AS [ST_Name], 
+    [vw_Student].[ST_Tel] AS [ST_Tel], 
+    [vw_Student].[ST_Email] AS [ST_Email], 
+    [vw_Student].[ST_QQ] AS [ST_QQ], 
+    [vw_Student].[ContactOne] AS [ContactOne], 
+    [vw_Student].[OneTel] AS [OneTel], 
+    [vw_Student].[ContactTwo] AS [ContactTwo], 
+    [vw_Student].[TwoTel] AS [TwoTel], 
+    [vw_Student].[ContactThree] AS [ContactThree], 
+    [vw_Student].[ThreeTel] AS [ThreeTel], 
+    [vw_Student].[ST_Sex] AS [ST_Sex], 
+    [vw_Student].[ST_Dor] AS [ST_Dor], 
+    [vw_Student].[ST_Class] AS [ST_Class], 
+    [vw_Student].[ST_Grade] AS [ST_Grade], 
+    [vw_Student].[MonitorID] AS [MonitorID], 
+    [vw_Student].[ST_Teacher] AS [ST_Teacher], 
+    [vw_Student].[ST_TeacherID] AS [ST_TeacherID], 
+    [vw_Student].[Nation] AS [Nation]
+    FROM [dbo].[vw_Student] AS [vw_Student]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="qingjia0425Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="T_Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Psd" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Wechat" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Q1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="A1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Q2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="A2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Q3" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="A3" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LoginTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_Batch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Batch" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_BatchLeave">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TypeChildID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Reason" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="StateLeave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="StateBack" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TimeLeave" Type="DateTime" Precision="3" />
+          <Property Name="TimeBack" Type="DateTime" Precision="3" />
+          <Property Name="AuditTeacherID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StudentsID" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="LeaveInfo" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_ChangeBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StudentID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Batch" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="AuditState" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AuditTeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Total" Type="Int32" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="MonitorID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Batch" Type="Guid" />
+        </EntityType>
+        <EntityType Name="T_Deadline">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Holiday">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="AutoAudit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TeacherID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="T_Info">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grade" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InfoOne" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InfoTwo" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoThree" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoFour" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoFive" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoSix" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoSeven" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoEight" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoNine" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoTen" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_InfoDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InfoID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StudentID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InfoOne" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InfoTwo" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoThree" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoFour" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoFive" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoSix" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoSeven" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoEight" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoNine" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="InfoTen" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_LeaveList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StudentID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StateLeave" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StateBack" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="TimeLeave" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeBack" Type="DateTime" Precision="3" />
+          <Property Name="LeaveWay" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="BackWay" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TypeChildID" Type="Int32" />
+          <Property Name="Lesson" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Teacher" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="AuditTeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="PrintTimes" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_Menu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="FatherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="T_RoleMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MenuID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Statistic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TotalNum" Type="Int32" />
+          <Property Name="VacationNum" Type="Int32" />
+          <Property Name="LongNum" Type="Int32" />
+          <Property Name="ShortNum" Type="Int32" />
+          <Property Name="NightNum" Type="Int32" />
+          <Property Name="SelfStudyNum" Type="Int32" />
+          <Property Name="ClassNum" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="QQ" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ContactOne" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OneTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactTwo" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="TwoTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ContactThree" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ThreeTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Room" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Nation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FatherID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="T_Vacation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TeacherID" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="AutoAudit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="T_NightNameList">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="State" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Role">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="XML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_Class">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="Grade" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Total" Type="Int32" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="TeacherName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="MonitorID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="MonitorName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="Guid" />
+        </EntityType>
+        <EntityType Name="vw_ClassBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="Batch" />
+            <PropertyRef Name="Datetime" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Batch" Type="Int32" Nullable="false" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_LeaveList">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Reason" />
+            <PropertyRef Name="SubmitTime" />
+            <PropertyRef Name="StateLeave" />
+            <PropertyRef Name="StateBack" />
+            <PropertyRef Name="TypeID" />
+            <PropertyRef Name="TimeLeave" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="ST_Tel" />
+            <PropertyRef Name="ST_Class" />
+            <PropertyRef Name="StudentID" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="LeaveType" />
+            <PropertyRef Name="ContactOne" />
+            <PropertyRef Name="OneTel" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubmitTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StateLeave" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="StateBack" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="TimeLeave" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeBack" Type="DateTime" Precision="3" />
+          <Property Name="LeaveWay" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="BackWay" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TypeChildID" Type="Int32" />
+          <Property Name="Lesson" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Teacher" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ST_Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ST_Tel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ST_Class" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ST_Teacher" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="StudentID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LeaveType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ST_Dor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ContactOne" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OneTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrintTimes" Type="Int32" />
+          <Property Name="AuditName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Nation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_NightNameList">
+          <Key>
+            <PropertyRef Name="Batch" />
+            <PropertyRef Name="ClassName" />
+            <PropertyRef Name="ST_Num" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Datetime" />
+          </Key>
+          <Property Name="Batch" Type="Int32" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Num" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ST_Teacher" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_StudenBatch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StudentID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ST_Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ST_Class" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="Reason" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="AuditState" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Batch" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_Student">
+          <Key>
+            <PropertyRef Name="ST_Num" />
+            <PropertyRef Name="ST_Name" />
+            <PropertyRef Name="ST_Tel" />
+            <PropertyRef Name="ContactOne" />
+            <PropertyRef Name="OneTel" />
+            <PropertyRef Name="ST_Class" />
+          </Key>
+          <Property Name="ST_Num" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ST_Tel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ST_QQ" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ContactOne" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OneTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactTwo" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="TwoTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ContactThree" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ThreeTel" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ST_Sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ST_Dor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ST_Class" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ST_Grade" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MonitorID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ST_Teacher" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ST_TeacherID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Nation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T_Account" EntityType="Self.T_Account" />
+          <EntitySet Name="T_Batch" EntityType="Self.T_Batch" />
+          <EntitySet Name="T_BatchLeave" EntityType="Self.T_BatchLeave" />
+          <EntitySet Name="T_ChangeBatch" EntityType="Self.T_ChangeBatch" />
+          <EntitySet Name="T_Class" EntityType="Self.T_Class" />
+          <EntitySet Name="T_Deadline" EntityType="Self.T_Deadline" />
+          <EntitySet Name="T_Holiday" EntityType="Self.T_Holiday" />
+          <EntitySet Name="T_Info" EntityType="Self.T_Info" />
+          <EntitySet Name="T_InfoDetail" EntityType="Self.T_InfoDetail" />
+          <EntitySet Name="T_LeaveList" EntityType="Self.T_LeaveList" />
+          <EntitySet Name="T_Menu" EntityType="Self.T_Menu" />
+          <EntitySet Name="T_RoleMenu" EntityType="Self.T_RoleMenu" />
+          <EntitySet Name="T_Statistic" EntityType="Self.T_Statistic" />
+          <EntitySet Name="T_Student" EntityType="Self.T_Student" />
+          <EntitySet Name="T_Teacher" EntityType="Self.T_Teacher" />
+          <EntitySet Name="T_Type" EntityType="Self.T_Type" />
+          <EntitySet Name="T_Vacation" EntityType="Self.T_Vacation" />
+          <EntitySet Name="T_NightNameList" EntityType="Self.T_NightNameList" />
+          <EntitySet Name="T_Role" EntityType="Self.T_Role" />
+          <EntitySet Name="vw_Class" EntityType="Self.vw_Class" />
+          <EntitySet Name="vw_ClassBatch" EntityType="Self.vw_ClassBatch" />
+          <EntitySet Name="vw_LeaveList" EntityType="Self.vw_LeaveList" />
+          <EntitySet Name="vw_NightNameList" EntityType="Self.vw_NightNameList" />
+          <EntitySet Name="vw_StudenBatch" EntityType="Self.vw_StudenBatch" />
+          <EntitySet Name="vw_Student" EntityType="Self.vw_Student" />
+          <FunctionImport Name="sp_getNightNameList" ReturnType="Collection(String)">
+            <Parameter Name="TeacherID" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="qingjia0425ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="T_Account">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Account">
+              <MappingFragment StoreEntitySet="T_Account">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Psd" ColumnName="Psd" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Wechat" ColumnName="Wechat" />
+                <ScalarProperty Name="Q1" ColumnName="Q1" />
+                <ScalarProperty Name="A1" ColumnName="A1" />
+                <ScalarProperty Name="Q2" ColumnName="Q2" />
+                <ScalarProperty Name="A2" ColumnName="A2" />
+                <ScalarProperty Name="Q3" ColumnName="Q3" />
+                <ScalarProperty Name="A3" ColumnName="A3" />
+                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Batch">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Batch">
+              <MappingFragment StoreEntitySet="T_Batch">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_BatchLeave">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_BatchLeave">
+              <MappingFragment StoreEntitySet="T_BatchLeave">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="TypeChildID" ColumnName="TypeChildID" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="StateLeave" ColumnName="StateLeave" />
+                <ScalarProperty Name="StateBack" ColumnName="StateBack" />
+                <ScalarProperty Name="TimeLeave" ColumnName="TimeLeave" />
+                <ScalarProperty Name="TimeBack" ColumnName="TimeBack" />
+                <ScalarProperty Name="AuditTeacherID" ColumnName="AuditTeacherID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="StudentsID" ColumnName="StudentsID" />
+                <ScalarProperty Name="LeaveInfo" ColumnName="LeaveInfo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_ChangeBatch">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_ChangeBatch">
+              <MappingFragment StoreEntitySet="T_ChangeBatch">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="AuditState" ColumnName="AuditState" />
+                <ScalarProperty Name="AuditTeacherID" ColumnName="AuditTeacherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Class">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Class">
+              <MappingFragment StoreEntitySet="T_Class">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="MonitorID" ColumnName="MonitorID" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Deadline">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Deadline">
+              <MappingFragment StoreEntitySet="T_Deadline">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Holiday">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Holiday">
+              <MappingFragment StoreEntitySet="T_Holiday">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="AutoAudit" ColumnName="AutoAudit" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Info">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Info">
+              <MappingFragment StoreEntitySet="T_Info">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="InfoOne" ColumnName="InfoOne" />
+                <ScalarProperty Name="InfoTwo" ColumnName="InfoTwo" />
+                <ScalarProperty Name="InfoThree" ColumnName="InfoThree" />
+                <ScalarProperty Name="InfoFour" ColumnName="InfoFour" />
+                <ScalarProperty Name="InfoFive" ColumnName="InfoFive" />
+                <ScalarProperty Name="InfoSix" ColumnName="InfoSix" />
+                <ScalarProperty Name="InfoSeven" ColumnName="InfoSeven" />
+                <ScalarProperty Name="InfoEight" ColumnName="InfoEight" />
+                <ScalarProperty Name="InfoNine" ColumnName="InfoNine" />
+                <ScalarProperty Name="InfoTen" ColumnName="InfoTen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_InfoDetail">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_InfoDetail">
+              <MappingFragment StoreEntitySet="T_InfoDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InfoID" ColumnName="InfoID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="InfoOne" ColumnName="InfoOne" />
+                <ScalarProperty Name="InfoTwo" ColumnName="InfoTwo" />
+                <ScalarProperty Name="InfoThree" ColumnName="InfoThree" />
+                <ScalarProperty Name="InfoFour" ColumnName="InfoFour" />
+                <ScalarProperty Name="InfoFive" ColumnName="InfoFive" />
+                <ScalarProperty Name="InfoSix" ColumnName="InfoSix" />
+                <ScalarProperty Name="InfoSeven" ColumnName="InfoSeven" />
+                <ScalarProperty Name="InfoEight" ColumnName="InfoEight" />
+                <ScalarProperty Name="InfoNine" ColumnName="InfoNine" />
+                <ScalarProperty Name="InfoTen" ColumnName="InfoTen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_LeaveList">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_LeaveList">
+              <MappingFragment StoreEntitySet="T_LeaveList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="StateLeave" ColumnName="StateLeave" />
+                <ScalarProperty Name="StateBack" ColumnName="StateBack" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="TimeLeave" ColumnName="TimeLeave" />
+                <ScalarProperty Name="TimeBack" ColumnName="TimeBack" />
+                <ScalarProperty Name="LeaveWay" ColumnName="LeaveWay" />
+                <ScalarProperty Name="BackWay" ColumnName="BackWay" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TypeChildID" ColumnName="TypeChildID" />
+                <ScalarProperty Name="Lesson" ColumnName="Lesson" />
+                <ScalarProperty Name="Teacher" ColumnName="Teacher" />
+                <ScalarProperty Name="AuditTeacherID" ColumnName="AuditTeacherID" />
+                <ScalarProperty Name="PrintTimes" ColumnName="PrintTimes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Menu">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Menu">
+              <MappingFragment StoreEntitySet="T_Menu">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_RoleMenu">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_RoleMenu">
+              <MappingFragment StoreEntitySet="T_RoleMenu">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Statistic">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Statistic">
+              <MappingFragment StoreEntitySet="T_Statistic">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TotalNum" ColumnName="TotalNum" />
+                <ScalarProperty Name="VacationNum" ColumnName="VacationNum" />
+                <ScalarProperty Name="LongNum" ColumnName="LongNum" />
+                <ScalarProperty Name="ShortNum" ColumnName="ShortNum" />
+                <ScalarProperty Name="NightNum" ColumnName="NightNum" />
+                <ScalarProperty Name="SelfStudyNum" ColumnName="SelfStudyNum" />
+                <ScalarProperty Name="ClassNum" ColumnName="ClassNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Student">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Student">
+              <MappingFragment StoreEntitySet="T_Student">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="QQ" ColumnName="QQ" />
+                <ScalarProperty Name="ContactOne" ColumnName="ContactOne" />
+                <ScalarProperty Name="OneTel" ColumnName="OneTel" />
+                <ScalarProperty Name="ContactTwo" ColumnName="ContactTwo" />
+                <ScalarProperty Name="TwoTel" ColumnName="TwoTel" />
+                <ScalarProperty Name="ContactThree" ColumnName="ContactThree" />
+                <ScalarProperty Name="ThreeTel" ColumnName="ThreeTel" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Room" ColumnName="Room" />
+                <ScalarProperty Name="Nation" ColumnName="Nation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Teacher">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Teacher">
+              <MappingFragment StoreEntitySet="T_Teacher">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Type">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Type">
+              <MappingFragment StoreEntitySet="T_Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Vacation">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Vacation">
+              <MappingFragment StoreEntitySet="T_Vacation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="AutoAudit" ColumnName="AutoAudit" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_NightNameList">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_NightNameList">
+              <MappingFragment StoreEntitySet="T_NightNameList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Role">
+            <EntityTypeMapping TypeName="qingjia0425Model.T_Role">
+              <MappingFragment StoreEntitySet="T_Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="XML" ColumnName="XML" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Class">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_Class">
+              <MappingFragment StoreEntitySet="vw_Class">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+                <ScalarProperty Name="MonitorID" ColumnName="MonitorID" />
+                <ScalarProperty Name="MonitorName" ColumnName="MonitorName" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ClassBatch">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_ClassBatch">
+              <MappingFragment StoreEntitySet="vw_ClassBatch">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_LeaveList">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_LeaveList">
+              <MappingFragment StoreEntitySet="vw_LeaveList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="StateLeave" ColumnName="StateLeave" />
+                <ScalarProperty Name="StateBack" ColumnName="StateBack" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="TimeLeave" ColumnName="TimeLeave" />
+                <ScalarProperty Name="TimeBack" ColumnName="TimeBack" />
+                <ScalarProperty Name="LeaveWay" ColumnName="LeaveWay" />
+                <ScalarProperty Name="BackWay" ColumnName="BackWay" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TypeChildID" ColumnName="TypeChildID" />
+                <ScalarProperty Name="Lesson" ColumnName="Lesson" />
+                <ScalarProperty Name="Teacher" ColumnName="Teacher" />
+                <ScalarProperty Name="ST_Name" ColumnName="ST_Name" />
+                <ScalarProperty Name="ST_Tel" ColumnName="ST_Tel" />
+                <ScalarProperty Name="ST_Grade" ColumnName="ST_Grade" />
+                <ScalarProperty Name="ST_Class" ColumnName="ST_Class" />
+                <ScalarProperty Name="ST_TeacherID" ColumnName="ST_TeacherID" />
+                <ScalarProperty Name="ST_Teacher" ColumnName="ST_Teacher" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="ST_Dor" ColumnName="ST_Dor" />
+                <ScalarProperty Name="ContactOne" ColumnName="ContactOne" />
+                <ScalarProperty Name="OneTel" ColumnName="OneTel" />
+                <ScalarProperty Name="PrintTimes" ColumnName="PrintTimes" />
+                <ScalarProperty Name="AuditName" ColumnName="AuditName" />
+                <ScalarProperty Name="Nation" ColumnName="Nation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_NightNameList">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_NightNameList">
+              <MappingFragment StoreEntitySet="vw_NightNameList">
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ST_Num" ColumnName="ST_Num" />
+                <ScalarProperty Name="ST_Name" ColumnName="ST_Name" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ST_Teacher" ColumnName="ST_Teacher" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_StudenBatch">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_StudenBatch">
+              <MappingFragment StoreEntitySet="vw_StudenBatch">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="ST_Name" ColumnName="ST_Name" />
+                <ScalarProperty Name="ST_Class" ColumnName="ST_Class" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="AuditState" ColumnName="AuditState" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Student">
+            <EntityTypeMapping TypeName="qingjia0425Model.vw_Student">
+              <MappingFragment StoreEntitySet="vw_Student">
+                <ScalarProperty Name="ST_Num" ColumnName="ST_Num" />
+                <ScalarProperty Name="ST_Name" ColumnName="ST_Name" />
+                <ScalarProperty Name="ST_Tel" ColumnName="ST_Tel" />
+                <ScalarProperty Name="ST_Email" ColumnName="ST_Email" />
+                <ScalarProperty Name="ST_QQ" ColumnName="ST_QQ" />
+                <ScalarProperty Name="ContactOne" ColumnName="ContactOne" />
+                <ScalarProperty Name="OneTel" ColumnName="OneTel" />
+                <ScalarProperty Name="ContactTwo" ColumnName="ContactTwo" />
+                <ScalarProperty Name="TwoTel" ColumnName="TwoTel" />
+                <ScalarProperty Name="ContactThree" ColumnName="ContactThree" />
+                <ScalarProperty Name="ThreeTel" ColumnName="ThreeTel" />
+                <ScalarProperty Name="ST_Sex" ColumnName="ST_Sex" />
+                <ScalarProperty Name="ST_Dor" ColumnName="ST_Dor" />
+                <ScalarProperty Name="ST_Class" ColumnName="ST_Class" />
+                <ScalarProperty Name="ST_Grade" ColumnName="ST_Grade" />
+                <ScalarProperty Name="MonitorID" ColumnName="MonitorID" />
+                <ScalarProperty Name="ST_Teacher" ColumnName="ST_Teacher" />
+                <ScalarProperty Name="ST_TeacherID" ColumnName="ST_TeacherID" />
+                <ScalarProperty Name="Nation" ColumnName="Nation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_getNightNameList" FunctionName="qingjia0425Model.Store.sp_getNightNameList" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

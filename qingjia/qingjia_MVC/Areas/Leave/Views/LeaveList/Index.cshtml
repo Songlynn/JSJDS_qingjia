@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "请假";
+    var F = @Html.F();
+    var studentInfo =(qingjia_MVC.Models.vw_Student) ViewData["studentInfo"] ;
+    var LeaveListExist = ViewBag.LeaveListExist;
+        }
+
+        @section head {
+
+            
+    <link href="~/Content/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/css/basestyle.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/css/leave.css" rel="stylesheet" type="text/css">
+
+}
+
+@section script {
+    <script src="~/Content/layer/layer.js"></script>
+    <script>
+        function changeInfo() {
+            F.ui.changeInfo.show('@Url.Content("~/UserInfo/UserInfo/Index")', '修改个人信息');
+        }
+
+        function leaveList() {
+            F.ui.windowLeaveList.show('@Url.Content("~/Leave/LeaveList/LeaveList")', '查看全部请假记录');
+        }
+        var layer_num="";
+        $(document).ready(function () {
+            $('.leaveform .content input').each(function () {
+                $(this).click(function () {
+                    var type = $(this).attr("name");
+                    openFormWindow(type);
+                });
+            });
+            $('input[name="all"]').on("click", function () {
+                var url = '@Url.Content("~/Leave/LeaveList/leavelist")';
+                window.location.href = url;
+            });
+            //请假说明
+            $('input[name="detail"]').on("click", function () {
+                var url = '@Url.Content("~/Leave/LeaveForm/LeaveInfo_T")';
+                layer.ready(function () {
+                    layer.open({
+                        type: 2,
+                        title: '请假说明',
+                        skin: 'demo-class',
+                        area: ['700px', '520px'],
+                        closeBtn: 1,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        content: url
+                    });
+                });
+            });
+
+        });
+
+        //申请请假窗口
+        function openFormWindow(type) {
+            var titles = "";
+            var urls = '';
+            switch (type) {
+                case "short": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leaveshort")';
+                    titles = "短期请假";
+                    break;
+                }
+                case "long": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leavelong")';
+                    titles = "长期请假";
+                    break;
+                }
+                case "vacation": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leavevacation")';
+                    titles = "节假日去向";
+                    break;
+                }
+                case "night": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leavenight")';
+                    titles = "晚点名请假";
+                    break;
+                }
+                case "lesson": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leavelesson")';
+                    titles = "上课请假备案";
+                    break;
+                }
+                case "review": {
+                    urls = '@Url.Content("~/Leave/LeaveList/leavereview")';
+                    titles = "早晚自习请假";
+                    break;
+                }
+                default:
+                    break;
+            }
+            if ((urls != "") || (type != "")) {
+                $.ajax({
+                    url: '/Leave/LeaveList/leaveAllow?type=' + type,
+                    success: function (response) {
+                        if (response == "成功") {
+                            F.ui.window_leaveform.show(urls, titles);
+                        }
+                        else {
+                            notify(response, 1);
+                        }
+                    },
+                    error: function () {
+                        notify('发生错误！', 2);
+                    }
+                })
+                //F.ui.window_leaveform.show(url, titles);
+
+            }
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>
+
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>申请请假</h2>
+    </div>
+    <div class="main-content">
+        <div class="content-block leaveform">
+            <div class="content-title">
+                <img src="~/Content/image/leave-leaveform-title.png">
+                <span>我要请假</span>
+                <input type="image" name="detail" src="~/Content/image/help.png">
+            </div>
+            <div class="content">
+                    <input type="image" name="short" src="~/Content/image/leave-leaveform-short.png" />
+                    <input type="image" name="long" src="~/Content/image/leave-leaveform-long.png" />
+                    <input type="image" name="vacation" src="~/Content/image/leave-leaveform-vacation.png" />
+                    <input type="image" name="lesson" src="~/Content/image/leave-leaveform-lesson.png" />
+                    <input type="image" name="night" src="~/Content/image/leave-leaveform-night.png" />
+                    <input type="image" name="review" src="~/Content/image/leave-leaveform-review.png" />
+
+            </div>
+        </div>
+        <div class="content-block leavelist">
+            <div class="content-title">
+                <img src="~/Content/image/leave-leavelist-title.png">
+                <span>请假记录</span>
+                <input type="image" name="all" src="~/Content/image/leave-leavelist-all.png">
+            </div>
+            <div class="content">
+                @Html.Action("GetLeaveListTable")
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+
+@(F.Window()
+        .ID("window_leaveform")
+        .Width(700)
+        .Height(500)
+        .IsModal(true)
+        .Hidden(true)
+        .Target(Target.Parent)
+        .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableIFrame(true)
+        .IFrameUrl(Url.Content("about:blank"))
+        .OnClose(Url.Action("window_leave_Close"))
+            )
+@(F.Window()
+        .ID("window_leaveinfo")
+        .Width(900)
+        .Height(600)
+        .IsModal(true)
+        .Hidden(true)
+        .Target(Target.Parent)
+        .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableIFrame(true)
+        .IFrameUrl(Url.Content("about:blank"))
+//.OnClose(Url.Action("window_leave_Close"))
+)
+
+
+        }
+
+

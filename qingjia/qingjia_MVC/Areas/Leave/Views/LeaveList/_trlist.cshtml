@@ -1,0 +1,319 @@
+﻿@model IEnumerable<qingjia_MVC.Areas.Leave.Controllers.LL_Table>
+@{
+    var leavetype = ViewBag.LeaveType;
+}
+@if (leavetype == "AllLeave")
+{
+    foreach (var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td>@LL.Type</td>
+            <td>@LL.LeaveType</td>
+            <td>
+                <span class="reason">
+                    @LL.Reason
+                </span>
+            </td>
+            <td>@LL.SubmitTime</td>
+            <td>@LL.AuditName</td>
+        </tr>
+        <tr class="expand">
+            <td colspan="12">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>请假类型：</th>
+                            <td>@LL.Type</td>
+                            <th>请假子类型：</th>
+                            <td>@LL.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @LL.Reason
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+
+}
+else if (leavetype == "ShortLeave")
+{
+    foreach (var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td><span class="reason">@LL.Reason</span></td>
+            <td>@LL.TimeLeave</td>
+            <td>@LL.TimeBack</td>
+            <td>@LL.AuditName</td>
+        </tr>
+        <tr class="expand">
+            <!--<td colspan="3">&nbsp;</td>-->
+            <td colspan="11">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@LL.TimeLeave</td>
+                            <th>返校时间：</th>
+                            <td>@LL.TimeBack</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @LL.Reason
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+}
+else if (leavetype == "LongLeave")
+{
+    foreach (var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td><span class="reason">@LL.Reason</span></td>
+            <td>@LL.TimeLeave</td>
+            <td>@LL.TimeBack</td>
+            <td>梁娜妮</td>
+        </tr>
+        <tr class="expand">
+            <td colspan="11">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@LL.TimeLeave</td>
+                            <th>返校时间：</th>
+                            <td>@LL.TimeBack</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @LL.Reason
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+}
+else if (leavetype == "VacationLeave")
+{
+    foreach(var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td>@LL.LeaveType</td>
+            <td><span class="reason">@LL.Reason</span></td>
+            <td>@LL.TimeLeave</td>
+            <td>@LL.TimeBack</td>
+            <td>@LL.AuditName</td>
+        </tr>
+        <tr class="expand">
+            <td colspan="12">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>请假子类型：</th>
+                            <td>@LL.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@LL.TimeLeave</td>
+                            <th>返校时间：</th>
+                            <td>@LL.TimeBack</td>
+                        </tr>
+                        <tr>
+                            <th>离校方式：</th>
+                            <td>@LL.LeaveWay</td>
+                            <th>返校方式：</th>
+                            <td>@LL.BackWay</td>
+                        </tr>
+                        <tr>
+                            <th>离校去向地址：</th>
+                            <td colspan="3">
+                                @LL.Address
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+
+}
+else if (leavetype == "NightLeave")
+{
+    foreach (var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td>@LL.LeaveType</td>
+            <td><span class="reason">@LL.Reason</span></td>
+            <td>@LL.SubmitTime</td>
+            <td>@LL.AuditName</td>
+        </tr>
+        <tr class="expand">
+            <td colspan="11">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>请假子类型：</th>
+                            <td>@LL.LeaveType</td>
+                            <th>请假时间：</th>
+                            <td>@LL.SubmitTime</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @LL.Reason
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+}
+else if (leavetype == "LessonLeave")
+{
+    foreach (var LL in Model)
+    {
+        <tr>
+            <td>1</td>
+            <td>
+                <input type="image" name="print" src="~/Content/image/auditleave-back.png">
+            </td>
+            <td>@LL.AuditState</td>
+            <td>@LL.ID</td>
+            <td>@LL.StudentID</td>
+            <td><span>@LL.ST_Name</span></td>
+            <td><span>@LL.ST_Class</span></td>
+            <td>@LL.LeaveType</td>
+            <td><span class="reason">@LL.Reason</span></td>
+            <td>@LL.SubmitTime</td>
+            <td>第一大节</td>
+            <td>@LL.AuditName</td>
+        </tr>
+        <tr class="expand">
+            <td colspan="12">
+                <table class="detail">
+                    <tbody>
+                        <tr>
+                            <th>姓名：</th>
+                            <td>@LL.ST_Name</td>
+                            <th>班级：</th>
+                            <td>@LL.ST_Class</td>
+                        </tr>
+                        <tr>
+                            <th>请假子类型：</th>
+                            <td>@LL.LeaveType</td>
+                            <th>请假时间：</th>
+                            <td>@LL.SubmitTime</td>
+                        </tr>
+                        <tr>
+                            <th>请假课段：</th>
+                            <td>@LL.Lesson</td>
+                            <th>任课老师：</th>
+                            <td>@LL.Teacher</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @LL.Reason
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <div>
+        未知错误！请联系管理员！
+    </div>
+}
+

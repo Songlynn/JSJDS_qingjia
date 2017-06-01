@@ -1,0 +1,559 @@
+﻿@{
+    ViewBag.Title = "首页";
+    var F = @Html.F();
+}
+
+@section head{
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/image/pageIcon.png" media="screen" />
+    <link href="~/Content/css/layout.css" type="text/css" rel="stylesheet">
+    <style>
+        .ui-widget-content{
+            background-color:rgb(250,250,252);
+        }
+    </style>
+}
+
+@section script{
+    <script src="~/Content/js/dist/modernizr-custom.js"></script>
+    <script src="~/Content/js/dist/head-menu.js"></script>
+
+    <script>
+        window.onload = function () {
+            var menuid="";
+            switch('@ViewBag.RoleID'){
+                case "1":{
+                    menuid="menu_stu";
+                    break;
+                }
+                case "3":{
+                    menuid="menu_teacher";
+                    break;
+                }
+                default:
+                    break;
+            }
+            var allmenu=document.getElementsByClassName("menu"),
+                    menu=document.getElementById(menuid);
+            for(var i=0;i<allmenu.length;i++){
+                allmenu[i].style.display='none';
+            }
+            //alert(menu);
+            if (menu != null) {
+                menu.style.display = 'block';
+            }
+
+        }
+
+        function toUrl(type) {
+            var url = '@Url.Content("~/Home/Default_ST")';
+            var index = 99;
+            switch (type) {
+                case "quit": {
+                    url = "/Account/Index";
+                    break;
+                }
+                case "home": {
+                    switch ('@ViewBag.RoleID') {
+                        case "1": {
+                            url = '@Url.Content("~/Home/Default_ST")';
+                            break;
+                        }
+                        case "3": {
+                            url = '@Url.Content("~/Home/Default_T")';
+                            break;
+                        }
+                        case "0": {
+                            url = '@Url.Content("~/Home/Default_M")';
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case "password": {
+                    switch ('@ViewBag.RoleID') {
+                        case "1": {
+                            url = '@Url.Content("~/Password/Password/Psd_ST")';
+                            break;
+                        }
+                        case "3": {
+                            url = '@Url.Content("~/Password/Password/Psd_T")';
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case "personal": {
+                    switch ('@ViewBag.RoleID') {
+                        case "1": {
+                            url = '@Url.Content("~/UserInfo/UserInfo/Index")';
+                            break;
+                        }
+                        case "3": {
+                            url = '@Url.Content("~/UserInfo/UserInfo/personal_T")';
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case "import": {
+                    url = '@Url.Content("~/Import/Import/Import_T")';
+                    break;
+                }
+                    //辅导员端
+                case "teacher-auditgo": {
+                    url = '@Url.Content("~/Leave/Audit/AuditLeave")';
+                    index = 0;
+                    break;
+                }
+                case "teacher-auditback": {
+                    url = '@Url.Content("~/Leave/Audit/AuditBack")';
+                    index = 1;
+                    break;
+                }
+                case "teacher-leavelist": {
+                    url = '@Url.Content("~/Leave/LeaveList/leavelist")';
+                    index = 2;
+                    break;
+                }
+                case "teacher-backlist": {
+                    url = '@Url.Content("~/Message/DeleteMessage/Index")';
+                    index = 3;
+                    break;
+                }
+                case "teacher-nightlist": {
+                    url = '@Url.Content("~/CallName/NameForT/Index")';
+                    index = 4;
+                    break;
+                }
+                case "teacher-night": {
+                    url = '@Url.Content("~/Message/NightMessage/Index")';
+                    index = 5;
+                    break;
+                }
+                case "teacher-deadline": {
+                    url = '@Url.Content("~/Message/DeadlineMessage/Index")';
+                    index = 6;
+                    break;
+                }
+                case "teacher-address": {
+                    url = '@Url.Content("~/AddressList/GradeAddress/Index")';
+                    index = 7;
+                    break;
+                }
+                case "teacher-charts": {
+                    url = '@Url.Content("~/Statistics/LeaveList/Index")';
+                    index = 8;
+                    break;
+                }
+                    //学生端
+                case "stu-leave": {
+                    url = '@Url.Content("~/Leave/LeaveList/Index")';
+                    index = 0;
+                    break;
+                }
+                case "stu-list": {
+                    url = '@Url.Content("~/Leave/LeaveList/leavelist")';
+                    index = 1;
+                    break;
+                }
+                case "stu-address": {
+                    url = '@Url.Content("~/AddressList/GradeAddress/Index")';
+                    index = 2;
+                    break;
+                }
+                default:
+                    break;
+
+            }
+            setActive(index);
+            return url;
+        }
+
+        function onUrlClick(type) {
+            var url = toUrl(type);
+            if (type == "quit") {
+                window.location.href = url;
+            }
+            else {
+                F.ui.mainTabStrip.removeTab('mainTab');
+                F.ui.mainTabStrip.addTab({
+                    id: 'mainTab',
+                    iframe: true,
+                    iframeUrl: url,
+                    title: '专业版',
+                    closable: true
+                });
+            }
+        }
+
+        function setActive(index) {
+            $('.menu-teacher ul li').each(function () {
+                var li = $(this);
+                li.removeClass("active");
+            });
+            $('.menu-stu ul li').each(function () {
+                var li = $(this);
+                li.removeClass("active");
+            });
+            switch('@ViewBag.RoleID'){
+                case "1": {
+                    $('.menu.menu-stu ul li').eq(index).addClass("active");
+                    break;
+                }
+                case "3": {
+                    $('.menu.menu-teacher ul li').eq(index).addClass("active");
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    </script>
+<script>
+        var alertClose = 0;
+
+        //消息栏
+        function Message(num) {
+            var message = '请假记录存在' + num + '个异常！是否点击查看？';
+            layer.msg(message, {
+                time: 0, //不自动关闭
+                btn: ['立即查看', '暂不查看'],
+                btnAlign: 'c',
+                offset: 'rt',
+                yes: function (index) {
+                    layer.close(index);
+                    window.location = '/Statistics/LeaveList/Index';
+                }
+            });
+        }
+
+        //示范一个公告层
+        function Notice(message) {
+            layer.open({
+                type: 1,
+                title: false, //不显示标题栏
+                closeBtn: false,
+                area: '300px;',
+                shade: 0.8,
+                id: 'LAY_layuipro', //设定一个id，防止重复弹出
+                btn: ['我知道了', '不再提醒'],
+                btnAlign: 'c',
+                moveType: 1, //拖拽模式，0或者1
+                content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + message + '</div>',
+                yes: function (index, layero) {
+                    //按钮【按钮一】的回调
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+                    alertClose = 1;
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }
+
+        function GetNotice() {
+            if (alertClose == 0) {
+                $.ajax({
+                    type: "POST",
+                    data: 'json',
+                    url: "/Home/GetMessageInfo?type=notice",
+                    contentType: "application/json",
+                    success: function (response) {
+                        if (response != "") {
+                            var message = "";
+                            for (var item in response) {
+                                //console.log(item);
+                                message += response[item]["title"];
+                                message += response[item]["content"];
+                                message += "</br>";
+                            }
+                            Notice(message);
+                        }
+                        else {
+                            alertClose = 1;
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+
+        function GetMessage() {
+            if (alertClose == 0) {
+                $.ajax({
+                    type: "POST",
+                    data: 'json',
+                    url: '/Statistics/LeaveList/Analysis',
+                    contentType: "application/json",
+                    success: function (response) {
+                        //alert('请求成功');
+                        //console.log(response);
+                        //console.log(response.length);
+                        Message(response.length);
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            GetNotice();
+            //GetMessage();
+            setInterval(GetNotice, 20000);//20秒请求一次
+            //setInterval(GetMessage, 200000);//200秒请求一次
+        });
+</script>
+}
+
+@section body{
+    
+<div id="head" class="index-header" style="z-index:100;">
+    <h2 onclick="onUrlClick('home'); return false;">
+        <img src="~/Content/image/header_logo.png">
+        <img src="~/Content/image/header_title.png">
+    </h2>
+    <div class="header-nav">
+        <ul>
+            <li class="dropdown-img img-message" data-content="message" style="display:none;">
+                <a href="#0"><img src="~/Content/image/header_message_none.png"></a>
+            </li>
+            <li class="dropdown-img img-personal" data-content="personal">
+                <a href="#0">
+                    @if (ViewBag.RoleID == "1")
+                    {
+                        <img src="~/Content/image/header_personimg-stu.png">
+                    }
+                    else if (ViewBag.RoleID == "2")
+                    {
+                        <img src="~/Content/image/header_personimg-class.png">
+                    }
+                    else if (ViewBag.RoleID == "3")
+                    {
+                        <img src="~/Content/image/header_personimg-teacher.png">
+                    }
+                    else if (ViewBag.RoleID == "0")
+                    {
+                        <img src="~/Content/image/header_personimg-manager.png">
+                    }
+                    @if (ViewBag.RoleID == "0")
+                    {
+                        <div class="stuname" style="width:75px;">
+                            @ViewBag.UserName
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="stuname">
+                            @ViewBag.UserName
+                        </div>
+                    }
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="nav-dropdown-wrapper">
+        <div class="dropdown-list">
+            <ul>
+                <li id="message" class="dropdown img-message" style="display:none;">
+                    <div class="content">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span>短期请假</span>
+                                    <span class="item_num">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>长期请假</span>
+                                    <span class="item_num">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>短期请假</span>
+                                    <span class="item_num">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>短期请假</span>
+                                    <span class="item_num">1</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li id="personal" class="dropdown img-personal">
+                    @if (ViewBag.RoleID != "0")
+                    {
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);" onclick="onUrlClick('personal'); return false;">
+                                        <span>基本信息</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" onclick="onUrlClick('password'); return false;">
+                                        <span>密码管理</span>
+                                    </a>
+                                </li>
+                                @if (ViewBag.RoleID == "3")
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" onclick="onUrlClick('import'); return false;">
+                                            <span>用户管理</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content"></div>
+                    }
+                    <div class="nav-personal-exit">
+                        <a href="javascript:vois(0);" onclick="onUrlClick('quit'); return false;">
+                            <span>退出</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <div class="bg-layer" aria-hidden="true"></div>
+        </div> <!-- dropdown-list -->
+    </div> <!-- nav-dropdown-wrapper -->
+</div>
+<div id="menu_stu" class="menu menu-stu" style="display: none;z-index:100;">
+    <ul>
+        <li>
+            <a class="menu_head" href="javascript:void(0);" onclick="onUrlClick('stu-leave'); return false;">
+                <i><img src="~/Content/image/menu-stu-leave.png"></i>
+                <span>申请请假</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head" href="javascript:void(0);" onclick="onUrlClick('stu-list'); return false;">
+                <i><img src="~/Content/image/menu-stu-list.png"></i>
+                <span>请假记录</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('stu-address'); return false;">
+                <i><img src="~/Content/image/menu-stu-address.png"></i>
+                <span>通讯录</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="menu_teacher" class="menu menu-teacher"  style="z-index:100;">
+    <ul>
+        <li>
+            <a class="menu_head" href="javascript:void(0);" onclick="onUrlClick('teacher-auditgo'); return false;">
+                <i><img src="~/Content/image/menu-teacher-auditgo.png"></i>
+                <span>请假审核</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head" href="javascript:void(0);" onclick="onUrlClick('teacher-auditback'); return false;">
+                <i><img src="~/Content/image/menu-teacher-auditback.png"></i>
+                <span>销假审核</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head" href="javascript:void(0);" onclick="onUrlClick('teacher-leavelist'); return false;">
+                <i><img src="~/Content/image/menu-teacher-leavelist.png"></i>
+                <span>请假记录</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-backlist'); return false;">
+                <i><img src="~/Content/image/menu-teacher-backlist.png"></i>
+                <span>未销假名单</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-nightlist'); return false;">
+                <i><img src="~/Content/image/menu-teacher-nightlist.png"></i>
+                <span>晚点名名单</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-night'); return false;">
+                <i><img src="~/Content/image/menu-teacher-night.png"></i>
+                <span>晚点名设置</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-deadline'); return false;">
+                <i><img src="~/Content/image/menu-teacher-deadline.png"></i>
+                <span>截止时间设置</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-address'); return false;">
+                <i><img src="~/Content/image/menu-teacher-address.png"></i>
+                <span>通讯录</span>
+            </a>
+        </li>
+        <li>
+            <a class="menu_head current" href="javascript:void(0);" onclick="onUrlClick('teacher-charts'); return false;">
+                <i><img src="~/Content/image/menu-teacher-charts.png"></i>
+                <span>智能支持服务</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="main" style="position:absolute;top:60px;left:60px;z-index:50;">
+
+
+    @(F.RegionPanel()
+        .ID("RegionPanel1")
+            .ShowBorder(true)
+            .IsViewPort(true)
+            .Layout(LayoutType.Fit)
+            .MarginRight(60)
+            .MarginLeft(0)
+            .MarginBottom(60)
+            .Regions(
+                F.Region()
+                    .ID("mainRegion")
+                    .ShowBorder(false)
+                    .ShowHeader(false)
+                    .RegionPosition(Position.Center)
+                    .Layout(LayoutType.Fit)
+                    .Items(
+                        F.TabStrip()
+                            .ID("mainTabStrip")
+                            .EnableTabCloseMenu(true)
+                            .ShowBorder(false)
+                            .ShowTabHeader(false)
+                            .Tabs(
+                                F.Tab()
+                                    .ID("mainTab")
+                                    .ShowHeader(true)
+                                    .Title("首页")
+                                    .Layout(LayoutType.Fit)
+                                    .EnableIFrame(true)
+                                    .IFrameUrl(ViewBag.IFrameURL)
+                            )
+                    )
+            )
+    )
+</div>
+
+}
+

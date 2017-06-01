@@ -1,0 +1,100 @@
+﻿.ui-widget-content{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 95%;
+    margin: 0 auto;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom:5px;
+    border-bottom:1px solid #d7d2d2;
+}
+.main .main-title h2{
+    color: rgb(174,113,166);
+    font-size: 1.8em;
+    font-weight: bolder;
+    margin-top:0;
+    margin-bottom:0;
+}
+.main .main-content{
+    width: 90%;
+    margin: 20px auto 0;
+    position: relative;
+}
+.main .main-content .content-block{
+    width: 100%;
+    background-color: rgb(255,255,255);
+    border-radius: 15px;
+    box-shadow: 0 0 7px 5px  rgba(0, 0, 0, 0.118);
+    margin-bottom: 20px;
+}
+.content-block .content-title{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 10px;
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 0, 0, 0.118);
+    text-indent: 1em;
+}
+.message .content-title{
+    background-color: rgb(151,219,192);
+}
+.echart-01 .content-title{
+    background-color:rgb(228,187,193);
+}
+.echart-02 .content-title{
+    background-color: rgb(144,146,193);
+}
+.echart-03 .content-title{
+    background-color: rgb(234,161,94);
+}
+.echart-04 .content-title{
+    background-color: rgb(21,174,103);
+}
+.content-block .content-title img{
+    height: 30px;
+    position: relative;
+    top: -2px;
+}
+.content-block .content-title span {
+    font-size: 1.2em;
+    font-weight: bolder;
+    color: #FFFFFF;
+}
+.content-block .content{
+    width:100%;
+    padding: 20px 30px;
+}
+.message .content{
+    padding: 20px 30px 10px 30px;
+}
+.message .content ul{
+    margin: 0 20px 20px 0;
+}
+.message .content ul >li{
+    line-height:1.5em;
+}
+.message .content ul >li span:first-child{
+    display:inline-block;
+    width:40px;
+    text-align:center;
+}
+.message .content ul >li span img{
+    height:20px;
+}
+.message .content ul >li span:nth-child(2){
+    font-weight:bolder;
+    width:100px;
+    display:inline-block;
+}
+.message .content ul  li:first-child span:nth-child(2){
+    width:auto;
+}
+.message .content ul >li>div{
+    text-indent:40px;
+}
+

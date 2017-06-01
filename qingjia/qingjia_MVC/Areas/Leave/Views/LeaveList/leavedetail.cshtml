@@ -1,0 +1,464 @@
+﻿@model IEnumerable<qingjia_MVC.Models.vw_LeaveList>
+@{
+    ViewBag.Title = "请假详情";
+}
+
+@section head{
+
+}
+
+@section script{
+
+}
+
+@section body{
+    <input type="hidden" id="leaveid" value="@ViewBag.ID" />
+    @foreach (var info in Model)
+    {
+        if (info.LeaveType.StartsWith("短期"))
+        {
+            <div class="short">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@info.TimeLeave</td>
+                            <th>返校时间：</th>
+                            <td>@info.TimeBack</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @info.Reason
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (info.LeaveType.StartsWith("长期"))
+        {
+            <div class="long">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@info.TimeLeave</td>
+                            <th>返校时间：</th>
+                            <td>@info.TimeBack</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @info.Reason
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (info.LeaveType.StartsWith("节假日"))
+        {
+            <div class="vacation">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>离校时间：</th>
+                            <td>@info.TimeLeave</td>
+                            <th>离校方式：</th>
+                            <td>@info.LeaveWay</td>
+                        </tr>
+                        <tr>
+                            <th>返校时间：</th>
+                            <td>@info.TimeBack</td>
+                            <th>返校方式：</th>
+                            <td>@info.BackWay</td>
+                        </tr>
+                        <tr>
+                            <th>节假日去向：</th>
+                            <td colspan="3">
+                                @info.Address
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (info.LeaveType.StartsWith("晚点名"))
+        {
+            <div class="night">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>请假日期：</th>
+                            <td>@info.TimeLeave.Date</td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @info.Reason
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (info.LeaveType.StartsWith("上课"))
+        {
+            <div class="lesson">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>请假日期：</th>
+                            <td>@info.TimeLeave.Date</td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>请假课段：</th>
+                            @if (info.Lesson.ToString() == "1")
+                            {
+                                <td>第一大节（08:00~09:40）</td>
+                            }
+                            else if (info.Lesson.ToString() == "2")
+                            {
+                                <td>第二大节（10:10~11:50）</td>
+                            }
+                            else if (info.Lesson.ToString() == "3")
+                            {
+                                <td>第三大节（14:00~15:30）</td>
+                            }
+                            else if (info.Lesson.ToString() == "4")
+                            {
+                                <td>第四大节（16:00~17:40）</td>
+                            }
+                            else if (info.Lesson.ToString() == "5")
+                            {
+                                <td>第五大节（18:30~21:40）</td>
+                            }
+                            <th>任课老师：</th>
+                            <td>@info.Teacher</td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @info.Reason
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (info.LeaveType.StartsWith("早晚自习"))
+        {
+            <div class="review">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>学号：</th>
+                            <td>@info.StudentID</td>
+                            <th>姓名：</th>
+                            <td>@info.ST_Name</td>
+                        </tr>
+                        <tr>
+                            <th>班级：</th>
+                            <td>@info.ST_Class</td>
+                            <th>年级：</th>
+                            <td>@info.ST_Grade</td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            @if (info.StateLeave.ToString() == "0" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待审核</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "0")
+                            {
+                                <td>待销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "1" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已销假</td>
+                            }
+                            else if (info.StateLeave.ToString() == "2" && info.StateBack.ToString() == "1")
+                            {
+                                <td>已驳回</td>
+                            }
+                            <th>请假类型：</th>
+                            <td>@info.LeaveType</td>
+                        </tr>
+                        <tr>
+                            <th>请假时间：</th>
+                            <td>@info.TimeLeave.Date</td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>请假原因：</th>
+                            <td colspan="3">
+                                @info.Reason
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提交时间：</th>
+                            <td>@info.SubmitTime</td>
+                            @if (info.AuditName != null)
+                            {
+                                <th>审核人：</th>
+                                <td>@info.AuditName</td>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <td></td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    
+    
+    
+    
+    
+       
+}

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<qingjia_MVC.Models.T_Class>
+@{
+    var exist = ViewBag.Exist;
+    var n = 0;
+}
+@if (exist == 1)
+{
+    <ul>
+        @foreach (var T_Class in Model)
+        {
+            int i = n % 4;
+            n++;
+            if (i == 0)
+            {
+                <li>
+                    <img src="~/Content/image/address-class-1.png">
+                    <a onclick="GetClassInfo('@T_Class.ClassName')">@T_Class.ClassName</a>
+                </li>
+            }
+            if (i == 1)
+            {
+                <li>
+                    <img src="~/Content/image/address-class-2.png">
+                    <a onclick="GetClassInfo('@T_Class.ClassName')">@T_Class.ClassName</a>
+                </li>
+            }
+            if (i == 2)
+            {
+                <li>
+                    <img src="~/Content/image/address-class-3.png">
+                    <a onclick="GetClassInfo('@T_Class.ClassName')">@T_Class.ClassName</a>
+                </li>
+            }
+            if (i == 3)
+            {
+                <li>
+                    <img src="~/Content/image/address-class-4.png">
+                    <a onclick="GetClassInfo('@T_Class.ClassName')">@T_Class.ClassName</a>
+                </li>
+            }
+        }
+    </ul>
+}
+else
+{
+    <div>
+        无记录
+    </div>
+}
+

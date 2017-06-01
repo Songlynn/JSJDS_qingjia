@@ -1,0 +1,828 @@
+﻿@model IEnumerable<qingjia_MVC.Areas.Leave.Controllers.LL_Table>
+@{
+    var leavetype = ViewBag.LeaveType;
+    var searchText = "";
+    if (ViewBag.Search == "" || ViewBag.Search == null)
+    {
+        searchText = "";
+    }
+    else
+    {
+        searchText = ViewBag.Search;
+    }
+}
+<div class="main-tab">
+
+    <ul class="nav nav-pills" id="mainTab">
+        @if (leavetype == "AllLeave")
+        {
+            <li class="active">
+                <a href="#AllLeave" onclick="get('AllLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    全部请假
+                    <div class="leave-num">
+                        @ViewBag.totalNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#AllLeave" onclick="get('AllLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    全部请假
+                    <div class="leave-num">
+                        @ViewBag.totalNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        @if (leavetype == "ShortLeave")
+        {
+            <li class="active">
+                <a href="#ShortLeave" onclick="get('ShortLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    短期请假
+                    <div class="leave-num">
+                        @ViewBag.shortNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#ShortLeave" onclick="get('ShortLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    短期请假
+                    <div class="leave-num">
+                        @ViewBag.shortNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        @if (leavetype == "LongLeave")
+        {
+            <li class="active">
+                <a href="#LongLeave" onclick="get('LongLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    长期请假
+                    <div class="leave-num">
+                        @ViewBag.longNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#LongLeave" onclick="get('LongLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    长期请假
+                    <div class="leave-num">
+                        @ViewBag.longNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        @if (leavetype == "VacationLeave")
+        {
+            <li class="active">
+                <a href="#VacationLeave" onclick="get('VacationLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    节假日去向
+                    <div class="leave-num">
+                        @ViewBag.holidayNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#VacationLeave" onclick="get('VacationLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    节假日去向
+                    <div class="leave-num">
+                        @ViewBag.holidayNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        @if (leavetype == "NightLeave")
+        {
+            <li class="active">
+                <a href="#NightLeave" onclick="get('NightLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    晚点名请假
+                    <div class="leave-num">
+                        @ViewBag.nightNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#NightLeave" onclick="get('NightLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    晚点名请假
+                    <div class="leave-num">
+                        @ViewBag.nightNumLeave
+                    </div>
+                </a>
+            </li>
+        }
+        
+    </ul>
+
+    @*<hr />*@
+
+    <div class="tab-content" id="myTabContent">
+        <!--全部请假-->
+        @if (leavetype == "AllLeave")
+        {
+            <div class="tab-pane fade in active" id="AllLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed all">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.totalNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="input-sm" value="@LL.ID">
+                                    </td>
+                                    <td>@LL.ID</td>
+                                    <td>
+                                        <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                    </td>
+                                    <td>@LL.AuditState</td>
+                                    <td><span>@LL.ST_Name</span></td>
+                                    <td><span>@LL.ST_Class</span></td>
+                                    <td>@LL.LeaveType</td>
+                                    <td><span class="reason">@LL.Reason</span></td>
+                                    <td>@LL.SubmitTime</td>
+                                </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="AllLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed all">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.totalNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="input-sm" value="@LL.ID">
+                                        </td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td><span class="reason">@LL.Reason</span></td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        
+        <!--短期请假-->
+        @if (leavetype == "ShortLeave")
+        {
+            <div class="tab-pane fade in active" id="ShortLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.shortNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType == "短期请假")
+                                    {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="input-sm" value="@LL.ID">
+                                        </td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td><span class="reason">@LL.Reason</span></td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="ShortLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.shortNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType == "短期请假")
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="input-sm" value="@LL.ID">
+                                            </td>
+                                            <td>@LL.ID</td>
+                                            <td>
+                                                <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                            </td>
+                                            <td>@LL.AuditState</td>
+                                            <td><span>@LL.ST_Name</span></td>
+                                            <td><span>@LL.ST_Class</span></td>
+                                            <td>@LL.LeaveType</td>
+                                            <td><span class="reason">@LL.Reason</span></td>
+                                            <td>@LL.SubmitTime</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        
+        <!--长期请假-->
+        @if (leavetype == "LongLeave")
+        {
+            <div class="tab-pane fade in active" id="LongLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.longNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType == "长期请假")
+                                    {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="input-sm" value="@LL.ID">
+                                        </td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td><span class="reason">@LL.Reason</span></td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="LongLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.longNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType == "长期请假")
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="input-sm" value="@LL.ID">
+                                            </td>
+                                            <td>@LL.ID</td>
+                                            <td>
+                                                <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                            </td>
+                                            <td>@LL.AuditState</td>
+                                            <td><span>@LL.ST_Name</span></td>
+                                            <td><span>@LL.ST_Class</span></td>
+                                            <td>@LL.LeaveType</td>
+                                            <td><span class="reason">@LL.Reason</span></td>
+                                            <td>@LL.SubmitTime</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        
+        <!--节假日请假-->
+        @if (leavetype == "VacationLeave")
+        {
+            <div class="tab-pane fade in active" id="VacationLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed vacation">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.holidayNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
+                                    {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="input-sm" value="@LL.ID">
+                                        </td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td><span class="reason">@LL.Reason</span></td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="VacationLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed vacation">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.holidayNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="input-sm" value="@LL.ID">
+                                            </td>
+                                            <td>@LL.ID</td>
+                                            <td>
+                                                <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                            </td>
+                                            <td>@LL.AuditState</td>
+                                            <td><span>@LL.ST_Name</span></td>
+                                            <td><span>@LL.ST_Class</span></td>
+                                            <td>@LL.LeaveType</td>
+                                            <td><span class="reason">@LL.Reason</span></td>
+                                            <td>@LL.SubmitTime</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        
+        <!--晚点名请假-->
+        @if (leavetype == "NightLeave")
+        {
+            <div class="tab-pane fade in active" id="NightLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed night">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.nightNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
+                                    {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="input-sm" value="@LL.ID">
+                                    </td>
+                                    <td>@LL.ID</td>
+                                    <td>
+                                        <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                    </td>
+                                    <td>@LL.AuditState</td>
+                                    <td><span>@LL.ST_Name</span></td>
+                                    <td><span>@LL.ST_Class</span></td>
+                                    <td>@LL.LeaveType</td>
+                                    <td><span class="reason">@LL.Reason</span></td>
+                                    <td>@LL.SubmitTime</td>
+                                </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="NightLeave">
+                <div class="tab-toollist">
+                    <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search"  src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed night">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="input-sm"></th>
+                                <th>请假单号</th>
+                                <th>销假</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.nightNumLeave != 0)
+                            {
+                                foreach (var LL in Model)
+                                {
+                                    if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="input-sm" value="@LL.ID">
+                                            </td>
+                                            <td>@LL.ID</td>
+                                            <td>
+                                                <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
+                                            </td>
+                                            <td>@LL.AuditState</td>
+                                            <td><span>@LL.ST_Name</span></td>
+                                            <td><span>@LL.ST_Class</span></td>
+                                            <td>@LL.LeaveType</td>
+                                            <td><span class="reason">@LL.Reason</span></td>
+                                            <td>@LL.SubmitTime</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9">
+                                        <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>

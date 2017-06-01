@@ -1,0 +1,211 @@
+﻿@{
+    ViewBag.Title = "销假处理";
+    var F = @Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/auditlist.css" type="text/css" rel="stylesheet">
+    <link href="~/Content/css/auditback.css" type="text/css" rel="stylesheet">
+}
+
+@section script{
+
+    <script src="~/Content/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/js/tableTool.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script>
+        //初始化 请假单号
+        var rowid = '';
+        //初始化 请假类型为全部请假
+        var LeaveType = 'AllLeave';
+
+        $(document).ready(function () {
+            $('#mainTab a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            });
+            //请假说明
+            $('input.detail').on("click", function () {
+                var url = '@Url.Content("~/Leave/LeaveForm/LeaveInfo_T")';
+                layer.ready(function () {
+                    layer.open({
+                        type: 2,
+                        title: '请假说明',
+                        skin: 'demo-class',
+                        area: ['700px', '520px'],
+                        closeBtn: 2,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        content: url
+                    });
+                });
+            });
+            ////销假审核的同意
+            //$('#content').on("click", ".table>tbody>tr>td:nth-child(2) input[name='agree']", function (e) {
+            //    //获取行的请假单号
+            //    var cb = $(this).parent().prev().find('input:checkbox');
+            //    var rowid = cb.val();
+            //    AgreeClick(rowid);
+            //});
+
+            //搜索按钮
+            $('#content').on("click", ".tab-pane.fade.in.active .input-group input[name=search]", function () {
+                var input = $(this);
+                var searchText = input.parent().next().val();
+                if (searchText != "") {
+                    notify('开始搜索：' + searchText,6);
+                    $.ajax({
+                        //注意URL的格式
+                        url: '/Leave/Audit/SearchClick?search=' + searchText + '&condition=' + LeaveType,
+                        success: function (response) {
+                            notify('加载完成！',1);
+                            $("#content").html(response);
+                            //$('.tab-pane.fade.in.active .input-group input:text').next().show();
+                            $('#content input:text').next().show();
+                        },
+                        error: function () {
+                            notify('发生错误！',2);
+                        }
+                    });
+                }
+                else {
+                    notify('搜索内容不能为空！',0);
+                }
+            });
+
+            //取消按钮
+            $('#content').on("click", ".tab-pane.fade.in.active .input-group .cancel input:image", function () {
+                $(this).parent().prev().val("");
+                $(this).parent().hide();
+                $.ajax({
+                    //注意URL的格式
+                    url: '/Leave/Audit/SearchClick?condition=' + LeaveType,
+                    success: function (response) {
+                        notify('取消搜索！',0);
+                        $("#content").html(response);
+
+                    },
+                    error: function () {
+                        notify('发生错误！',2);
+                    }
+                });
+            });
+
+            //输入事件
+            $('#content').on('keyup', 'input:text', function () {
+                var input = $(this);
+                if (input.val() != "") {
+                    input.next().show();
+                }
+                if (input.val() == "") {
+                    input.next().hide();
+                }
+            });
+
+            //批量同意销假
+            $('#content').on('click', 'input[name=passmore]', function () {
+                //Json数据格式
+                var itemArray = [];
+
+                var table = $('#content .main-tab .tab-content #' + LeaveType + ' .table');
+                var tr = table.children('tbody').children('tr');
+                tr.find('input:checkbox').each(function () {
+                    var cb = $(this);
+                    if (cb.is(':checked')) {
+                        var item = { "AudtitType": "Back", "LL_Num": cb.val() };
+                        itemArray.push(item);
+                    }
+                });
+                console.log(itemArray);
+
+                //Ajax Action 同意请假
+                $.ajax({
+                    type: "POST",
+                    url: "/Leave/Audit/AgreeMoreClick?LeaveType=" + LeaveType,
+                    //dataType: "json",//dataType代表预期返回的值类型，若为json，则必须返回json格式数据 否则不予解析
+                    contentType: "application/json",
+                    data: JSON.stringify(itemArray),
+                    success: function (response) {
+                        //console.log(response);
+                        $("#content").html(response);
+                        notify("操作成功！",1);
+                    },
+                    error: function () {
+
+                    }
+                });
+            });
+
+            //行点击弹出框
+            $('#content').on("click", ".table>tbody>tr", function () {
+                var tr = $(this);
+                var rowid = tr.children('td').eq(1).html();
+                //alert(rowid);
+                var url = '@Url.Content("~/Leave/LeaveList/leavedetail")' + '?ID=' + rowid;
+                layer.ready(function () {
+                    layer.open({
+                        type: 2,
+                        title: '请假详情',
+                        skin: 'demo-class',
+                        area: ['700px', '350px'],
+                        closeBtn: 1,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        shadeClose: true,
+                        content: url
+                    });
+                });
+            });
+        });
+
+        //同意销假按钮
+        function AgreeClick(rowid) {
+            layer.confirm('是否同意销假？', {
+                btn: ['是', '否'] //按钮
+            }, function () {
+                $.ajax({
+                    //注意URL格式
+                    url: '/Leave/Audit/AgreeCLick?LL_id=' + rowid + '&LeaveType=' + LeaveType,
+                    success: function (response) {
+                        notify('销假已通过！', 1);
+                        $("#content").html(response);
+                    },
+                    error: function () {
+                        notify('发生错误！', 2);
+                    }
+                });
+            });
+        }
+
+        //请假类型切换、获取当前选择的请假类型
+        function get(type) {
+            LeaveType = type;
+            //alert(LeaveType);
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>
+}
+
+@section body{
+    <div class="main">
+        <div class="main-title">
+            <h2>销假审批</h2>
+            <input type="image" class="detail" src="~/Content/image/leavelist-info.png" />
+        </div>
+        <div id="content">
+            @Html.Action("GetTable")
+        </div>
+    </div>
+}
+

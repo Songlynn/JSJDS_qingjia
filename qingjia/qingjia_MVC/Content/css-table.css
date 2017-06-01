@@ -1,0 +1,45 @@
+.tableSepcial 
+	{ 
+		margin:0; 
+		padding:20px; 
+		font:16px "Î¢ÈíÑÅºÚ", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
+		border-collapse:collapse;
+		margin-bottom:15px;
+		width:100%;
+	}
+	.thead-title
+	{
+		height:20PX;
+		font:22px "Î¢ÈíÑÅºÚ", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
+	}	
+	.tableSepcial, 
+	.tableSepcial td, 
+	.tableSepcial tr, 
+	.tableSepcial th 
+	{
+		margin:0;
+		padding:0;
+		font-weight:normal;
+	}
+	.tableSepcial td,.tableSepcial th 
+	{
+		padding:5px;
+		border:0px solid #fff;
+		border-width:0 0px 0px 0;
+	}
+		
+	.theadSepcial
+	 {
+		background:#66a9bd;
+	 }
+	.theadthSepcial,
+	.trSepcial th[rowspan] 
+	{
+		background:#91c5d4;
+	}
+
+	.trSepcial
+	{
+		text-align:center;
+		background:#d5eaf0;
+	}

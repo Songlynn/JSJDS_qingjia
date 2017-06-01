@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "密码管理";
+}
+
+@section head{
+    <link href="~/Content/css/password_stu.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script src="~/Content/layer/layer.js"></script>
+    <script>
+        $('input#newpsd2').on("change", function () {
+            var psd = $('#newpsd').val();
+            var psd2 = $('#newpsd2').val();
+            if (psd != psd2) {
+                notify('两次输入的新密码不同',0);
+                $("#newpsd").val("");
+                $("#newpsd2").val("");
+            }
+        });
+
+        $('input[name=savePsdChange]').on("click", function (event) {
+            //alert('修改密码');
+            ChangeClick();
+            //取消事件
+            event.preventDefault();
+        });
+
+        $('input[name=savePsdProtect]').on("click", function (event) {
+            //alert('修改密保');
+            SecuritySet();
+            //取消事件
+            event.preventDefault();
+        });
+
+        function ChangeClick() {
+            var oldpsd = $("#oldpsd").val();
+            var newpsd = $("#newpsd").val();
+            var newpsd2 = $("#newpsd2").val();
+            if (oldpsd == "" || newpsd == "" || newpsd2 == "") {
+                notify('存在未填项',0);
+                return false;
+            }
+            if (newpsd != newpsd2) {
+                notify('两次输入的新密码不同',0);
+                $("#newpsd").val("");
+                $("#newpsd2").val("");
+                return false;
+            }
+            $.ajax({
+                //注意URL的格式
+                url: '/Password/Password/ChangePsd?oldPsd=' + oldpsd + '&newPsd=' + newpsd,
+                success: function (response) {
+                    if (response == "修改密码成功！") {
+                        notify(response, 1);
+                    }
+                    else {
+                        notify(response, 2);
+                    }
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //此处需要取消默认事件
+        function SecuritySet() {
+            var Q1 = $("#Q1").val();
+            var A1 = $("#A1").val();
+            var Q2 = $("#Q2").val();
+            var A2 = $("#A2").val();
+            var Q3 = $("#Q3").val();
+            var A3 = $("#A3").val();
+
+            if (Q1 != "") {
+                if (A1 == "") {
+                    notify("答案一不能为空！",0);
+                    event.preventDefault();
+                    return false;
+                }
+                else {
+                    //密保验证问题一
+                }
+            }
+            if (Q2 != "") {
+                if (A2 == "") {
+                    notify("答案二不能为空！",0);
+                    event.preventDefault();
+                    return false;
+                }
+                else {
+                    //密保验证问题二
+                }
+            }
+            if (Q3 != "") {
+                if (A3 == "") {
+                    notify("答案三不能为空！",0);
+                    event.preventDefault();
+                    return false;
+                }
+                else {
+                    //密保验证问题三
+                }
+            }
+            if (Q1 == "" && Q2 == "" && Q3 == "") {
+                notify("未输入任何内容！",0);
+                event.preventDefault();
+                return false;
+            }
+
+            $.ajax({
+                //注意URL的格式
+                url: '/Password/Password/SecuritySet?Q1=' + Q1 + '&A1=' + A1 + '&Q2=' + Q2 + '&A2=' + A2 + '&Q3=' + Q3 + '&A3=' + A3,
+                success: function (response) {
+                    notify(response, 1);
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>    
+}
+
+@section body{
+    <div class="main">
+        <div class="main-title">
+            <h2>密码管理</h2>
+        </div>
+        <div class="main-content">
+            <div class="content-block psd-change">
+                <div class="content-title">
+                    <img src="~/Content/image/password-stu-change.png">
+                    <span>密码修改</span>
+                </div>
+                <form class="form-horizontal" role="form">
+                    <div class="content">
+                        <div class="form-group">
+                            <label for="oldpsd">旧登录密码：</label>
+                            <div>
+                                <input type="password" class="form-control" id="oldpsd" placeholder="**********" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newpsd">新登录密码：</label>
+                            <div>
+                                <input type="password" class="form-control" id="newpsd" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newpsd2">新登录密码确认：</label>
+                            <div>
+                                <input type="password" class="form-control" id="newpsd2" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-save">
+                        <input type="image" name="savePsdChange" src="~/Content/image/password-stu-1.png">
+                    </div>
+                </form>
+            </div>
+            <div class="content-block psd-protect">
+                <div class="content-title">
+                    <img src="~/Content/image/password-stu-protect.png">
+                    <span>密保设置</span>
+                </div>
+                <form class="form-horizontal" role="form">
+                    <div class="content">
+                        @Html.Action("GetSecurity")
+                    </div>
+                    <div class="content-save">
+                        <input type="image" name="savePsdProtect" src="~/Content/image/password-stu-2.png">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+

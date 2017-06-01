@@ -1,0 +1,46 @@
+﻿@model IEnumerable<qingjia_MVC.Controllers.BatchModel>
+@{
+    Layout = null;
+}
+
+
+<div class="night">
+    <div class="content-title">
+        <img src="~/Content/image/default-teacher-title3.png">
+        <span>晚点名信息</span>
+        <input type="image" class="detail" src="~/Content/image/help.png">
+    </div>
+    <div class="content">
+        <input type="image" name="night" src="~/Content/image/default-teacher-getnamelist.png">
+        <div class="form-group">
+            <label class="control-label">请假截止时间：</label>
+            <span class="form-control-static">@ViewBag.NightDeadLine</span>
+        </div>
+        <table class="nightlist table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>批次</th>
+                    <th>时间</th>
+                    <th>地点</th>
+                    <th>班级</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr class="active">
+                            <td>@item.batchName</td>
+                            <td>@item.batchTime</td>
+                            <td>@item.batchLoacation</td>
+                            <td>
+                                @foreach (var className in item.batchClass)
+                                {
+                                    @className
+                                }
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "个人信息";
+    var F = @Html.F();
+}file
+
+@section head{
+    <link href="~/Content/css/personal_stu.css" rel="stylesheet" />
+}
+
+@section script{
+    <script src="~/Content/layer/layer.js"></script>
+    <script>
+        $(document).ready(function () {
+            //输入事件
+            $('.main-content').on('keyup', 'input[name="ST_Tel"]', function () {
+                var Tel = $('input[name=ST_Tel]').val();
+                setTimeout("checkTel(" + Tel + ")", 1000);
+            });
+
+            //输入事件
+            $('.main-content').on('keyup', 'input[name="ST_Email"]', function () {
+                var Email = $('input[name=ST_Email]').val();
+                setTimeout("checkEmail(" + Email + ")", 1000);
+            });
+
+            //$('input[name=submit]').on('click', function (event) {
+            //    //alert('保存事件');
+            //    event.preventDefault();
+            //    var Tel = $('input[name="ST_Tel"]').val();
+            //    var Email = $('input[name="ST_Email"]').val();
+            //    if (!checkTel(Tel) || !checkEmail(Email)) {
+            //        return false;
+            //    }
+            //});
+        });
+        $('input[name="ST_Tel"]').on("blur", function () {
+            var Tel = $(this).val();
+            checkTel(Tel);
+        });
+        $('input[name="ST_Email"]').on("blur", function () {
+            var Email = $(this).val();
+            checkEmail(Email);
+        });
+
+        function checkTel(Tel) {
+            if (Tel == "") {
+                notify('电话号码必须填写！', 0);
+                return false;
+            }
+            var re = /^1\d{10}$/;
+            if (re.test(Tel)) {
+                return true;
+            } else {
+                notify('电话号码格式错误！', 0);
+                return false;
+            }
+        }
+
+        function checkEmail(Email) {
+            if (Email == "") {
+                notify('邮件必须填写！', 0);
+                return false;
+            }
+            var reg = /^(\w)+(\.\w+)*@@(\w)+((\.\w+)+)$/;
+            if (re.test(Email)) {
+                return true;
+            }
+            else {
+                notify('邮件格式错误！', 0);
+                return false;
+            }
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+</script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>个人基本信息</h2>
+    </div>
+    <div class="main-content">
+@using (Html.BeginForm("EditUserInfo", "UserInfo", FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+        @*<form class="form-horizontal" role="form" enctype="multipart/form-data">*@
+            <div class="personal">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr class="basic">
+                            <td>
+                                <label>学号：</label>
+                                <span class="form-control-static">@ViewBag.ST_NUM</span>
+                            </td>
+                            <td>
+                                <label>名字：</label>
+                                <span class="form-control-static">@ViewBag.ST_Name</span>
+                            </td>
+                        </tr>
+                        <tr class="basic">
+                            <td>
+                                <label>班级：</label>
+                                <span class="form-control-static">@ViewBag.ST_CLASS</span>
+                            </td>
+                            <td>
+                                <label>性别：</label>
+                                <span class="form-control-static" style="text-indent: 1em;">@ViewBag.ST_SEX</span>
+                            </td>
+                        </tr>
+                        <tr class="basic">
+                            <td>
+                                <label>寝室：</label>
+                                <span class="form-control-static">@ViewBag.ST_Door</span>
+                            </td>
+                            <td>
+                                <label>辅导员：</label>
+                                <span class="form-control-static">@ViewBag.Teacher</span>
+                            </td>
+                        </tr>
+                        <tr class="spilt">
+                            <td colspan="2"><img src="~/Content/image/personal-spilt1.png"></td>
+                        </tr>
+                        <tr class="contact">
+                            <td colspan="2">
+                                <label for="Phone" class="col-sm-2 control-label">手机：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="ST_Tel" value="@ViewBag.ST_Tel" required />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="contact">
+                            <td colspan="2">
+                                <label for="QQid" class="col-sm-2 control-label">QQ：</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="ST_QQ" value="@ViewBag.ST_QQ" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="contact">
+                            <td colspan="2">
+                                <label for="Email" class="col-sm-2 control-label">Email：</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" name="ST_Email" value="@ViewBag.ST_Email" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spilt">
+                            <td colspan="2">
+                                <img src="~/Content/image/personal-spilt2.png">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table parents">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <th>姓名</th>
+                            <th>社会关系</th>
+                            <th>联系方式</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="text" class="form-control" name="ST_ContactName1" value="@ViewBag.RelationName1" placeholder="联系人姓名" required></td>
+                            <td><input type="text" class="form-control" name="ST_ContactRelation1" value="@ViewBag.Relation1" placeholder="与联系人的关系" required></td>
+                            <td><input type="text" class="form-control" name="ST_ContactTel1" value="@ViewBag.RelationTel1" placeholder="联系人的联系方式" required></td>
+                        </tr>
+                        <tr>
+                            <th>联系人：&nbsp;&nbsp;</th>
+                            <td><input type="text" class="form-control" name="ST_ContactName2" value="@ViewBag.RelationName2" placeholder="联系人姓名"></td>
+                            <td><input type="text" class="form-control" name="ST_ContactRelation2" value="@ViewBag.Relation2" placeholder="与联系人的关系"></td>
+                            <td><input type="text" class="form-control" name="ST_ContactTel2" value="@ViewBag.RelationTel2" placeholder="联系人的联系方式"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="text" class="form-control" name="ST_ContactName3" value="@ViewBag.RelationName3" placeholder="联系人姓名"></td>
+                            <td><input type="text" class="form-control" name="ST_ContactRelation3" value="@ViewBag.Relation3" placeholder="与联系人的关系"></td>
+                            <td><input type="text" class="form-control" name="ST_ContactTel3" value="@ViewBag.RelationTel3" placeholder="联系人的联系方式"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="save">
+                    <input type="image" name="submit" src="~/Content/image/button-save.png">
+                </div>
+            </div>
+        @*</form>*@
+}
+    </div>
+</div>
+}

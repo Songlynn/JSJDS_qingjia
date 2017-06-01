@@ -1,0 +1,1223 @@
+﻿@model IEnumerable<qingjia_MVC.Areas.Leave.Controllers.LL_Table>
+@{
+    Layout = null;
+    var LeaveType = ViewBag.condition;
+    var search = "";
+    if (ViewBag.SearchText == "" || ViewBag.SearchText == null)
+    {
+        search = "";
+    }
+    else
+    {
+        search = ViewBag.SearchText;
+    }
+    var date = DateTime.Now.Date;
+}
+
+<div class="main-tab">
+    <input type="hidden" id="roleid" value="@ViewBag.RoleID" />
+    <ul class="nav nav-pills" id="mainTab">
+        @if (LeaveType == "AllLeave")
+        {
+            <li class="active">
+                <a href="#AllLeave" onclick="get('AllLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    全部请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#AllLeave" onclick="get('AllLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    全部请假
+                </a>
+            </li>
+        }
+        @if (LeaveType == "ShortLeave")
+        {
+            <li class="active">
+                <a href="#ShortLeave" onclick="get('ShortLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    短期请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#ShortLeave" onclick="get('ShortLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    短期请假
+                </a>
+            </li>
+        }
+        @if (LeaveType == "LongLeave")
+        {
+            <li class="active">
+                <a href="#LongLeave" onclick="get('LongLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    长期请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#LongLeave" onclick="get('LongLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    长期请假
+                </a>
+            </li>
+        }
+        @if (LeaveType == "VacationLeave")
+        {
+            <li class="active">
+                <a href="#VacationLeave" onclick="get('VacationLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    节假日去向
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#VacationLeave" onclick="get('VacationLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    节假日去向
+                </a>
+            </li>
+        }
+        @if (LeaveType == "NightLeave")
+        {
+            <li class="active">
+                <a href="#NightLeave" onclick="get('NightLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    晚点名请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#NightLeave" onclick="get('NightLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    晚点名请假
+                </a>
+            </li>
+        }
+        @if (LeaveType == "LessonLeave")
+        {
+            <li class="active">
+                <a href="#LessonLeave" onclick="get('LessonLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    上课请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#LessonLeave" onclick="get('LessonLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    上课请假
+                </a>
+            </li>
+        }
+        @if (LeaveType == "ReviewLeave")
+        {
+            <li class="active">
+                <a href="#ReviewLeave" onclick="get('ReviewLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    早晚自习请假
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="#ReviewLeave" onclick="get('ReviewLeave')" data-toggle="pill">
+                    <span>&nbsp;</span>
+                    早晚自习请假
+                </a>
+            </li>
+        }
+    </ul>
+    @*<hr />*@
+    <div class="tab-content" id="myTabContent">
+        @if (LeaveType == "AllLeave")
+        {
+            <div class="tab-pane fade in active" id="AllLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed all">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>@LL.ID</td>
+                                    <td>
+                                        @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                        {
+                                            <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                        }
+                                        else
+                                        {
+                                            <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                        }
+                                    </td>
+                                    <td>
+                                        @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                        {
+                                            <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                        }
+                                        else
+                                        {
+                                            <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                        }
+                                    </td>
+                                    <td>@LL.AuditState</td>
+                                    <td><span>@LL.ST_Name</span></td>
+                                    <td><span>@LL.ST_Class</span></td>
+                                    @if (LL.LeaveType == "短期请假" || LL.LeaveType == "长期请假" || LL.LeaveType.StartsWith("节假日"))
+                                    {
+                                        <td>@LL.LeaveType</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length-4)</td>
+                                    }
+                                    <td>
+                                        <span class="reason">
+                                            @LL.Reason
+                                        </span>
+                                    </td>
+                                    <td>@LL.SubmitTime</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="AllLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed all">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>@LL.ID</td>
+                                    <td>
+                                        @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                        {
+                                            <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                        }
+                                        else
+                                        {
+                                            <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                        }
+                                    </td>
+                                    <td>
+                                        @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                        {
+                                            <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                        }
+                                        else
+                                        {
+                                            <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                        }
+                                    </td>
+                                    <td>@LL.AuditState</td>
+                                    <td><span>@LL.ST_Name</span></td>
+                                    <td><span>@LL.ST_Class</span></td>
+                                    @if (LL.LeaveType == "短期请假" || LL.LeaveType == "长期请假" || LL.LeaveType.StartsWith("节假日"))
+                                    {
+                                        <td>@LL.LeaveType</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                    }
+                                    <td>
+                                        <span class="reason">
+                                            @LL.Reason
+                                        </span>
+                                    </td>
+                                    <td>@LL.SubmitTime</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (LeaveType == "ShortLeave")
+        {
+            <div class="tab-pane fade in active" id="ShortLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType == "短期请假")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="ShortLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType == "短期请假")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (LeaveType == "LongLeave")
+        {
+            <div class="tab-pane fade in active" id="LongLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType == "长期请假")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="LongLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed short">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType == "长期请假")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (LeaveType == "VacationLeave")
+        {
+            <div class="tab-pane fade in active" id="VacationLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed vacation">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="VacationLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed vacation">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (LeaveType == "NightLeave")
+        {
+            <div class="tab-pane fade in active" id="NightLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed night">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="NightLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed night">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        @if (LeaveType == "LessonLeave")
+        {
+            <div class="tab-pane fade in active" id="LessonLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed lesson">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="LessonLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" onclick="SearchClick()" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" value="@search" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed lesson">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <!--早晚自习请假-->
+        @if (LeaveType == "ReviewLeave")
+        {
+            <div class="tab-pane fade in active" id="ReviewLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed lesson">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自习")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane fade" id="ReviewLeave">
+                <div class="tab-toollist">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <input type="image" name="search" src="~/Content/image/audit-search.png">
+                        </span>
+                        <input type="text" id="condition" placeholder="请输入搜索内容">
+                        <span class="input-group-btn cancel">
+                            <input type="image" src="~/Content/image/cancel.png">
+                        </span>
+                    </div>
+                </div>
+                <div class="leavelist">
+                    <table class="table table-condensed lesson">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>请假单号</th>
+                                <th>撤回</th>
+                                <th>请假条</th>
+                                <th>状态</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>请假类型</th>
+                                <th>请假原因</th>
+                                <th>请假时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var LL in Model)
+                            {
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自习")
+                                {
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>@LL.ID</td>
+                                        <td>
+                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
+                                            {
+                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
+                                            }
+                                        </td>
+                                        <td>
+                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
+                                            {
+                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
+                                            }
+                                            else
+                                            {
+                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
+                                            }
+                                        </td>
+                                        <td>@LL.AuditState</td>
+                                        <td><span>@LL.ST_Name</span></td>
+                                        <td><span>@LL.ST_Class</span></td>
+                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
+                                        <td>
+                                            <span class="reason">
+                                                @LL.Reason
+                                            </span>
+                                        </td>
+                                        <td>@LL.SubmitTime</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

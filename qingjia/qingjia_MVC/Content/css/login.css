@@ -1,0 +1,96 @@
+﻿.background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-width:850px;
+    min-height:600px;
+}
+.background img{
+    width: 100%;
+    height: 100%;
+}
+.main{
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+    width: 100%;
+    height: auto;
+    min-width:850px;
+    position: absolute;
+    top:10%;
+}
+.main .main-title{
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.main .main-title img{
+    width: 500px;
+}
+.main .main-content{
+    width: 35%;
+    min-width: 400px;
+    margin: 0 auto;
+    padding: 40px 30px 10px;
+    background-color: white;
+    border:4px solid rgb(190,235,233);
+    border-radius:10px;
+}
+.main .main-content .form-group{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 40px;
+    position: relative;
+    left: 15px;
+}
+.main .main-content .form-group label img{
+    width: 40px;
+}
+.main .main-content .form-group input.form-control{
+    width: 80%;
+    height: 40px;
+    background-color: transparent;
+    position: absolute;
+    top: 0px;
+    left: 60px;
+    border-width: 2px;
+    border-radius: 10px;
+    font-size:1em;
+}
+.main .main-content .login{
+    width: 100%;
+    text-align: center;
+}
+.main .main-content .login input{
+    width:200px;
+    height:50px;
+    border-radius:15px;
+    background-color: rgb(149,112,86);
+    font-size:1.4em;
+    font-weight:bolder;
+    color:#ffffff;
+}
+.main .main-content .login input:hover{
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 7, 0, 0.294);
+}
+.main .main-content .login input:focus{
+    outline:none;
+}
+.main .main-content .forget{
+    width: 100%;
+    height: 30px;
+    text-align: right;
+    margin-top: 30px;
+}
+.main .main-content .forget img{
+    height: 25px;
+}
+.main .main-content .forget a{
+    width: auto;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    right: 5px;
+}

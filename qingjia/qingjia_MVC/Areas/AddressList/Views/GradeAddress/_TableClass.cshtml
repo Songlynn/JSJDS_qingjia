@@ -1,0 +1,159 @@
+﻿@model IEnumerable<qingjia_MVC.Models.vw_Student>
+@{
+    var classname = ViewBag.ClassName;
+    var exist = ViewBag.Exist;
+    var n = 1;
+    var search = ViewBag.SearchText;
+    var role = ViewBag.RoleID;
+}
+<div class="content-title">
+    <h3>@classname</h3>
+    @if (search == "" || search == null)
+    {
+        <div class="input-group">
+            <span class="input-group-btn">
+                <input type="image" name="search" src="~/Content/image/audit-search.png">
+            </span>
+            <input type="text" value="" placeholder="搜索学号、姓名、宿舍">
+            <span class="input-group-btn cancel">
+                <input type="image" src="~/Content/image/cancel.png">
+            </span>
+        </div>
+    }
+    else
+    {
+        <div class="input-group">
+            <span class="input-group-btn">
+                <input type="image" name="search" src="~/Content/image/audit-search.png">
+            </span>
+            <input type="text" value="@search" placeholder="搜索学号、姓名、宿舍">
+            <span class="input-group-btn cancel">
+                <input type="image" src="~/Content/image/cancel.png">
+            </span>
+        </div>
+    }
+</div>
+@*<div class="content" id="content">*@
+<div class="content">
+    @if (exist == 1)
+    {
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>宿舍</th>
+                    <th>手机</th>
+                    @*<th>QQ</th>
+                    <th>邮箱</th>*@
+                    @if (role != "3")
+                    {
+                        <th>QQ</th>
+                        <th>邮箱</th>
+                        <th>&nbsp;</th>
+                    }
+                    else
+                    {
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    }
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td>@(n++)</td>
+                        <td>@student.ST_Num</td>
+                        <td>@student.ST_Name</td>
+                        <td>@student.ST_Sex</td>
+                        <td>@student.ST_Dor</td>
+                        <td>@student.ST_Tel</td>
+                        @*<td>@student.ST_QQ</td>
+                        <td>@student.ST_Email</td>*@
+                        @if (role != "3")
+                        {
+                            <td>@student.ST_QQ</td>
+                            <td>@student.ST_Email</td>
+                            <td>&nbsp;</td>
+                        }
+                        else
+                        {
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        }
+                        
+                    </tr>
+                    <tr class="expand">
+                        <td>&nbsp;</td>
+                        <td colspan="8">
+                            <table class="detail">
+                                <tbody>
+                                    <tr>
+                                        @if (student.ContactOne != "" && student.OneTel != "")
+                                        {
+                                            <th>联系人：</th>
+                                            <td>@student.ContactOne@student.OneTel</td>
+                                        }
+                                        @if (student.ContactTwo != "" && student.TwoTel != "")
+                                        {
+                                            <th>联系人：</th>
+                                            <td>@student.ContactTwo@student.TwoTel</td>
+                                        }
+                                    </tr>
+                                    @if (student.ContactThree != "" && student.ThreeTel != "")
+                                    {
+                                        <tr>
+                                            <th>联系人：</th>
+                                            <td>@student.ContactThree@student.ThreeTel</td>
+                                            <th>&nbsp;</th>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9">
+                        <ul class="pagination">
+                            <li>
+                                <a>首页</a>
+                            </li>
+                            <li>
+                                <a>&laquo;</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>&raquo;</a>
+                            </li>
+                            <li>
+                                <a>尾页</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <div>
+            无记录
+        </div>
+    }
+</div>

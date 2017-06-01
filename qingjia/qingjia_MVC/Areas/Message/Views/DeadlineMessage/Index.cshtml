@@ -1,0 +1,336 @@
+﻿@{
+    ViewBag.Title = "Index";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/deadline.css" rel="stylesheet" type="text/css">
+<style>
+    .f-field-triggerbox-icons {
+        margin-right: 8px;
+    }
+    .f-inline-block{
+             width:80%;
+        }
+        .f-field-datepicker-wrap,
+        .f-field-timepicker-wrap{
+            width:100%;
+        }
+        .f-field-datepicker-wrap div.f-field-triggerbox-icons{
+            display:none;
+        }
+        .f-field-timepicker-wrap div.f-field-triggerbox-icons{
+            display:block;
+        }
+        input{
+            outline:none;
+        }
+</style>
+}
+
+@section script{
+    <script src="~/Content/layer/layer.js"></script>
+    <script>
+        //保存晚点名截止时间设置
+        $('input[name=NightSet]').on("click", function (event) {
+            var dpNight = document.getElementById("dpNight-inputEl").value;
+            var tpNight = document.getElementById("tpNight-inputEl").value;
+
+            //alert(dpNight);
+            //alert(tpNight);
+            $.ajax({
+                //注意URL格式
+                url: '/Message/DeadlineMessage/btnNight_Click?dpNight=' + dpNight + '&tpNight=' + tpNight,
+                success: function (response) {
+                    if (response != "") {
+                        notify(response, 1);
+                    }
+                    else {
+                        notify('修改失败！',0);
+                    }
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+
+            //取消事件
+            event.preventDefault();
+        });
+        //保存节假日设置
+        $('input[name=VacationSet]').on("click", function (event) {
+
+            var AutoAudit = 0;
+
+            var dpStart = $('#dpStart-inputEl').val();
+            var tpStart = $('#tpStart-inputEl').val();
+            
+            var dpEnd = $('#dpEnd-inputEl').val();
+            var tpEnd = $('#tpEnd-inputEl').val();
+
+            var dpDeadline = $('#dpDeadline-inputEl').val();
+            var tpDeadline = $('#tpDeadline-inputEl').val();
+
+            if ($('input:checkbox').is(':checked')) {
+                AutoAudit = 1;
+            }
+
+            if (dpStart == "" || tpStart == "" || dpEnd == "" || tpEnd == "" || dpDeadline == "" || tpDeadline == "") {
+                notify('存在未填项！',0);
+                event.preventDefault();
+                return;
+            }
+            if (dpStart > dpEnd) {
+                notify('开始时间不能大于结束时间！',0);
+                event.preventDefault();
+                return;
+            }
+            else if (dpStart == dpEnd) {
+                if (tpStart > tpEnd) {
+                    notify('开始时间不能大于结束时间！',0);
+                    event.preventDefault();
+                    return;
+                }
+            }
+            else {
+
+            }
+
+            var starttime = dpStart + " " + tpStart;
+            var endtime = dpEnd + " " + tpEnd;
+            var deadline = dpDeadline + " " + tpDeadline;
+
+            $.ajax({
+                //注意URL格式
+                url: '/Message/DeadlineMessage/btnVacation_Click?starttime=' + starttime + '&endtime=' + endtime + '&deadline=' + deadline + '&AutoAudit=' + AutoAudit,
+                success: function (response) {
+                    if (response != "") {
+                        notify(response, 1);
+                    }
+                    else {
+                        notify('修改失败！',0);
+                    }
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+
+            event.preventDefault();
+        });
+        
+        function checkDate() {
+            var start = $('input[name="dpStart"]').val();
+            var end = $('input[name="dpEnd"]').val();
+            var deadline = $('input[name="dpDeadline"]').val();
+            var notes = "";
+            var flag = 0;
+            if (start != "" && end != "") {
+                if (start > end) {
+                    notes = notes + "假期结束日期应晚于假期开始日期";
+                    $('#dpEnd').find('.f-field-error-cell').show().css({ "margin-top": "7px", "margin-left": "5px" });
+                    //$('#dpEnd').addClass("active");
+                    flag = 1;
+                }
+                else {
+                    $('#dpEnd').find('.f-field-error-cell').hide();
+                }
+            }
+            if (start != "" && deadline != "") {
+                if (start < deadline) {
+                    if (flag == 1) {
+                        notes += "，<br />且";
+                    }
+                    notes += "节假日去向填写截止时间应早于假期开始时间";
+                    $('#dpDeadline').find('.f-field-error-cell').show().css({ "margin-top": "5px", "margin-left": "5px" });
+                }
+                else {
+                    $('#dpDeadline').find('.f-field-error-cell').hide();
+                }
+            }
+            notify(notes,0);
+        }
+        
+
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+
+    </script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>截止时间设置</h2>
+    </div>
+    <div class="main-content">
+        <div class="content-left">
+            <div class="content-title">
+                <img src="~/Content/image/deadline-title.png">
+                <img src="~/Content/image/deadline-spilt1.png">
+            </div>
+            <div class="night">
+                <form role="form" name="form-night">
+                    <h3 class="title">晚点名</h3>
+                    <div class="form-group">
+                        <label>请假截止时间:</label>
+                        <div class="input-group">
+                            <img src="~/Content/image/input-date.png" />
+                            @(F.DatePicker()
+                                    .ID("dpNight")
+                                    .Required(true)
+                                    .ShowLabel(false)
+                                    .DateFormatString("yyyy-MM-dd")
+                                    .ShowRedStar(false)
+                                    .EnableEdit(false)
+                                    .MinDate(DateTime.Now)
+                                    .Text(ViewBag.DateNight)
+                            )
+                        </div>
+                        <div class="input-group">
+                            <img src="~/Content/image/input-time.png" />
+                            @(F.TimePicker()
+                                    .ID("tpNight")
+                                    .Required(true)
+                                    .Increment(30)
+                                    .MinTimeText("9:00")
+                                    .MaxTimeText("21:00")
+                                    .EnableEdit(false)
+                                    .ShowRedStar(false)
+                                    .ShowLabel(false)
+                                    .Text(ViewBag.TimeNight)
+                            )
+                        </div>
+                    </div>
+                    <div class="submit">
+                        <input type="image" name="NightSet" src="~/Content/image/deadline-save.png">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="content-spilt">
+            <img src="~/Content/image/deadline-spilt2.png">
+            <img src="~/Content/image/deadline-spilt3.png">
+        </div>
+        <div class="content-right">
+            <form role="form" name="form-vacation">
+                <h3 class="title">节假日</h3>
+                <div class="form-group">
+                    <label>假期开始:</label>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-date.png" />
+                        @*<input class="form-control" type="text" required />*@
+                        @(F.DatePicker()
+                                    .ID("dpStart")
+                                    .Required(true)
+                                    .ShowLabel(false)
+                                    .DateFormatString("yyyy-MM-dd")
+                                    .ShowRedStar(false)
+                                    .EnableEdit(false)
+                                    .MinDate(DateTime.Now)
+                                    .Text(ViewBag.StartDate)
+                                    .OnClientBlur("checkDate()")
+                        )
+                    </div>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-time.png" />
+                        @*<input type="text" class="form-control" required>*@
+                        @(F.TimePicker()
+                                    .ID("tpStart")
+                                    .Required(true)
+                                    .Increment(30)
+                                    .MinTimeText("9:00")
+                                    .MaxTimeText("21:00")
+                                    .EnableEdit(false)
+                                    .ShowRedStar(false)
+                                    .ShowLabel(false)
+                                    .Text(ViewBag.StartTime)
+                        )
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>假期结束:</label>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-date.png" />
+                        @*<input class="form-control" type="text" required />*@
+                        @(F.DatePicker()
+                                    .ID("dpEnd")
+                                    .Required(true)
+                                    .ShowLabel(false)
+                                    .DateFormatString("yyyy-MM-dd")
+                                    .ShowRedStar(false)
+                                    .EnableEdit(false)
+                                    .MinDate(DateTime.Now)
+                                    .Text(ViewBag.EndDate)
+                                    .OnClientBlur("checkDate()")
+                        )
+                    </div>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-time.png" />
+                        @*<input type="text" class="form-control" required>*@
+                        @(F.TimePicker()
+                                    .ID("tpEnd")
+                                    .Required(true)
+                                    .Increment(30)
+                                    .MinTimeText("9:00")
+                                    .MaxTimeText("21:00")
+                                    .EnableEdit(false)
+                                    .ShowRedStar(false)
+                                    .ShowLabel(false)
+                                    .Text(ViewBag.EndTime)
+                        )
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>节假日去向填写截止时间:</label>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-date.png" />
+                        @*<input class="form-control" type="text" required />*@
+                        @(F.DatePicker()
+                                    .ID("dpDeadline")
+                                    .Required(true)
+                                    .ShowLabel(false)
+                                    .DateFormatString("yyyy-MM-dd")
+                                    .ShowRedStar(false)
+                                    .EnableEdit(false)
+                                    .MinDate(DateTime.Now)
+                                    .Text(ViewBag.DateVacation)
+                                    .OnClientBlur("checkDate()")
+                        )
+                    </div>
+                    <div class="input-group">
+                        <img src="~/Content/image/input-time.png" />
+                        @*<input type="text" class="form-control" required>*@
+                        @(F.TimePicker()
+                                    .ID("tpDeadline")
+                                    .Required(true)
+                                    .Increment(30)
+                                    .MinTimeText("9:00")
+                                    .MaxTimeText("21:00")
+                                    .EnableEdit(false)
+                                    .ShowRedStar(false)
+                                    .ShowLabel(false)
+                                    .Text(ViewBag.TimeVacation)
+                        )
+                    </div>
+                </div>
+                <label class="checkbox-inline">
+                    <input type="checkbox">节假日离校时间在规定时间内时，自动通过申请
+                </label>
+                <div class="submit">
+                    <input type="image" name="VacationSet" src="~/Content/image/deadline-save.png">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}
+

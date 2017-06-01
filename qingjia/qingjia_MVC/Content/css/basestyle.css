@@ -1,0 +1,37 @@
+.ui-widget-content{
+    background-color:rgb(240,243,244);
+}
+body{
+    -moz-user-select:none;/*»ðºü*/
+    -webkit-user-select:none;/*webkitä¯ÀÀÆ÷*/
+    -ms-user-select:none;/*IE10*/
+    user-select:none;
+    cursor:default;
+}
+*, *::after, *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /*font-family: KaiTi ;
+    font-size: 16px;*/
+    /*color: rgb(55, 52, 50);*/
+}
+a {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover {
+    text-decoration: none;
+}
+.text-display{
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+input[type=image]:focus{
+    outline:none;
+}
+input[type=text]:focus{
+    outline:none;
+}

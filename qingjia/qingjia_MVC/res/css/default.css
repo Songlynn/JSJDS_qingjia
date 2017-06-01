@@ -1,0 +1,160 @@
+﻿#header table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+    #header table td {
+        padding: 0;
+    }
+
+#header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+
+
+
+#header .f-btn {
+    border-width: 0;
+    padding: 10px;
+}
+
+#header .icontopaction .f-btn-icon {
+    width: 22px;
+    font-size: 22px;
+    line-height: 22px;
+    height: 22px;
+}
+
+#header .icontopaction .f-btn-text {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+
+#header .icononlyaction .f-btn-icon,
+#header .icononlyaction .f-btn-text {
+    font-size: 30px;
+    line-height: 40px;
+    height: 40px;
+}
+
+
+#header .userpicaction .f-btn-icon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+#header .userpicaction .f-btn-text {
+    margin-left: 8px;
+    font-size: 14px;
+    line-height: 40px;
+}
+
+
+ul.list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    ul.list li {
+        margin-bottom: 5px;
+    }
+
+
+.iscorp {
+    color: red;
+    font-size: 11px;
+}
+
+.bottomtable {
+    width: 100%;
+    font-size: 12px;
+}
+
+
+.tabtool.viewcode .ui-icon {
+    font-weight: bold;
+}
+
+
+ul.applytrial {
+    list-style-type: none;
+    margin: 10px 0 0 10px;
+    border-left-width: 1px;
+    border-left-style: dashed;
+    padding-left: 15px;
+}
+
+    ul.applytrial li {
+        padding: 1px 0;
+    }
+
+
+
+/* 左侧智能树菜单的微型模式 */
+.minimodeinside > .f-panel-header {
+    padding: 8px 10px 7px;
+}
+
+    .minimodeinside > .f-panel-header .f-panel-title {
+        display: none;
+    }
+
+
+    .minimodeinside > .f-panel-header .f-panel-tools {
+        position: static;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+        .minimodeinside > .f-panel-header .f-panel-tools .f-tool {
+            margin: 0;
+        }
+
+        .minimodeinside > .f-panel-header .f-panel-tools .f-tool-icon {
+            font-size: 20px;
+            min-width: 20px;
+        }
+
+        .minimodeinside > .f-panel-header .f-panel-tools .f-tool-text {
+            display: none;
+        }
+
+
+/* 大字体模式 */
+.f-largemode .minimodeinside > .f-panel-header {
+    padding-top: 10px;
+    padding-bottom: 9px;
+}
+
+    .f-largemode .minimodeinside > .f-panel-header .f-panel-tools .f-tool-icon {
+        font-size: 26px;
+        min-width: 26px;
+    }
+
+
+/* 紧凑模式 */
+.f-compactmode .minimodeinside > .f-panel-header {
+    padding-top: 5px;
+    padding-bottom: 4px;
+}
+
+    .f-compactmode .minimodeinside > .f-panel-header .f-panel-tools .f-tool-icon {
+        font-size: 18px;
+        min-width: 18px;
+    }
+
+
+
+
+

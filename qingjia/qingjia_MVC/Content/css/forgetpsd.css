@@ -1,0 +1,254 @@
+﻿body{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 750px;
+    margin: 50px auto 0;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    text-align: center;
+    color: rgb(238, 194, 115);
+}
+.main .main-content{
+    width: 90%;
+    margin: 0 auto;
+}
+.main .main-content .first-show{
+    width: 100%;
+    position: relative;
+}
+.first-show input[type=text]{
+    width: 300px;
+    height: 40px;
+    margin: 60px auto;
+    border-radius: 15px;
+    border-width: 2px;
+}
+.first-show input[type=image]{
+    width: 200px;
+}
+.first-show input[type=image]:nth-child(3){
+    float: right;
+}
+.first-show .return{
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+}
+.main .main-content .content{
+    width: 100%;
+    display: none;
+}
+.content .nav{
+    width: 100%;
+}
+.content .nav >li:nth-child(2){
+    float: right;
+}
+.content .nav li img{
+    height: 40px;
+}
+.nav > li > a{
+    background: transparent;
+}
+.nav > li > a:hover,
+.nav > li > a:focus{
+    background: transparent;
+}
+.nav > li > a:hover img,
+.nav > li > a:focus img{
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 7, 0, 0.294);
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus{
+    background: transparent;
+}
+.nav-pills > li.active > a img,
+.nav-pills > li.active > a:hover img,
+.nav-pills > li.active > a:focus img{
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 7, 0, 0.294);
+}
+.content .tab-content .tab-pane{
+    margin-top: 20px;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+.tab-pane .content-title{
+    width: 100%;
+    height: 35px;
+    padding: 5px 20px 5px 10px;
+    background-color: rgb(238, 238, 238);
+    vertical-align: middle;
+    border-radius: 10px;
+    position: relative;
+}
+.tab-pane .content-title img{
+    width: 25px;
+    height: 25px;
+}
+.tab-pane .content-title img.title-middle{
+    width: 150px;
+    height: 25px;
+    position: absolute;
+    top: 5px;
+    right: 150px;
+}
+.tab-pane .content-title img.title-right{
+    float: right;
+}
+.tab-pane .content-container{
+    width: 80%;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+.tab-pane:nth-child(2) .content-container{
+    margin-bottom: 20px;
+}
+.content-container .form-group{
+    width: 100%;
+    height: 35px;
+    margin-bottom: 30px;
+    position: relative;
+}
+.content-container .form-group label{
+    width: 120px;
+}
+.tab-pane:nth-child(1) .content-container .form-group label{
+    color: rgb(190,192,90);
+}
+.tab-pane:nth-child(2) .content-container .form-group label{
+    color: rgb(0,96,85);
+}
+.content-container .form-group input[type=text]{
+    width: 60%;
+    position: absolute;
+    top: 0;
+    left: 120px;
+    border-radius: 15px;
+}
+.tab-pane .content-container .form-group input[type=text]:focus{
+    border: 2px solid rgb(190,192,90);
+}
+.content-container .form-group .btn{
+    margin-left: 50px;
+    border: 2px solid rgb(190,192,90);
+    border-radius: 0px;
+    outline: none;
+}
+.content-container .save{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+.content-container .save input{
+    width: 80px;
+}
+.tab-pane .password{
+    width: 100%;
+    margin: 40px auto;
+    font-weight: bolder;
+    display: none;
+}
+.tab-pane .password .password-title{
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+}
+.tab-pane .password .password-title img{
+    width: 20px;
+}
+.tab-pane:nth-child(1) .password span,
+.tab-pane:nth-child(1) .password p{
+    color: rgb(190,192,90);
+}
+.tab-pane:nth-child(2) .password span,
+.tab-pane:nth-child(2) .password p{
+    color: rgb(0,96,85);
+}
+.tab-pane .password .password-text{
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    font-size: larger;
+}
+.tab-pane .password a{
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+.tab-pane .password a:hover img,
+.tab-pane .password a:focus img{
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 7, 0, 0.294);
+}
+.tab-pane .password a img{
+    width: 150px;
+}
+.tab-pane .password p{
+    text-align: center;
+    margin-top: 5px;
+}
+.tab-pane .password .warning{
+    text-align: right;
+    margin-top: 40px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+.tab-pane .return{
+    text-indent: 1em;
+}
+.tab-pane:nth-child(1) .return a{
+    color: rgb(190,192,90);
+}
+.tab-pane:nth-child(2) .return a{
+    color: rgb(0,96,85);
+}
+.content-container .no-question{
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+.content-container .no-question img{
+    width: 150px;
+    margin-bottom: 30px;
+}
+.question{
+    width: 100%;
+    padding-bottom: 10px;
+    position: relative;
+}
+.question img{
+    width: 80px;
+    position: absolute;
+    top: -20px;
+    left: -50px;
+}
+.question .question-list{
+    width: 70%;
+    margin: 0 auto;
+}
+.question .question-list ul li:nth-child(odd){
+    margin-top: 10px;
+}
+.question-list ul li input[type=text]{
+    width: 100%;
+    height: 30px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #000000;
+    text-indent: 0.5em;
+}
+.question-list ul li input[type=text]:focus{
+    border-bottom: 2px solid rgb(0,96,85);
+}
+
+.content input[type=image]:hover,
+.content input[type=image]:focus{
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 7, 0, 0.294);
+}

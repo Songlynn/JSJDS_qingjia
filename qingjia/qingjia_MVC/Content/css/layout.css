@@ -1,0 +1,355 @@
+/* --------------------------------
+
+ Header
+
+-------------------------------- */
+.index-header {
+  background-color:  rgb(0,147,167);
+  box-shadow: 2.5px 4.33px 5px 0px rgba(0, 0, 0, 0.118);
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.index-header::before {
+  /* never visible - used in JS to check mq */
+  content: 'desktop';
+  /*content: 'mobile';*/
+  display: none;
+}
+.index-header h2{
+  position: relative;
+  left: 70px;
+  top:5px;
+  float: left;
+  margin:0;
+  cursor:pointer;
+  vertical-align:middle;
+}
+.index-header h2 img:nth-child(1){
+    height:40px;
+}
+.index-header h2 img:nth-child(2){
+    height:50px;
+    display:inline-block;
+    position:relative;
+    left:0px;
+}
+.index-header .header-nav {
+  width: auto;
+  height: 60px;
+  display: inline-block;
+  float: right;
+  position: relative;
+  right: 20px;
+
+}
+.index-header .header-nav > ul > li {
+  display: block;
+  width: 70px;
+  padding: 0;
+  text-align: center;
+  float: left;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+}
+.index-header.is-dropdown-visible .header-nav > ul > li > a {
+  /* main navigation hover effect - on hover, reduce opacity of elements not hovered over */
+  opacity: .6;
+}
+.index-header.is-dropdown-visible .header-nav > ul > li.active > a {
+  opacity: 1;
+}
+.index-header .header-nav > ul > li>a img{
+  height: 40px;
+  width: 40px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+.index-header .header-nav > ul > li.img-personal{
+  width: auto;
+}
+.index-header .header-nav > ul > li .stuname {
+  display: inline-block;
+  float: right;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 5px;
+  padding-top:10px;
+  color:white;
+}
+
+
+.index-header .nav-dropdown-wrapper {
+  display: block;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  box-shadow: inset 0 1px 0 #e6e6e6;
+  box-shadow: none;
+  background-color: transparent;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-transform: translateY(20px);
+  -ms-transform: translateY(20px);
+  transform: translateY(20px);
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+
+}
+.index-header.is-dropdown-visible .nav-dropdown-wrapper {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+.index-header .dropdown-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, width, height;
+  -webkit-transition: visibility .3s;
+  transition: visibility .3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+.index-header .dropdown-list::before {
+  /* dropdown top triangle */
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  height: 0;
+  width: 0;
+  border: 8px solid transparent;
+  border-bottom-color: #FFFFFF;
+  opacity: 0;
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
+}
+.index-header .dropdown-list > ul {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.index-header.is-dropdown-visible .dropdown-list {
+  visibility: visible;
+  -webkit-transition: width .3s, height .3s, -webkit-transform .3s;
+  transition: width .3s, height .3s, -webkit-transform .3s;
+  transition: transform .3s, width .3s, height .3s;
+  transition: transform .3s, width .3s, height .3s, -webkit-transform .3s;
+}
+.index-header.is-dropdown-visible .dropdown-list::before {
+  opacity: 1;
+}
+.index-header .dropdown {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  width: 100%;
+  -webkit-transition: opacity .3s, visibility .3s;
+  transition: opacity .3s, visibility .3s;
+}
+.index-header .dropdown.active {
+  opacity: 1;
+  visibility: visible;
+}
+.index-header .dropdown.move-right .content {
+  -webkit-transform: translateX(100px);
+  -ms-transform: translateX(100px);
+  transform: translateX(100px);
+}
+.index-header .content {
+  padding: 2.2em 1.8em;
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+  text-align: left;
+  background-color:white;
+}
+.index-header .content > ul::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+.index-header .content > ul > li {
+  /*width: 48%;*/
+  width:100px;
+  float: left;
+  /*margin-right: 4%;*/
+  margin-right:10px;
+  margin-top: 0;
+}
+.index-header .content > ul > li:nth-of-type(2n) {
+  margin-right: 0;
+}
+.index-header .img-message .content,
+.index-header .img-personal .content{
+  width: 170px;
+  height: auto;
+  padding: 10px 15px;
+}
+.index-header .img-message .content ul li,
+.index-header .img-personal .content ul li{
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  margin: 10px 0;
+}
+.index-header .img-message .content a,
+.index-header .img-personal .content a{
+  display: block;
+}
+.index-header .img-message .content .item_num{
+  background-color: #989aa7;
+  float: right;
+  width: 28px;
+  height: 1.2em;
+  line-height: 1.2em;
+  text-align: center;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.index-header .img-personal .nav-personal-exit{
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 15px;
+  text-align: right;
+  border-top: 1px solid #989aa7;
+  background-color:white;
+}
+.index-header .img-personal .nav-personal-exit a{
+  display: block;
+}
+/*.index-header .bg-layer {
+   morph dropdown background 
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 1px;
+  background: #FFFFFF;
+  opacity: 0;
+  -webkit-transition: opacity .3s;
+  transition: opacity .3s;
+  -webkit-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.index-header.is-dropdown-visible .bg-layer {
+  opacity: 1;
+  -webkit-transition: opacity .3s, -webkit-transform .3s;
+  transition: opacity .3s, -webkit-transform .3s;
+  transition: transform .3s, opacity .3s;
+  transition: transform .3s, opacity .3s, -webkit-transform .3s;
+}*/
+
+
+.menu-stu{
+  height: auto;
+  min-height: 380px;
+}
+.menu-stu ul{
+  position: absolute;
+  top: 50%;
+  margin-top: -190px;
+}
+.menu-stu ul li{
+  margin: 50px 0;
+}
+.menu-teacher{
+  height: auto;
+  min-height: 525px;
+}
+.menu-teacher ul{
+  position: absolute;
+  top: 50%;
+  margin-top: -250px;
+}
+.menu-teacher ul li{
+  margin: 5px 0;
+}
+.menu{
+  width: 60px;
+  background-color: rgb(113,199,213);
+  position:absolute;
+  top: 60px;
+  bottom: 0px;
+  left:0;
+  overflow:hidden;
+  -webkit-transition:width .2s linear;
+  transition:width .2s linear;
+  box-shadow: 2.5px 4.33px 5px 0px rgba(0, 0, 0, 0.3);
+  /*border-right: 1px solid rgb(118, 108, 98);*/
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.menu:hover {
+  width:200px;
+}
+.menu ul li a{
+  width: 200px;
+  height: 50px;
+  line-height: 40px;
+  vertical-align: middle;
+  display:table;
+  border-collapse:collapse;
+  border-spacing:0;
+  -webkit-transition:all .14s linear;
+  transition:all .14s linear;
+}
+.menu ul li:hover a,
+.menu ul li.active a{
+  color:#000;
+  background-color: #eeeeee;
+  text-shadow: 0;
+}
+.menu ul li a i{
+  width: 60px;
+  height: 50px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.menu ul li a i img{
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.menu ul li a span{
+  width: auto;
+  height: 50px;
+  line-height: 50px;
+  color:white;
+  display: inline-block;
+}
+.menu ul li:hover a span,
+.menu ul li.active a span{
+    color:#000;
+}

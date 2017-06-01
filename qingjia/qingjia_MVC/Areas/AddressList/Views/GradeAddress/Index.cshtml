@@ -1,0 +1,171 @@
+﻿@model IEnumerable<qingjia_MVC.Models.T_Student>
+
+@{
+    ViewBag.Title = "年级通讯录";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/address.css" type="text/css" rel="stylesheet">
+}
+
+@section script{
+    
+    @*<script id="tabletool" src="~/Content/js/tableTool.js"></script>*@
+    <script src="~/Content/js/pages.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.RoleID' != "3") {
+                $('.content-left').hide();
+                $('.content-right').css("margin", "0px");
+                //$('script[src="~/Content/js/tableTool.js"]').remove();
+            }
+            if ('@ViewBag.RoleID' == "3") {
+                $('#content').on("click", ".table>tbody>tr", function () {
+                    var detail = $(this);
+                    var expand = detail.next('tr');
+                    expand.siblings().filter('.expand').slideUp(50);
+                    expand.toggle('slow');
+                });
+
+            }
+            $('#content').on('keyup', '.content-title .input-group input:text', function () {
+                var input = $(this);
+                if (input.val() != "") {
+                    input.next().show();
+                }
+                if (input.val() == "") {
+                    input.next().hide();
+                }
+            });
+            //取消搜索
+            $('#content').on("click", ".content-title .input-group .cancel input:image", function () {
+                $(this).parent().prev().val("");
+                $(this).parent().hide();
+                $.ajax({
+                    //注意URL的格式
+                    url: '/AddressList/GradeAddress/_TableClass',
+                    success: function (response) {
+                        notify('取消搜索！',0);
+                        $("#content").html(response);
+                        var tr = $('.table>tbody>tr');
+                        Pages(tr, 10, 1);
+                    },
+                    error: function () {
+                        notify('发生错误！',2);
+                    }
+                });
+            });
+            //搜索
+            $('#content').on("click", ".content-title .input-group input[name=search]", function () {
+                var input = $(this);
+                var searchText = input.parent().next().val();
+                if (searchText != "") {
+                    $.ajax({
+                        //注意URL的格式
+                        url: '/AddressList/GradeAddress/_TableClass?search=' + searchText,
+                        success: function (response) {
+                            notify('搜索完成！',1);
+                            $("#content").html(response);
+                            $('.content-title .input-group input:text').next().show();
+                            var tr = $('.table>tbody>tr');
+                            Pages(tr, 10, 1);
+                        },
+                        error: function () {
+                            notify('发生错误！',2);
+                        }
+                    });
+                }
+                else {
+                    notify('搜索内容不能为空！',0);
+                }
+            });
+            //发短信
+            $('#content').on("click", ".content .table>tbody>tr>td:last-child input[name='send']", function (event) {
+                var tel = $(this).parent().prev().prev().prev().html();
+                //alert("发短信");
+                layer.prompt({
+                    title: '发送短信',
+                    formType: 2
+                }, function (value, index, e) {
+                    //alert(value);
+                    //发送短信Ajax
+                    $.ajax({
+                        url: '/GradeAddress/SendMessage?text=' + value + '&tel=' + tel,
+                        success: function (response) {
+                            if (response == "1") {
+                                notify('短息已发送！', 1);
+                            }
+                            if (response == "0") {
+                                notify('发送短信失败！', 0);
+                            }
+                        },
+                        error: function () {
+
+                        }
+                    });
+                    layer.close(index);
+                });
+
+                event.stopPropagation();
+            });
+
+
+
+            var tr = $('.table>tbody>tr');
+            //tr.filter(':odd').slideUp(20);
+            Pages(tr, 10, 1);
+
+
+        });
+
+        function GetClassInfo(ClassName) {
+            //alert(ClassName);
+            $.ajax({
+                //注意URL格式
+                url: '/AddressList/GradeAddress/_TableClass?classname=' + ClassName,
+                success: function (response) {
+                    notify('加载完成！',1);
+                    $("#content").html(response);
+                    var tr = $('.table>tbody>tr');
+                    Pages(tr, 10, 1);
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>通讯录</h2>
+    </div>
+    <div class="main-content">
+        <div class="content-left">
+            <div class="left-title">
+                <img src="~/Content/image/address-class-title.png">
+            </div>
+            <div id="contentClassName">
+                @Html.Action("_LiClass")
+            </div>
+        </div>
+        <div id="content" class="content-right">
+            @Html.Action("_TableClass")
+        </div>
+    </div>
+</div>
+}
+

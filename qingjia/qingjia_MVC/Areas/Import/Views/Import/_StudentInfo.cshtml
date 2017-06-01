@@ -1,0 +1,103 @@
+﻿@model IEnumerable<qingjia_MVC.Areas.Import.Controllers.StudentModel>
+@{
+    Layout = null;
+    bool flag = false;
+    if(Model != null)
+    {
+        flag = true;
+    }
+}
+    @if (flag)
+    {
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" value="" /></th>
+                    @*<th>编辑</th>*@
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>班级</th>
+                    <th>性别</th>
+                    <th style="display:none;">寝室</th>
+                    <th style="display:none;">民族</th>
+                    <th style="display:none;">Tel</th>
+                    <th style="display:none;">邮箱</th>
+                    <th style="display:none;">QQ</th>
+                    <th style="display:none;">联系人姓名</th>
+                    <th style="display:none;">联系人电话</th>
+                    <th style="display:none;">与联系人关系</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="" value="@item.ID">
+                        </td>
+                        @*<td>
+                            <input type="image" name="edit" src="~/Content/image/edit.png">
+                        </td>*@
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.ClassName</td>
+                        <td>@item.Sex</td>
+                        <td style="display:none;">@item.Door</td>
+                        <td style="display:none;">
+                            @item.Nation
+                        </td>
+                        <td style="display:none;">
+                            @item.Tel
+                        </td>
+                        <td style="display:none;">
+                            @item.Email
+                        </td>
+                        <td style="display:none;">
+                            @item.QQ
+                        </td>
+                        <td style="display:none;">
+                            @item.ContactName
+                        </td>
+                        <td style="display:none;">
+                            @item.ContactTel
+                        </td>
+                        <td style="display:none;">
+                            @item.Contact
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            @*<tfoot>
+                <tr>
+                    <td colspan="14">
+                        <ul class="pagination">
+                            <li>
+                                <a>首页</a>
+                            </li>
+                            <li>
+                                <a>&laquo;</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>...</a>
+                            </li>
+                            <li>
+                                <a>&raquo;</a>
+                            </li>
+                            <li>
+                                <a>尾页</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tfoot>*@
+        </table>
+    }
+    else
+    {
+        <div>
+            无任何数据
+        </div>
+    }

@@ -1,0 +1,111 @@
+﻿.ui-widget-content{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 95%;
+    min-width:770px;
+    margin: 0px auto;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom:5px;
+    border-bottom:1px solid #d7d2d2;
+}
+.main .main-title h2{
+    font-size: 1.8em;
+    font-weight: bolder;
+    color: rgb(0, 158, 163);
+    margin-top:0;
+    margin-bottom:0;
+}
+.main .main-content{
+    width: 70%;
+    margin:20px auto;
+    min-width:650px;
+}
+
+input.form-control:focus{
+    border: 2px solid rgb(0, 158, 163);
+}
+.main .main-content .table {
+    width: 100%;
+}
+.main .main-content .table > tbody > tr >td,
+.main .main-content .parents > tbody >tr > td,
+.main .main-content .table > tbody > tr >th {
+    border: 0px;
+    line-height: 30px;
+    padding: 0px;
+}
+.main .main-content .table  label{
+    padding-right: 0px;
+    width: 100px;
+    text-align: right;
+}
+.main .main-content .table .basic span{
+    display: inline-block;
+    width: auto;
+    text-indent: 1em;
+    color: #999999;
+}
+.main .main-content .table >tbody> .contact>td{
+    padding-bottom: 10px;
+}
+.main .main-content .table input{
+    border-radius:15px;
+    text-indent:1em;
+}
+input.form-control{
+    padding-left:0;
+}
+.main .main-content .table .contact input{
+    width: 250px;
+}
+.main .main-content .table .spilt img{
+    width: 200px;
+    display: block;
+    margin: 0px auto 10px;
+}
+.main .main-content .parents{
+    margin: 0 auto;
+}
+.main .main-content .parents span{
+    display:block;
+    height:140px;
+    position: relative;
+    top:25px;
+}
+/*.main .main-content .parents tbody > tr> th,*/
+.main .main-content .parents tbody > tr> td{
+    height:45px;
+}
+.main .main-content .parents tbody > tr> th:first-child{
+    text-align: right;
+    width: 115px;
+    padding-right: 0px;
+}
+.main .main-content .parents tbody > tr> th:nth-child(2),
+.main .main-content .parents tbody > tr> th:nth-child(3),
+.main .main-content .parents tbody > tr> th:nth-child(4){
+    text-indent: 1em;
+}
+.main .main-content .parents tbody > tr> td:nth-child(2) input,
+.main .main-content .parents tbody > tr> td:nth-child(3) input{
+    width: 150px;
+}
+.main .main-content .parents tbody > tr> td:nth-child(4) input{
+    width: 200px;
+}
+
+.main .main-content .save{
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
+    padding-right: 50px;
+}
+.main .main-content .save input{
+    width: 70px;
+}

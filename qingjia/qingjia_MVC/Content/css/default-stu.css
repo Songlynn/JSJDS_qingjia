@@ -1,0 +1,185 @@
+﻿.ui-widget-content{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 95%;
+    min-width: 800px;
+    margin: 0 auto;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom:5px;
+    border-bottom:1px solid #d7d2d2;
+    position: relative;
+}
+.main .main-title h2{
+    width: 140px;
+    font-size: 1.8em;
+    font-weight: bolder;
+    color: rgb(120, 162, 94);
+    margin-top:0;
+    margin-bottom:0;
+}
+.main .main-title span{
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    left: 140px;
+}
+.main .main-content{
+    width: 95%;
+    margin: 20px auto 0;
+}
+.main-content .content-line{
+    width: 100%;
+    position: relative;
+    margin-bottom: 30px;
+}
+.content-line>div{
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 0, 0, 0.118);
+}
+.content-line .basic,
+.content-line .leave{
+    width: 48%;
+    padding-bottom: 20px;
+}
+.content-line .leave{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.content-line .content-title{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 10px;
+    box-shadow: 2.5px 4.33px 5px 0px rgba(0, 0, 0, 0.118);
+    text-indent: 1em;
+}
+.content-line .basic .content-title{
+    background-color: rgb(26, 138, 128);
+}
+.content-line .leave .content-title{
+    background-color: rgb(231, 137, 19);
+}
+.content-line .night .content-title{
+    background-color: rgb(150, 85, 138);
+}
+.content-line .vacation .content-title{
+    background-color: rgb(86,149,151);
+}
+.content-line .content-title img{
+    height: 25px;
+    position:relative;
+    top:-2px;
+}
+.content-line .content-title span {
+    font-weight: bolder;
+    font-size: 1.2em;
+    color: white;
+}
+.content-line:first-child .content {
+    height: 110px;
+    padding: 20px 0;
+}
+.content-line .leave .content {
+    padding: 20px 0;
+}
+.content-line .basic .content {
+    border-left: 5px solid rgb(26, 138, 128);
+}
+.content-line .leave .content {
+    border-left: 5px solid rgb(231, 137, 19);
+}
+.content-line .night .content {
+    border-left: 5px solid rgb(150, 85, 138);
+}
+.content-line .vacation .content {
+    border-left: 5px solid rgb(86,149,151);
+}
+.content-line .content {
+    margin-top: 20px;
+    height: auto;
+    margin-left: 10px;
+}
+.content-line .basic .content .table,
+.content-line .leave .content .table{
+    width: 90%;
+    margin-left: 20px;
+    margin-bottom: 0px;
+
+}
+.content-line:first-child .table>thead>tr>th,
+.content-line:first-child .table>tbody>tr>th,
+.content-line:first-child .table>thead>tr>td,
+.content-line:first-child .table>tbody>tr>td{
+    padding: 0;
+    border: 0;
+}
+.content-line .leave .content .table>tbody>tr>th{
+    width: 200px;
+}
+.content-line .night{
+    padding-bottom: 20px;
+}
+.content-line .night .content{
+    padding: 20px 0;
+}
+.content-line .night .content .table {
+    margin: 0 auto 0;
+}
+.content-line .night .content .table a{
+    color: rgb(150, 85, 138);
+    text-decoration: underline;
+}
+.content-line .night .content .table a:hover{
+    color: red;
+}
+.content-line .night .content .table.info{
+    width:70%;
+}
+.content-line .night .content .table.nightlist{
+    width: 90%;
+    background-color: #FFFFFF;
+    margin-top: 10px;
+}
+.night .content .table.info>tbody>tr>th,
+.night .content .table.info>tbody>tr>td{
+    padding: 0;
+    border: 0;
+}
+.night .content .table.info>tbody>tr>th {
+    width: 130px;
+}
+.table.nightlist>thead>tr>th,
+.table.nightlist>tbody>tr>td{
+    text-align: center;
+    vertical-align: middle;
+}
+.table.nightlist>tbody>tr>td{
+    color: #bdbdbd;
+}
+.nightlist.table > tbody > tr.active > td{
+    color: rgb(150, 85, 138);
+}
+
+.content-line .vacation{
+    padding-bottom: 20px;
+}
+.vacation .content{
+    padding: 10px 0 10px 20px;
+}
+.vacation .content .form-group{
+    margin-bottom: 0px;
+}
+.vacation .content input[name="vacation"]{
+    height:30px;
+    position:absolute;
+    top:70px;
+    right:40px;
+}

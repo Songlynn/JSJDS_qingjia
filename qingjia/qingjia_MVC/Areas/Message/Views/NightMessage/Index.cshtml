@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "晚点名通知";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/nightmessage.css" rel="stylesheet" type="text/css">
+<style>
+    
+    .f-field-triggerbox-icons{
+        margin-right:8px;
+    }
+    
+</style>
+
+}
+
+@section script{
+    <script src="~/Content/js/checkbox.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script type="text/javascript">
+
+        //检测后一批次的时间是否比前一批次晚
+        function checkTime(time1, time2) {
+            var before = $('input[name="' + time1 + '"]').val();
+            var after = $('input[name="' + time2 + '"]').val();
+            var b_before = timeBatch(time1);
+            var b_after = timeBatch(time2);
+            if (after <= before) {
+                var str = "第" + b_after + "批点名时间应晚于第" + b_before + "批";
+                $('#' + time2 + '_wrapper').find('.f-field-error-cell').show().css({ "margin-top": "5px", "margin-left": "5px" });
+                notify(str, 0);
+            }
+            else {
+                $('#' + time2 + '_wrapper').find('.f-field-error-cell').hide();
+            }
+        }
+        function timeBatch(str) {
+            var batch = "";
+            switch (str) {
+                case "tpFirst": {
+                    batch = "一";
+                    break;
+                }
+                case "tpSecond": {
+                    batch = "二";
+                    break;
+                }
+                case "tpThird": {
+                    batch = "三";
+                    break;
+                }
+                default:
+                    break;
+            }
+            return batch;
+        }
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+</script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>晚点名设置</h2>
+    </div>
+    <div class="main-content" id="content">
+        @Html.Action("_FormContent")
+    </div>
+</div>
+}
+

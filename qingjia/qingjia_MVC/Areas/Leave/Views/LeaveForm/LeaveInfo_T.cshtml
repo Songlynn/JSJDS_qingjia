@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "LeaveInfo_T";
+}
+
+@section head{
+    <style>
+        .tab-pane{
+            text-align:center;
+            padding-top:20px;
+        }
+        .tab-pane img{
+            width:400px;
+            height:auto;
+        }
+        .tab-pane p{
+            margin-top:20px;
+        }
+    </style>
+}
+
+@section script{
+    <script src="~/Content/bootstrap/js/bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.main-tab a').on("click", function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+        });
+    </script>
+}
+
+@section body{
+    <div class="main-tab">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a href="#Short" data-toggle="tab">短期请假</a>
+            </li>
+            <li>
+                <a href="#Long" data-toggle="tab">长期请假</a>
+            </li>
+            <li>
+                <a href="#Vacation" data-toggle="tab">节假日去向</a>
+            </li>
+            <li>
+                <a href="#Night" data-toggle="tab">晚点名请假</a>
+            </li>
+            <li>
+                <a href="#Lesson" data-toggle="tab">上课请假备案</a>
+            </li>
+            <li>
+                <a href="#Review" data-toggle="tab">早晚自习请假</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="Short">
+                <img src="~/Content/image/leaveinfo-short.png" />
+                <p>备注：短期请假的天数不超过3天。</p>
+            </div>
+            <div class="tab-pane fade" id="Long">
+                <img src="~/Content/image/leaveinfo-long.png" />
+                <p>备注：长期请假的天数不小于3天。</p>
+            </div>
+            <div class="tab-pane fade" id="Vacation">
+                <img src="~/Content/image/leaveinfo-vacation.png" />
+            </div>
+            <div class="tab-pane fade" id="Night">
+                <img src="~/Content/image/leaveinfo-night.png" />
+            </div>
+            <div class="tab-pane fade" id="Lesson">
+                <img src="~/Content/image/leaveinfo-lesson.png" />
+            </div>
+            <div class="tab-pane fade" id="Review">
+                <img src="~/Content/image/leaveinfo-review.png" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+}
+

@@ -1,0 +1,311 @@
+﻿@{
+    ViewBag.Title = "请假记录";
+    var F = @Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/auditlist.css" type="text/css" rel="stylesheet">
+    <link href="~/Content/css/leavelist.css" type="text/css" rel="stylesheet">    
+}
+
+@section script{
+    <script src="~/Content/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/js/tableTool.js"></script>
+    @*<script src="~/Content/layer/layer.js"></script>*@
+    <script>
+        var LeaveType = "AllLeave";
+        var roleid = "";
+        //事件绑定
+        $(document).ready(function () {
+            roleid = $('#roleid').val();
+            //是否允许撤回请假
+            if (roleid != "1") {
+                $('.table').each(function () {
+                    var table = $(this);
+                    var th = table.find('thead>tr>th').eq(2);
+                    th.html("");
+                    th.css({"width":"0","min-width":"0"});
+                    var tr = table.find('tbody>tr').not('.expand');
+                    tr.each(function () {
+                        var td = $(this).children('td').eq(2);
+                        td.html("");
+                        td.css({ "width": "0", "min-width": "0" });
+                    });
+                });
+            }
+            //请假说明
+            $('input.detail').on("click", function () {
+                var url = '@Url.Content("~/Leave/LeaveForm/LeaveInfo_T")';
+                layer.ready(function () {
+                    layer.open({
+                        type: 2,
+                        title: '请假说明',
+                        skin: 'demo-class',
+                        area: ['700px', '520px'],
+                        closeBtn: 2,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        content: url
+                    });
+                });
+            });
+            setRowNum();
+            //切换Table
+            $('#mainTab a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+            //打印按钮
+            $('.table').each(function () {
+                var table = $(this);
+                table.children('tbody').children('tr').find("input[name='print']").click(function () {
+                    //获取行的请假单号
+                    var cb = $(this).parent().parent().children('td').next();
+                    //alert(cb.html());
+                    var rowid = cb.html();
+                    //打印请假条
+                    notify('开始生成请假单号为' + rowid + '的请假条！',6);
+                    print(rowid);
+                });
+            });
+
+            //输入事件
+            $('#content').on('keyup', 'input:text', function () {
+                var input = $(this);
+                if (input.val() != "") {
+                    input.next().show();
+                }
+                if (input.val() == "") {
+                    input.next().hide();
+                }
+            });
+
+            //搜索按钮
+            $('#content').on("click", ".tab-pane.fade.in.active .input-group input[name=search]", function () {
+                var input = $(this);
+                var searchText = input.parent().next().val();
+                if (searchText != "") {
+                    notify('开始搜索：' + searchText,6);
+                    $.ajax({
+                        //注意URL的格式
+                        url: '/Leave/LeaveList/SearchClick?search=' + searchText + '&condition=' + LeaveType,
+                        success: function (response) {
+                            notify('加载完成！',1);
+                            $("#content").html(response);
+                            //$('.tab-pane.fade.in.active .input-group input:text').next().show();
+                            $('#content input:text').next().show();
+                            setRowNum();
+                        },
+                        error: function () {
+                            notify('发生错误！',2);
+                        }
+                    });
+                }
+                else {
+                    notify('搜索内容不能为空！',0);
+                }
+            });
+
+            //取消按钮
+            $('#content').on("click", ".tab-pane.fade.in.active .input-group .cancel input:image", function () {
+                $(this).parent().prev().val("");
+                $(this).parent().hide();
+                //alert('取消搜索');
+                $.ajax({
+                    //注意URL的格式
+                    url: '/Leave/LeaveList/SearchClick?condition=' + LeaveType,
+                    success: function (response) {
+                        notify('取消搜索！',0);
+                        $("#content").html(response);
+                        //setnum();
+                    },
+                    error: function () {
+                        notify('发生错误！',2);
+                    }
+                });
+            });
+
+            //$(window).scroll(function () {
+            //    // scroll at bottom
+            //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            //        alert('已到达底部');
+            //    }
+            //});
+            //滚动
+            $('#content').bind('mousewheel', function (event, delta) {
+                var dir = delta >= 0 ? 'Up' : 'Down';
+                if (dir == 'Up') {
+                    console.log('向上滚动， www.imiansha.com');
+                } else {
+                    console.log('向下滚动， http: //blog.csdn.net/u011627980');
+                    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                        //alert('已到达底部');
+                    }
+                }
+                //return false;
+            });
+            
+            //撤回按钮
+            $('#content').on("click", '.main-tab .table>tbody>tr>td input[name="delete"]', function () {
+                var input = $(this);
+                var cb = input.parent().prev();
+                var id = cb.html();
+                //alert(id);
+                layer.confirm('是否撤回请假申请？', {
+                    btn: ['是', '否'] //按钮
+                }, function () {
+                    deleteClick(id);
+                });
+            });
+
+            //点击行事件
+            $('#content').on("click", ".table>tbody>tr", function () {
+                var tr = $(this);
+                var rowid = tr.children('td').eq(1).html();
+                //alert(rowid);
+                var url = '@Url.Content("~/Leave/LeaveList/leavedetail")' + '?ID=' + rowid;
+                layer.ready(function () {
+                    layer.open({
+                        type: 2,
+                        title: '请假详情',
+                        skin: 'demo-class',
+                        area: ['700px', '350px'],
+                        closeBtn: 1,
+                        anim: 0,
+                        scrollbar: false,
+                        move: '.layui-layer-title',
+                        shadeClose: true,
+                        content: url
+                    });
+                });
+            });
+        });
+
+        //设置序号
+        function setRowNum() {
+            $('#content .tab-content .table').each(function () {
+                var table = $(this).children('tbody');
+                var tr = table.children('tr').not('.expand');
+                tr.each(function (index) {
+                    var td = $(this).children('td').eq(0);
+                    td.html(index + 1);
+                    
+                });
+            });
+        }
+
+        function print(LL_Num) {
+            var iframeWindowUrl = '@Url.Content("~/Print/print/Index")';
+            var iframeUrl = iframeWindowUrl + '?LL_id=' + LL_Num;
+            //显示窗体
+            F.ui.printWindow.show(iframeUrl, '打印假条 - ' + LL_Num);
+        }
+
+        //请假类型切换、获取当前选择的请假类型
+        function get(type) {
+            LeaveType = type;
+            //alert(LeaveType);
+        }
+
+        //撤回按钮
+        function deleteClick(id) {
+            $.ajax({
+                //注意URL格式
+                url: '/Leave/LeaveList/deleteClick?LL_id=' + id + '&LeaveType=' + LeaveType + '&condition=' + LeaveType,
+                success: function (response) {
+                    notify('请假已撤回！', 1);
+                    $("#content").html(response);
+                    setRowNum();
+                },
+                error: function () {
+                    notify('发生错误！', 2);
+                }
+            });
+        }
+
+        //搜索按钮
+        function SearchClick() {
+            //var searchText = $('#' + LeaveType).find('#condition').val();
+            var searchText = $('.tab-pane.fade.in.active').find('#condition').val();
+            if (searchText == "") {
+                notify('搜索内容不能为空！',0);
+                return;
+            }
+            notify('开始搜索：' + searchText,6);
+            $.ajax({
+                //注意URL的格式
+                url: '/Leave/LeaveList/SearchClick?search=' + searchText + '&condition=' + LeaveType,
+                success: function (response) {
+                    notify('搜索完成！',1);
+                    $("#content").html(response);
+                    setRowNum();
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //随滚动条事件加载数据
+        function LoadNextData() {
+            var index = 15;//已有数据条数
+            var num = 15;//加载数目
+            //alert('加载' + LeaveType + '类型数据' + ' ' + '从第' + (index + 1) + '条开始，加载' + num + '条。');
+            notify('加载' + LeaveType + '类型数据' + ' ' + '从第' + (index + 1) + '条开始，加载' + num + '条。',6)
+            $.ajax({
+                //注意URL的格式
+                url: '/Leave/LeaveList/ReLoadNext?index=' + index + '&leavetype=' + LeaveType + '&num=' + num,
+                success: function (response) {
+                    notify('加载完成！',1);
+                    //$('#' + LeaveType + '.table>tbody').append(response);
+                    $('#' + LeaveType).find('tbody').append(response);
+                    setRowNum();
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>
+
+    <script srd="~/res/js/grid.js"></script>
+}
+
+@section body{
+    
+    <div class="main">
+        <div class="main-title">
+            <h2>请假记录</h2>
+            <input type="image" class="detail" src="~/Content/image/leavelist-info.png" />
+        </div>
+        <div id="content">
+            @Html.Action("GetTable")
+        </div>
+</div>
+
+    @(
+    F.Window()
+        .Hidden(true)
+        .Height(900)
+        .Width(600)
+        .IsModal(true)
+        .OnClose(Url.Action("printWindow_Close"))
+        .Target(Target.Top)
+        .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableIFrame(true)
+        .Title("打印假条")
+        .ID("printWindow")
+)
+}

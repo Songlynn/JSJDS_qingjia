@@ -1,0 +1,54 @@
+﻿@model IEnumerable<qingjia_MVC.Models.vw_LeaveList>
+@{
+    Layout = null;
+    HashSet<string> classNameList =new HashSet<string>();
+    List<int> classNameNumList = new List<int>();
+    int index = 0;
+    var classname = "";
+    foreach(var LeaveList in Model)
+    {
+        if (classname == LeaveList.ST_Class)
+        {
+            continue;
+        }
+        else
+        {
+            classname = LeaveList.ST_Class;
+            classNameList.Add(classname);
+        }
+    }
+    foreach(string name in classNameList)
+    {
+        int num = 0;
+        foreach(var ll in Model)
+        {
+            if(ll.ST_Class == name)
+            {
+                num++;   
+            }
+        }
+        classNameNumList.Add(num);
+    }
+}
+
+@foreach (string name in classNameList)
+{
+        <div class="content-block">
+            <div class="content-title">
+                <img src="~/Content/image/nightnamelist-title.png">
+                <span class="class-name">@name</span>
+                <span class="class-num">@classNameNumList[index++]</span>
+            </div>
+            <ul class="name-list">
+                <li>
+                    @foreach (var ll in Model)
+                    {
+                        if (ll.ST_Class == name)
+                        {
+                            <span class="left-name">@ll.ST_Name</span>
+                        }
+                    }
+                </li>
+            </ul>
+        </div>
+}

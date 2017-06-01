@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "晚点名名单";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/nightnamelist.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script src="~/Content/js/flowBox.js" type="text/javascript"></script>
+    <script src="~/Content/js/pages.js"></script>
+
+    <script>
+        var rowid = '';
+        $(document).ready(function () {
+            var changebatch = $('#ChangeBatch').val();
+            //alert(changebatch);
+            if (changebatch == "0") {
+                $('.content-agree').hide();
+                $('.content-agree').next('hr').hide();
+            }
+            var tr = $('.table>tbody>tr');
+            Pages(tr, 6, 1);
+
+            //同意
+            $('#content').on("click", ".table>tbody>tr>td:nth-child(3) input[name='agree']", function (e) {
+                //获取行的请假单号
+                var cb = $(this).parent().prev().prev().find('input:checkbox');
+                var rowid = cb.val();
+                //alert(rowid);
+                AgreeClick(rowid);
+            });
+            //驳回
+            $('#content').on("click", ".table>tbody>tr>td:nth-child(2) input[name='back']", function (e) {
+                //获取行的请假单号
+                var cb = $(this).parent().prev().find('input:checkbox');
+                var rowid = cb.val();
+                $.ajax({
+                    //注意URL格式
+                    url: '/CallName/NameForT/CancelClick?sbatch_id=' + rowid,
+                    success: function (response) {
+                        notify('申请已驳回！', 1);
+                        $("#content").html(response);
+                        var changebatch = $('#ChangeBatch').val();
+                        //alert(changebatch);
+                        if (changebatch == "0") {
+                            $('.content-agree').hide();
+                            $('.content-agree').next('hr').hide();
+                        }
+                        var tr = $('.table>tbody>tr');
+                        Pages(tr, 6, 1);
+                    },
+                    error: function () {
+                        notify('发生错误！',2);
+                    }
+                });
+            });
+            //导出名单
+            $('input[name="getlist"]').on("click", function () {
+                //alert(true);
+                window.location.href = '@Url.Action("setNightNameList")';
+            });
+
+        });
+
+        //同意请假按钮
+        function AgreeClick(rowid) {
+            $.ajax({
+                //注意URL格式
+                url: '/CallName/NameForT/AgreeClick?sbatch_id=' + rowid,
+                success: function (response) {
+                    notify('请假已通过！',1);
+                    $("#content").html(response);
+                    var changebatch = $('#ChangeBatch').val();
+                    //alert(changebatch);
+                    if (changebatch == "0") {
+                        $('.content-agree').hide();
+                        $('.content-agree').next('hr').hide();
+                    }
+                    var tr = $('.table>tbody>tr');
+                    Pages(tr, 6, 1);
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        }
+
+        //通知
+        function notify(message,icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 5000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>晚点名请假名单</h2>
+    </div>
+    <div class="main-content">
+        <div class="content-agree" id="content">
+            @Html.Action("_ChangeBatch")
+        </div>
+        <hr />
+        <div class="content-container" id="main-content">
+            <input type="image" name="getlist" src="~/Content/image/nightnamelist-getbutton.png">
+            @*@(F.Button()
+                .Text("导出")
+                .OnClick(Url.Action("setNightNameList"))
+    )*@
+            <div class="content" id="content-container">
+                @Html.Action("_NameContent")
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+
+

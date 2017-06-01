@@ -1,0 +1,65 @@
+﻿@{
+    var Edit = ViewBag.Edit;
+}
+
+@section body{
+    @if (Edit != null)
+    {
+        <form role="form">
+            <div class="form-group">
+                <label>辅导员账号</label>
+                <input type="text" class="form-control" name="teacherID" value="@ViewBag.teacherID" placeholder="请输入辅导员账号">
+            </div>
+            <div class="form-group">
+                <labe>姓名</labe>
+                <input type="text" class="form-control" name="teacherName" value="@ViewBag.teacherName" placeholder="请输入辅导员姓名">
+            </div>
+            <div class="form-group">
+                <labe>性别</labe>
+                <input type="text" class="form-control" name="teacherSex" value="@ViewBag.teacherSex" placeholder="请输入性别">
+            </div>
+            <div class="form-group">
+                <labe>年级</labe>
+                <input type="text" class="form-control" name="teacherGrade" value="@ViewBag.teacherGrade" placeholder="请输入年级(如：2014级)">
+            </div>
+            <div class="form-group">
+                <labe>手机号</labe>
+                <input type="text" class="form-control" name="teacherTel" value="@ViewBag.teacherTel" placeholder="请输入手机号">
+            </div>
+            <div class="form-group">
+                <labe>邮件号</labe>
+                <input type="text" class="form-control" name="teacherEmail" value="@ViewBag.teacherEmail" placeholder="请输入邮箱">
+            </div>
+        </form>
+    }
+    else
+    {
+        <form role="form">
+            <div class="form-group">
+                <label>辅导员账号</label>
+                <input type="text" class="form-control" name="teacherID" placeholder="请输入辅导员账号">
+            </div>
+            <div class="form-group">
+                <labe>姓名</labe>
+                <input type="text" class="form-control" name="teacherName" placeholder="请输入辅导员姓名">
+            </div>
+            <div class="form-group">
+                <labe>性别</labe>
+                <input type="text" class="form-control" name="teacherSex" placeholder="请输入性别">
+            </div>
+            <div class="form-group">
+                <labe>年级</labe>
+                <input type="text" class="form-control" name="teacherGrade" placeholder="请输入年级(如：2014级)">
+            </div>
+            <div class="form-group">
+                <labe>手机号</labe>
+                <input type="text" class="form-control" name="teacherTel" placeholder="请输入手机号">
+            </div>
+            <div class="form-group">
+                <labe>邮箱</labe>
+                <input type="text" class="form-control" name="teacherEmail" placeholder="请输入邮箱">
+            </div>
+        </form>
+    }
+
+}

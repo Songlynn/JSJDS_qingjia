@@ -1,0 +1,192 @@
+﻿.ui-widget-content{
+    background-color:rgb(250,250,252);
+}
+.main{
+    width: 95%;
+    min-width: 800px;
+    margin: 0 auto;
+    font-family:'Microsoft YaHei';
+    font-size: 16px;
+}
+.main .main-title{
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom:5px;
+    border-bottom:1px solid #d7d2d2;
+    position: relative;
+}
+.main .main-title h2{
+    font-size: 1.8em;
+    color: rgb(251,202,90);
+    font-weight: bolder;
+    margin-top:0;
+    margin-bottom:0;
+}
+.main .main-content{
+    width: 90%;
+    margin: 20px auto 0;
+}
+.main .main-content .content-block{
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    position: relative;
+}
+.main .main-content .content-block.batch{
+    border-top: 1px solid #bdbdbd;
+}
+.main .main-content .content-block h3{
+    padding-left: 20px;
+    font-weight: bolder;
+    padding-bottom:5px;
+    margin: 10px auto;
+}
+.content-block.batch:nth-child(3n+2) h3{
+    color: rgb(0,178,134);
+}
+.content-block.batch:nth-child(3n) h3{
+    color: rgb(146,129,180);
+}
+.content-block.batch:nth-child(3n+1) h3{
+    color: rgb(97,159,45);
+}
+.content-block .block-line{
+    width: 100%;
+    height: 35px;
+    margin: 0 auto 5px;
+    padding-left: 50px;
+    position:relative;
+}
+.content-block .block-line.classes{
+    height: 120px;
+}
+.content-block .block-line .form-group{
+    height:30px;
+    float: left;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 0 15px;
+}
+.content-block .block-line.classes .form-group{
+    margin-bottom:0;
+}
+.content-block .two .form-group{
+    width: 50%;
+}
+.content-block .one .form-group{
+    width: 100%;
+}
+.content-block .block-line .form-group img{
+    width: 25px;
+    height: 30px;
+}
+.content-block .block-line .form-group>label{
+    width: 100px;
+    height:35px;
+    line-height:35px;
+    text-align: left;
+}
+.content-block .block-line .form-group span{
+    text-align: left;
+    padding-left: 30px;
+
+}
+.content-block .block-line .form-group>input{
+    width: 180px;
+    height:35px;
+    text-indent:18px;
+    border:1px solid #bdbdbd;
+    position: absolute;
+    top: 0;
+    left: 120px;
+    border-radius: 15px;
+}
+.content-block .block-line.classes .form-group {
+    height: 100px;
+    line-height: 100px;
+    position: relative;
+    padding-left:40px;
+    margin-top:10px;
+}
+.content-block .block-line.classes .form-group >label{
+    position:relative;
+    left:10px;
+}
+.content-block .block-line.classes .form-group .classlist{
+    width: 60%;
+    height: 100px;
+    position: absolute;
+    top: -10px;
+    left: 150px;
+    line-height: 35px;
+}
+.classes .form-group .classlist table tbody>tr>td{
+    width: 160px;
+    height:35px;
+    
+}
+.classes .form-group .classlist label{
+    width: 150px;
+    height:35px;
+    line-height:30px;
+    padding-top: 0;
+    padding-left: 10px;
+    margin-top:-5px;
+}
+.classes .form-group .classlist label input{
+    width: 15px;
+    height: 15px;
+    margin-left: -15px;
+    margin-top: 10px;
+}
+.classes .form-group .classlist label span{
+    padding-left: 10px;
+}
+.content-block .block-line .picker{
+    position:absolute;
+    top:0;
+    left:190px;
+}
+.content-block:nth-child(1) input:focus{
+    border: 2px solid rgb(251,183,78);
+}
+.content-block.batch:nth-child(3n+2) input:focus{
+    border: 2px solid rgb(0,178,134);
+}
+.content-block.batch:nth-child(3n) input:focus{
+    border: 2px solid rgb(146,129,180);
+}
+.content-block.batch:nth-child(3n+1) input:focus{
+    border: 2px solid rgb(97,159,45);
+}
+.content-block.batch .split{
+    width: 30px;
+    height: 120px;
+    position: absolute;
+    top:-5px;
+    left: 150px;
+}
+.save{
+    width: 100%;
+    text-align: right;
+    padding: 0 50px 20px 0;
+}
+.save input{
+    width: 80px;
+}
+input:focus{
+    outline: none;
+}
+input[type=text] {
+        border-radius: 15px;
+        width:150px;
+        min-width:180px;
+        height:35px;
+        text-indent:1em;
+    }
+
+    .batch .classes .form-group img{
+        position:absolute;
+        top:40px;
+        left:15px;
+    }

@@ -1,0 +1,306 @@
+﻿
+@{
+    ViewBag.Title = "Default_T";
+}
+
+@section head{
+    <link href="~/Content/css/default-teacher.css" rel="stylesheet" type="text/css">
+    <style>
+        .layui-layer-tips .layui-layer-content{
+            font-size: 16px;
+            line-height: 18px;
+            padding: 10px;
+        }
+    </style>
+}
+
+@section script{
+    <script src="~/Content/layer/layer.js"></script>
+<script>
+    var re;
+    var alertClose = 0;
+    function setHeight() {
+        var ulH;
+        var liW = 175, liH = 65;
+        //请假审核
+        var leaveW = $('.leave .content ul').width();
+        var leaveCol = Math.floor(leaveW / liW);
+        var leaveRow = Math.ceil($('.leave .content ul li').length / leaveCol);
+        var leaveH = leaveRow * liH;
+        //销假审核
+        var backW = $('.back .content ul').width();
+        //var backCol = Math.floor(backW / liW);
+        var backCol = 2;
+        var backRow = Math.ceil($('.back .content ul li').length / backCol);
+        var backH = backRow * liH;
+        ulH = leaveH > backH ? leaveH : backH;
+        $('.leave .content').height(ulH);
+        $('.back .content').height(ulH);
+    }
+
+    function getType(str) {
+        var type = "";
+        switch (str) {
+            case "短期请假": {
+                type = "ShortLeave";
+                break;
+            }
+            case "长期请假": {
+                type = "LongLeave";
+                break;
+            }
+            case "节假日请假": {
+                type = "VacationLeave";
+                break;
+            }
+            case "晚点名请假": {
+                type = "NightLeave";
+                break;
+            }
+            case "上课请假备案": {
+                type = "LessonLeave";
+                break;
+            }
+            default:
+                break;
+        }
+        return type;
+    }
+    //消息栏
+    function Message(num) {
+        var message = '请假记录存在' + num + '个异常！是否点击查看？';
+        layer.msg(message, {
+            time: 0, //不自动关闭
+            btn: ['立即查看', '暂不查看'],
+            btnAlign: 'c',
+            offset: 'rt',
+            yes: function (index) {
+                layer.close(index);
+                window.location = '/Statistics/LeaveList/Index';
+            }
+        });
+    }
+
+    //示范一个公告层
+    function Notice(message) {
+        layer.open({
+            type: 1,
+            title: false, //不显示标题栏
+            closeBtn: false,
+            area: '300px;',
+            shade: 0.8,
+            id: 'LAY_layuipro', //设定一个id，防止重复弹出
+            btn: ['我知道了', '不再提醒'],
+            btnAlign: 'c',
+            moveType: 1, //拖拽模式，0或者1
+            content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + message + '</div>',
+            yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                layer.close(index);
+            },
+            btn2: function (index, layero) {
+                //按钮【按钮二】的回调
+                alertClose = 1;
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+
+    function GetNotice() {
+        if (alertClose == 0) {
+            $.ajax({
+                type: "POST",
+                data: 'json',
+                url: "/Home/GetMessageInfo?type=notice",
+                contentType: "application/json",
+                success: function (response) {
+                    //alert('请求成功');
+                    //console.log(response);
+                    var message = "";
+                    for (var item in response) {
+                        //console.log(item);
+                        message += response[item]["title"];
+                        message += response[item]["content"];
+                        message += "</br>";
+                    }
+                    Notice(message);
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+    function GetMessage() {
+        if (alertClose == 0) {
+            $.ajax({
+                type: "POST",
+                data: 'json',
+                url: '/Statistics/LeaveList/Analysis',
+                contentType: "application/json",
+                success: function (response) {
+                    //alert('请求成功');
+                    //console.log(response);
+                    //console.log(response.length);
+                    Message(response.length);
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        setHeight();
+        //GetNotice();
+        GetMessage();
+        //setInterval(GetNotice, 20000);//20秒请求一次
+        setInterval(GetMessage, 200000);//200秒请求一次
+
+        $('.leave .content ul li').on("click", function () {
+            var oli = $(this);
+            var str = oli.children('span').eq(0).html();
+            var type = getType(str);
+            //alert("请假审核" + type);
+            window.location.href = '@Url.Action("AuditLeave", "Audit", new {area="Leave" })' + '?LeaveType=' + type;
+        });
+        $('.back .content ul li').on("click", function () {
+            var oli = $(this);
+            var str = oli.children('span').eq(0).html();
+            var type = getType(str);
+            //alert("销假审核" + type);
+            window.location.href = '@Url.Action("AuditBack", "Audit", new {area="Leave" })' + '?LeaveType=' + type;
+        });
+        //导出晚点名名单
+        $('input[name="night"]').on("click", function () {
+            //alert("导出晚点名名单");
+            $.ajax({
+                url: '/Home/isChangeBatch',
+                success: function (response) {
+                    if (response > 0) {
+                        var msg = '现有' + response + '条申请更改批次记录，是否前往审核？';
+                        layer.msg(msg, {
+                            time: 0,            //不自动关闭
+                            btn: ['是', '否'],
+                            yes: function (index) {
+                                layer.close(index);
+                                window.location.href = '@Url.Content("~/CallName/NameForT/Index")';
+                            }
+                        });
+                    }
+                    else {
+                        window.location.href = '@Url.Content("~/CallName/NameForT/setNightNameList")';
+                        //alert("导出晚点名名单成功!");
+                        //$.ajax({
+                        //    url: '/CallName/NameForT/setNightNameList',
+                        //    success: function (response) {
+                        //        alert("导出晚点名名单成功!");
+                        //    },
+                        //    error: function () {
+                        //        alert("导出晚点名名单失败!");
+                        //    }
+                        //});
+                    }
+                },
+                error: function () {
+                    notify('发生错误！',2);
+                }
+            });
+        });
+        //导出节假日去向
+        $('input[name="vacation"]').on("click", function () {
+            notify("导出节假日去向表", 6);
+            var start = $('.main-content .content-line .vacation .content .times span').eq(0).html();
+            var end = $('.main-content .content-line .vacation .content .times span').eq(2).html();
+            var deadLine = $('.main-content .content-line .vacation .content .form-group span').eq(0).html();
+            var timeNow = new Date();
+            var timeNowString = timeNow.getFullYear() + "-" + ((timeNow.getMonth() + 1) < 10 ? "0" + (timeNow.getMonth() + 1) : (timeNow.getMonth() + 1)) + "-" + timeNow.getDate() + " " + ((timeNow.getHours()) < 10 ? "0" + (timeNow.getHours()) : (timeNow.getHours())) + ":" + ((timeNow.getDay()) < 10 ? "0" + (timeNow.getDay()) : (timeNow.getDay()));
+            console.log(timeNowString);
+            if (deadLine == "未设置") {
+                window.location.href = '@Url.Action("DownLoad", "Vacation", new {area="Vacation" })?startTime=' + start + '&endTime=' + end;
+            }
+            else {
+                if (timeNowString <= deadLine) {
+                    console.log('timeNowString:' + timeNowString);
+                    console.log('deadLine:' + deadLine);
+                    notify("节假日请假截止时间尚未结束，不可导出请假条", 0);
+                }
+                else {
+                    window.location.href = '@Url.Action("DownLoad", "Vacation", new {area="Vacation" })?startTime=' + start + '&endTime=' + end;
+                }
+            }
+            //判断是否为空
+            //if (startDate == "" || startTime == "" || endDate == "" || endTime == "" || className == "") {
+            //notify('存在未填项！');
+            return;
+        });
+        //var lis = $('.main-content .content-line:nth-child(1)>div .content ul li');
+        //lis.each(function () {
+        //    var li = $(this);
+        //    var num = li.children('span').eq(1);
+        //    if (num.html() > 0) {
+        //        li.addClass("active");
+        //    }
+        //});
+        //晚点名说明
+        $('input.detail').on("click", function () {
+            var detail = "辅导员根据班级、学生数量，将晚点名划分为若干批次、分别进行";
+            layer.tips(detail, '.detail', {
+                tips: [1, 'rgb(112,199,213)'],
+                time: 4000,
+                area: 'auto',
+                maxWidth: 600
+            });
+        });
+        //var div = $('.content-line>div');
+        //divShow(div);
+    });
+    $(window).resize(function () {
+        clearTimeout(re);
+        re = setTimeout(function () { setHeight(); }, 200);
+    });
+
+    function divShow(div) {
+        var option = { percent: 100 };
+        var effect = "scale";
+        div.each(function () {
+            var block = $(this);
+            div.show(effect, option, 2000);
+        });
+    }
+
+    //通知
+    function notify(message, icons) {
+        layer.msg(message, {
+            icon: icons,
+            time: 3000, //2秒关闭（如果不配置，默认是3秒）
+            offset: 't',
+            skin: 'layui-layer-lan'
+        });
+    }
+
+</script>
+}
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>请假系统</h2>
+        <span>&raquo;&nbsp;辅导员端口</span>
+    </div>
+    <div class="main-content">
+
+        <div class="content-line">
+            @Html.Action("LeaveNum")
+        </div>
+
+        <div class="content-line">
+            @Html.Action("T_NightInfo")
+        </div>
+        @Html.Action("VacationInfo")
+    </div>
+</div>
+}
+

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<string>
+@{
+    Layout = null;
+    var num = ViewBag.Question;
+}
+@if (num == 0)
+{
+    <div class="no-question" style="display:block;">
+        <img src="~/Content/image/forgetpsd-message-no.png">
+        <p>您之前没有设置密保问题，请切换方式找回密码~</p>
+    </div>
+}
+else
+{
+    <div class="question">
+        <input type="hidden" name="Q_Num" value="@num"  />
+        <img src="~/Content/image/forgetpsd-question-img.png">
+        <div id="SecurityForm" class="question-list">
+            <form>
+                <ul>
+                    @foreach (var Q in Model)
+                    {
+                        <li>
+                            <label>密保问题：</label>
+                            <span>@Q</span>
+                        </li>
+                        <li>
+                            <input type="text">
+                        </li>
+                    }
+                </ul>
+                <div class="save">
+                    <input type="image" name="get" src="~/Content/image/forgetpsd-question-save.png">
+                </div>
+            </form>
+        </div>
+    </div>
+}

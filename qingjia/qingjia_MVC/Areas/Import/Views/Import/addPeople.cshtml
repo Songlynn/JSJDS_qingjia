@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "addPeople";
+    var F = Html.F();
+}
+
+@section head{
+
+}
+
+@section body{
+<form role="form">
+    <div class="form-group">
+        <label>班级账号</label>
+        <input type="text" class="form-control" name="classid" placeholder="请输入班级账号">
+    </div>
+    <div class="form-group">
+        <labe>班级名称</labe>
+        <input type="text" class="form-control" name="classname" placeholder="请输入班级名称">
+    </div>
+    <div class="form-group">
+        <labe>年级</labe>
+        <input type="text" class="form-control" disabled name="grade" value="@ViewBag.Grade级">
+    </div>
+</form>
+
+}
+

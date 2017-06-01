@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Default_ST";
+    var F = Html.F();
+}
+
+@section head{
+    <link href="~/Content/css/default-stu.css" rel="stylesheet" type="text/css">
+}
+
+@section script{
+    <script>
+        function toBatch() {
+            var url = '@Url.Content("~/Leave/LeaveList/changebatch")';
+            var title = "修改晚点名批次";
+            F.ui.window_changebatch.show(url, title);
+        }
+        $(document).ready(function () {
+            $('input[name="vacation"]').on("click", function () {
+                //alert("导出节假日去向表");
+                var start = $('.main-content .content-line .vacation .content .times span').eq(0).html();
+                var end = $('.main-content .content-line .vacation .content .times span').eq(2).html();
+                var deadLine = $('.main-content .content-line .vacation .content .form-group span').eq(0).html();
+                var timeNow = new Date();
+                var timeNowString = timeNow.getFullYear() + "-" + ((timeNow.getMonth() + 1) < 10 ? "0" + (timeNow.getMonth() + 1) : (timeNow.getMonth() + 1)) + "-" + timeNow.getDate() + " " + ((timeNow.getHours()) < 10 ? "0" + (timeNow.getHours()) : (timeNow.getHours())) + ":" + ((timeNow.getDay()) < 10 ? "0" + (timeNow.getDay()) : (timeNow.getDay()));
+                console.log(timeNowString);
+                if (deadLine == "未设置") {
+                    window.location.href = '@Url.Action("DownLoad", "Vacation", new {area="Vacation" })?startTime=' + start + '&endTime=' + end;
+                }
+                else {
+                    if (timeNowString <= deadLine) {
+                        console.log('timeNowString:' + timeNowString);
+                        console.log('deadLine:' + deadLine);
+                        notify("节假日去向统计尚未到达截止时间，不可导出请假条", 0);
+                    }
+                    else {
+                        window.location.href = '@Url.Action("DownLoad", "Vacation", new {area="Vacation" })?startTime=' + start + '&endTime=' + end;
+                    }
+                }
+                //判断是否为空
+                //if (startDate == "" || startTime == "" || endDate == "" || endTime == "" || className == "") {
+                //notify('存在未填项！');
+                return;
+            });
+        });
+        //通知
+        function notify(message, icons) {
+            layer.msg(message, {
+                icon: icons,
+                time: 3000, //2秒关闭（如果不配置，默认是3秒）
+                offset: 't',
+                skin: 'layui-layer-lan'
+            });
+        }
+    </script>    
+}
+
+
+@section body{
+<div class="main">
+    <div class="main-title">
+        <h2>请假系统</h2>
+        <span>&raquo;&nbsp;学生端口</span>
+    </div>
+    <div class="main-content">
+        <div class="content-line">
+            @Html.Action("ST_UserInfo")
+        </div>
+        <div class="content-line">
+            @Html.Action("ST_NightInfo")
+        </div>
+            @Html.Action("VacationInfo")
+    </div>
+</div>
+
+@(F.Window()
+        .ID("window_changebatch")
+        .Width(700)
+        .Height(400)
+        .IsModal(true)
+        .Hidden(true)
+        .Target(Target.Parent)
+        .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableIFrame(true)
+        .IFrameUrl(Url.Content("about:blank"))
+        .OnClose(Url.Action("window_leave_Close"))
+)
+}
