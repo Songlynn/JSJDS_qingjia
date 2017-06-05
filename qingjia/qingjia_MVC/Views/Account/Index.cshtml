@@ -68,7 +68,18 @@
                 return;
             });
 
+            //回车登录
+            $("body").keydown(function () {
+                if (event.keyCode == "13") {//keyCode=13是回车键
+                    //alert('点击了回车键！');
+                    $('input:button').click();
+                }
+            });
+
         });
+
+          
+
         function toForget() {
             window.location.href = "/Account/Forget";
         }
