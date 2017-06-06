@@ -38,6 +38,7 @@
         $('.back .content').height(ulH);
     }
 
+    //获取请假类型字段
     function getType(str) {
         var type = "";
         switch (str) {
@@ -49,7 +50,7 @@
                 type = "LongLeave";
                 break;
             }
-            case "节假日请假": {
+            case "节假日去向": {
                 type = "VacationLeave";
                 break;
             }
@@ -61,11 +62,16 @@
                 type = "LessonLeave";
                 break;
             }
+            case "早晚自习请假": {
+                type = "ReviewLeave";
+                break;
+            }
             default:
                 break;
         }
         return type;
     }
+
     //消息栏
     function Message(num) {
         var message = '请假记录存在' + num + '个异常！是否点击查看？';
