@@ -249,6 +249,7 @@
                 yes: function (index, layero) {
                     //按钮【按钮一】的回调
                     layer.close(index);
+                    alertClose = 1;
                 },
                 btn2: function (index, layero) {
                     //按钮【按钮二】的回调
@@ -309,9 +310,7 @@
 
         $(document).ready(function () {
             GetNotice();
-            //GetMessage();
             setInterval(GetNotice, 20000);//20秒请求一次
-            //setInterval(GetMessage, 200000);//200秒请求一次
         });
 </script>
 }

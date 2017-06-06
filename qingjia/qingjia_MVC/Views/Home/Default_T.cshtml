@@ -146,9 +146,6 @@
                 url: '/Statistics/LeaveList/Analysis',
                 contentType: "application/json",
                 success: function (response) {
-                    //alert('请求成功');
-                    //console.log(response);
-                    //console.log(response.length);
                     Message(response.length);
                 },
                 error: function () {
@@ -160,9 +157,7 @@
 
     $(document).ready(function () {
         setHeight();
-        //GetNotice();
         GetMessage();
-        //setInterval(GetNotice, 20000);//20秒请求一次
         setInterval(GetMessage, 200000);//200秒请求一次
 
         $('.leave .content ul li').on("click", function () {
@@ -215,6 +210,7 @@
                 }
             });
         });
+
         //导出节假日去向
         $('input[name="vacation"]').on("click", function () {
             notify("导出节假日去向表", 6);
