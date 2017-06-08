@@ -79,6 +79,11 @@
                 if (input.val() == "") {
                     input.next().hide();
                 }
+
+                //回车搜索事件
+                if (event.keyCode == "13") {
+                    $('#content .tab-pane.fade.in.active .input-group input[name=search]').click();
+                }
             });
 
             //搜索按钮
@@ -126,26 +131,6 @@
                 });
             });
 
-            //$(window).scroll(function () {
-            //    // scroll at bottom
-            //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-            //        alert('已到达底部');
-            //    }
-            //});
-            //滚动
-            $('#content').bind('mousewheel', function (event, delta) {
-                var dir = delta >= 0 ? 'Up' : 'Down';
-                if (dir == 'Up') {
-                    console.log('向上滚动， www.imiansha.com');
-                } else {
-                    console.log('向下滚动， http: //blog.csdn.net/u011627980');
-                    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                        //alert('已到达底部');
-                    }
-                }
-                //return false;
-            });
-            
             //撤回按钮
             $('#content').on("click", '.main-tab .table>tbody>tr>td input[name="delete"]', function () {
                 var input = $(this);

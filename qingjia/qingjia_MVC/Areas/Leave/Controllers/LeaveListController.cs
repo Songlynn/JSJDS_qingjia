@@ -16,6 +16,12 @@ using System.Data.Entity;
 
 namespace qingjia_MVC.Areas.Leave.Controllers
 {
+    public class LeaveListModel
+    {
+        public List<LL_Table> TopTotalList { get; set; }
+        public List<LL_Table> TopList { get; set; }
+    }
+
     public class LeaveListController : BaseController
     {
         //实例化数据库
@@ -938,6 +944,8 @@ namespace qingjia_MVC.Areas.Leave.Controllers
         //GET: LeaveList/leavelist
         public ActionResult leavelist()
         {
+            Session["UserID"] = "1214001";
+            Session["RoleID"] = "3";
             string RoleID = Session["RoleID"].ToString();
             ViewBag.RoleID = RoleID;
             return View();
@@ -957,15 +965,15 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 ViewBag.condition = condition;
             }
             ViewBag.RoleID = RoleID;
-            return PartialView("_tablelist", Get_LL(UserID, RoleID, condition));
+            return PartialView("_tablelist", Get_LL(UserID, RoleID, condition, 30));
         }
 
         /// <summary>
-        /// 获取数据
+        /// 获取全部可查看请假记录数据
         /// </summary>
-        /// <param name="UserID"></param>
-        /// <param name="RoleID"></param>
-        /// <param name="condition"></param>
+        /// <param name="UserID">用户ID</param>
+        /// <param name="RoleID">角色ID</param>
+        /// <param name="condition">请假记录类型条件</param>
         /// <returns></returns>
         public List<LL_Table> Get_LL(string UserID, string RoleID, string condition)
         {
@@ -996,18 +1004,63 @@ namespace qingjia_MVC.Areas.Leave.Controllers
             //统计各类请假次数
             LL_Count(LL_List);
 
-            #region 取前50条数据
+            return changeLLModel(LL_List);
+        }
+
+        /// <summary>
+        /// 获取请假记录数据
+        /// </summary>
+        /// <param name="UserID">用户ID</param>
+        /// <param name="RoleID">角色ID</param>
+        /// <param name="condition">请假类型条件</param>
+        /// <param name="n">每类请假类型查询条数</param>
+        /// <returns></returns>
+        public LeaveListModel Get_LL(string UserID, string RoleID, string condition, int n)
+        {
+            LeaveListModel model = new LeaveListModel();//数据模型  用于_tablelist界面
+
+            List<vw_LeaveList> LL_List = new List<vw_LeaveList>();//从数据库中提取出的请假记录集合
+            List<vw_LeaveList> TopList = new List<vw_LeaveList>();//各种请假类型，各取前n条的集合
+            List<vw_LeaveList> TopTotalList = new List<vw_LeaveList>();//全部请假记录的前那条集合
+
+            #region 提取数据
+            if (RoleID == "1")//学生
+            {
+                var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.StudentID == UserID) orderby vw_LeaveList.SubmitTime descending select vw_LeaveList;
+                LL_List = LL.ToList();
+            }
+            else if (RoleID == "2")//班级
+            {
+                //获取班级账号名称
+                string className = Session["UserName"].ToString();
+
+                var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_Class == className) orderby vw_LeaveList.SubmitTime descending select vw_LeaveList;
+                LL_List = LL.ToList();
+            }
+            else if (RoleID == "3")//辅导员
+            {
+                var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_TeacherID == UserID) orderby vw_LeaveList.SubmitTime descending select vw_LeaveList;
+                LL_List = LL.ToList();
+            }
+            else
+            {
+                return null;
+            }
+            #endregion
+
+            #region 取前n条数据
+
             List<int> LLNum = new List<int>();
             for (int i = 0; i < 5; i++)
             {
                 LLNum.Add(0);
             }
-            int n = 30;
+
             for (int i = 0; i < 5; i++)
             {
                 LLNum[i] = 0;
             }
-            List<vw_LeaveList> TopList = new List<vw_LeaveList>();
+
             foreach (vw_LeaveList llModel in LL_List)
             {
                 if (llModel.LeaveType.ToString().Substring(0, 4) == "短期请假")
@@ -1061,9 +1114,28 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                     break;
                 }
             }
+
+            //获取全部请假记录的前n条数据
+            if (LL_List.Count > n)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    TopTotalList.Add(LL_List[i]);
+                }
+            }
+            else
+            {
+                foreach (vw_LeaveList ll in LL_List)
+                {
+                    TopTotalList.Add(ll);
+                }
+            }
             #endregion
 
-            return changeLLModel(TopList);
+            model.TopTotalList = changeLLModel(TopTotalList);
+            model.TopList = changeLLModel(TopList);
+
+            return model;
         }
 
         /// <summary>
@@ -1405,14 +1477,19 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 {
                     ViewBag.condition = Request["condition"].ToString();
                 }
-                return PartialView("_tablelist", _LL);
+
+                LeaveListModel model = new LeaveListModel();
+                model.TopList = _LL;
+                model.TopTotalList = _LL;
+
+                return PartialView("_tablelist", model);
             }
             else
             {
-                List<LL_Table> LL = Get_LL(UserID, RoleID, search);
+                //List<LL_Table> LL = Get_LL(UserID, RoleID, search);
 
-                //统计各类请假类型的数量
-                LL_Count(LL);
+                ////统计各类请假类型的数量
+                //LL_Count(LL);
 
                 //返回前台选定的请假类型状态
                 if (Request["condition"] == null)
@@ -1423,7 +1500,7 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 {
                     ViewBag.condition = Request["condition"].ToString();
                 }
-                return PartialView("_tablelist", LL);
+                return PartialView("_tablelist", Get_LL(UserID, RoleID, search, 30));
             }
         }
         #endregion
