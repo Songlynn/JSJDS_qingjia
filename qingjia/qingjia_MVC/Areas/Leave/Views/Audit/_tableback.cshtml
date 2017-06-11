@@ -144,6 +144,8 @@
         @if (leavetype == "AllLeave")
         {
             <div class="tab-pane fade in active" id="AllLeave">
+                @if (ViewBag.totalNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -204,11 +206,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="AllLeave">
+                @if (ViewBag.totalNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -269,6 +280,13 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         
@@ -276,6 +294,8 @@
         @if (leavetype == "ShortLeave")
         {
             <div class="tab-pane fade in active" id="ShortLeave">
+                @if (ViewBag.shortNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -339,11 +359,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="ShortLeave">
+                @if (ViewBag.shortNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -407,6 +436,13 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         
@@ -414,6 +450,8 @@
         @if (leavetype == "LongLeave")
         {
             <div class="tab-pane fade in active" id="LongLeave">
+                @if (ViewBag.longNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -477,11 +515,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="LongLeave">
+                @if (ViewBag.longNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -545,6 +592,13 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         
@@ -552,6 +606,8 @@
         @if (leavetype == "VacationLeave")
         {
             <div class="tab-pane fade in active" id="VacationLeave">
+                @if (ViewBag.holidayNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -615,11 +671,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="VacationLeave">
+                @if (ViewBag.holidayNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -683,6 +748,13 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         
@@ -690,6 +762,8 @@
         @if (leavetype == "NightLeave")
         {
             <div class="tab-pane fade in active" id="NightLeave">
+                @if (ViewBag.nightNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -753,11 +827,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="NightLeave">
+                @if (ViewBag.nightNumLeave != 0)
+                {
                 <div class="tab-toollist">
                     <input type="image" name="passmore" src="~/Content/image/audit-back-passmore.png" />
                     <div class="input-group">
@@ -821,6 +904,13 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<qingjia_MVC.Areas.Leave.Controllers.LL_Table>
+﻿@model qingjia_MVC.Areas.Leave.Controllers.LeaveListModel
 @{
     Layout = null;
     var LeaveType = ViewBag.condition;
@@ -144,7 +144,6 @@
             </li>
         }
     </ul>
-    @*<hr />*@
     <div class="tab-content" id="myTabContent">
         @if (LeaveType == "AllLeave")
         {
@@ -177,7 +176,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopTotalList)
                             {
                                 <tr>
                                     <td>&nbsp;</td>
@@ -257,7 +256,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopTotalList)
                             {
                                 <tr>
                                     <td>&nbsp;</td>
@@ -337,7 +336,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType == "短期请假")
                                 {
@@ -413,7 +412,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType == "短期请假")
                                 {
@@ -489,7 +488,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType == "长期请假")
                                 {
@@ -565,7 +564,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType == "长期请假")
                                 {
@@ -641,7 +640,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
                                 {
@@ -717,7 +716,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "节假日")
                                 {
@@ -793,7 +792,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
                                 {
@@ -869,7 +868,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "晚点名")
                                 {
@@ -945,7 +944,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
                                 {
@@ -1021,7 +1020,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
                                 if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
                                 {
@@ -1098,9 +1097,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
-                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自习")
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自")
                                 {
                                     <tr>
                                         <td>&nbsp;</td>
@@ -1174,9 +1173,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var LL in Model)
+                            @foreach (var LL in Model.TopList)
                             {
-                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自习")
+                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自")
                                 {
                                     <tr>
                                         <td>&nbsp;</td>

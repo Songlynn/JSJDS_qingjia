@@ -31,6 +31,17 @@
     border-radius: 15px;
     box-shadow: 0 0 7px 5px  rgba(0, 0, 0, 0.118);
     margin-bottom: 20px;
+    -webkit-animation: zoom 0.6s;
+    -o-animation: zoom 0.6s;
+    animation: zoom 0.6s;
+}
+@keyframes zoom {
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
+@-webkit-keyframes zoom{
+    from{transform: scale(0);}
+    to{transform: scale(1);}
 }
 .content-block .content-title{
     width: 100%;

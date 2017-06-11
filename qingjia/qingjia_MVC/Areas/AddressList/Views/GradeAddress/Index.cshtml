@@ -29,6 +29,8 @@
                 });
 
             }
+
+            //输入事件
             $('#content').on('keyup', '.content-title .input-group input:text', function () {
                 var input = $(this);
                 if (input.val() != "") {
@@ -36,8 +38,14 @@
                 }
                 if (input.val() == "") {
                     input.next().hide();
+                    //alert('清空内容');
+                }
+                //回车搜索事件
+                if (event.keyCode == "13") {
+                    $('#content .content-title .input-group input[name=search]').click();
                 }
             });
+
             //取消搜索
             $('#content').on("click", ".content-title .input-group .cancel input:image", function () {
                 $(this).parent().prev().val("");
@@ -56,6 +64,7 @@
                     }
                 });
             });
+
             //搜索
             $('#content').on("click", ".content-title .input-group input[name=search]", function () {
                 var input = $(this);
@@ -80,6 +89,7 @@
                     notify('搜索内容不能为空！',0);
                 }
             });
+
             //发短信
             $('#content').on("click", ".content .table>tbody>tr>td:last-child input[name='send']", function (event) {
                 var tel = $(this).parent().prev().prev().prev().html();

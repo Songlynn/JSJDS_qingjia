@@ -94,6 +94,9 @@
                 if (input.val() == "") {
                     input.next().hide();
                 }
+                if (event.keyCode == "13") {
+                    $('#content .tab-pane.fade.in.active .input-group input[name=search]').click();
+                }
             });
 
             //批量同意请假

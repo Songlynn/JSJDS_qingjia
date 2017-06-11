@@ -18,21 +18,7 @@
         //事件绑定
         $(document).ready(function () {
             roleid = $('#roleid').val();
-            //是否允许撤回请假
-            if (roleid != "1") {
-                $('.table').each(function () {
-                    var table = $(this);
-                    var th = table.find('thead>tr>th').eq(2);
-                    th.html("");
-                    th.css({"width":"0","min-width":"0"});
-                    var tr = table.find('tbody>tr').not('.expand');
-                    tr.each(function () {
-                        var td = $(this).children('td').eq(2);
-                        td.html("");
-                        td.css({ "width": "0", "min-width": "0" });
-                    });
-                });
-            }
+            checkDelete();
             //请假说明
             $('input.detail').on("click", function () {
                 var url = '@Url.Content("~/Leave/LeaveForm/LeaveInfo_T")';
@@ -57,17 +43,13 @@
                 $(this).tab('show');
             });
             //打印按钮
-            $('.table').each(function () {
-                var table = $(this);
-                table.children('tbody').children('tr').find("input[name='print']").click(function () {
-                    //获取行的请假单号
-                    var cb = $(this).parent().parent().children('td').next();
-                    //alert(cb.html());
-                    var rowid = cb.html();
-                    //打印请假条
-                    notify('开始生成请假单号为' + rowid + '的请假条！',6);
-                    print(rowid);
-                });
+            $('#content').on('click', 'input[name="print"]', function () {
+                var cb = $(this).parent().parent().children('td').next();
+                //alert(cb.html());
+                var rowid = cb.html();
+                //打印请假条
+                notify('开始生成请假单号为' + rowid + '的请假条！', 6);
+                print(rowid);
             });
 
             //输入事件
@@ -79,11 +61,18 @@
                 if (input.val() == "") {
                     input.next().hide();
                 }
+
+                //回车搜索事件
+                if (event.keyCode == "13") {
+                    $('#content .tab-pane.fade.in.active .input-group input[name=search]').click();
+                }
             });
 
             //搜索按钮
             $('#content').on("click", ".tab-pane.fade.in.active .input-group input[name=search]", function () {
-                var input = $(this);
+                //var input = $(this);
+                SearchClick();
+                /*var input = $(this);
                 var searchText = input.parent().next().val();
                 if (searchText != "") {
                     notify('开始搜索：' + searchText,6);
@@ -93,6 +82,7 @@
                         success: function (response) {
                             notify('加载完成！',1);
                             $("#content").html(response);
+                            checkDelete();
                             //$('.tab-pane.fade.in.active .input-group input:text').next().show();
                             $('#content input:text').next().show();
                             setRowNum();
@@ -104,7 +94,7 @@
                 }
                 else {
                     notify('搜索内容不能为空！',0);
-                }
+                }*/
             });
 
             //取消按钮
@@ -118,7 +108,8 @@
                     success: function (response) {
                         notify('取消搜索！',0);
                         $("#content").html(response);
-                        //setnum();
+                        checkDelete();
+                        setRowNum();
                     },
                     error: function () {
                         notify('发生错误！',2);
@@ -126,26 +117,6 @@
                 });
             });
 
-            //$(window).scroll(function () {
-            //    // scroll at bottom
-            //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-            //        alert('已到达底部');
-            //    }
-            //});
-            //滚动
-            $('#content').bind('mousewheel', function (event, delta) {
-                var dir = delta >= 0 ? 'Up' : 'Down';
-                if (dir == 'Up') {
-                    console.log('向上滚动， www.imiansha.com');
-                } else {
-                    console.log('向下滚动， http: //blog.csdn.net/u011627980');
-                    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                        //alert('已到达底部');
-                    }
-                }
-                //return false;
-            });
-            
             //撤回按钮
             $('#content').on("click", '.main-tab .table>tbody>tr>td input[name="delete"]', function () {
                 var input = $(this);
@@ -181,6 +152,30 @@
                 });
             });
         });
+        $(window).scroll(function () {
+            if ((($(window).scrollTop() + $(window).height())) >= $(document).height()) {
+                alert('滚动到底部');
+            }
+        });
+        
+
+        //是否允许撤回请假
+        function checkDelete() {
+            if (roleid != "1") {
+                $('.table').each(function () {
+                    var table = $(this);
+                    var th = table.find('thead>tr>th').eq(2);
+                    th.html("");
+                    th.css({ "width": "0", "min-width": "0" });
+                    var tr = table.find('tbody>tr').not('.expand');
+                    tr.each(function () {
+                        var td = $(this).children('td').eq(2);
+                        td.html("");
+                        td.css({ "width": "0", "min-width": "0" });
+                    });
+                });
+            }
+        }
 
         //设置序号
         function setRowNum() {
@@ -224,27 +219,28 @@
             });
         }
 
-        //搜索按钮
         function SearchClick() {
-            //var searchText = $('#' + LeaveType).find('#condition').val();
             var searchText = $('.tab-pane.fade.in.active').find('#condition').val();
-            if (searchText == "") {
-                notify('搜索内容不能为空！',0);
-                return;
+            if (searchText != "") {
+                notify('开始搜索：' + searchText, 6);
+                $.ajax({
+                    //注意URL的格式
+                    url: '/Leave/LeaveList/SearchClick?search=' + searchText + '&condition=' + LeaveType,
+                    success: function (response) {
+                        notify('搜索完成！', 1);
+                        $("#content").html(response);
+                        checkDelete();
+                        $('#content input:text').next().show();
+                        setRowNum();
+                    },
+                    error: function () {
+                        notify('发生错误！', 2);
+                    }
+                });
             }
-            notify('开始搜索：' + searchText,6);
-            $.ajax({
-                //注意URL的格式
-                url: '/Leave/LeaveList/SearchClick?search=' + searchText + '&condition=' + LeaveType,
-                success: function (response) {
-                    notify('搜索完成！',1);
-                    $("#content").html(response);
-                    setRowNum();
-                },
-                error: function () {
-                    notify('发生错误！',2);
-                }
-            });
+            else {
+                notify('搜索内容不能为空！', 0);
+            }
         }
 
         //随滚动条事件加载数据
