@@ -944,8 +944,8 @@ namespace qingjia_MVC.Areas.Leave.Controllers
         //GET: LeaveList/leavelist
         public ActionResult leavelist()
         {
-            Session["UserID"] = "1214001";
-            Session["RoleID"] = "3";
+            //Session["UserID"] = "1214001";
+            //Session["RoleID"] = "3";
             string RoleID = Session["RoleID"].ToString();
             ViewBag.RoleID = RoleID;
             return View();

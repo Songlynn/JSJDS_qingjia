@@ -98,3 +98,16 @@
 .manager .content .table .pagination{
     margin:20px auto 0 auto;
 }
+div.content-block{
+    -webkit-animation: zoom 0.6s;
+    -o-animation: zoom 0.6s;
+    animation: zoom 0.6s;
+}
+@keyframes zoom {
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
+@-webkit-keyframes zoom{
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
