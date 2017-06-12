@@ -70,31 +70,7 @@
 
             //搜索按钮
             $('#content').on("click", ".tab-pane.fade.in.active .input-group input[name=search]", function () {
-                //var input = $(this);
                 SearchClick();
-                /*var input = $(this);
-                var searchText = input.parent().next().val();
-                if (searchText != "") {
-                    notify('开始搜索：' + searchText,6);
-                    $.ajax({
-                        //注意URL的格式
-                        url: '/Leave/LeaveList/SearchClick?search=' + searchText + '&condition=' + LeaveType,
-                        success: function (response) {
-                            notify('加载完成！',1);
-                            $("#content").html(response);
-                            checkDelete();
-                            //$('.tab-pane.fade.in.active .input-group input:text').next().show();
-                            $('#content input:text').next().show();
-                            setRowNum();
-                        },
-                        error: function () {
-                            notify('发生错误！',2);
-                        }
-                    });
-                }
-                else {
-                    notify('搜索内容不能为空！',0);
-                }*/
             });
 
             //取消按钮
@@ -152,9 +128,11 @@
                 });
             });
         });
+
         $(window).scroll(function () {
             if ((($(window).scrollTop() + $(window).height())) >= $(document).height()) {
-                alert('滚动到底部');
+                //alert('滚动到底部');
+                console.log('滑到底部');
             }
         });
         
