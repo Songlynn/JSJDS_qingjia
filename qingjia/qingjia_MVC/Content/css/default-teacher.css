@@ -256,3 +256,16 @@
     top:70px;
     right:40px;
 }
+div.leave,div.back,div.night,div.vacation{
+    -webkit-animation: zoom 0.6s;
+    -o-animation: zoom 0.6s;
+    animation: zoom 0.6s;
+}
+@keyframes zoom {
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
+@-webkit-keyframes zoom{
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
