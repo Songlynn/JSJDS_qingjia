@@ -1157,6 +1157,7 @@
                 }
                 else
                 {
+
                     <div class="leavelist-none">
                         <img src="~/Content/image/leavelist-none.png" />
                     </div>
@@ -1167,82 +1168,6 @@
         @if (leavetype == "ReviewLeave")
         {
             <div class="tab-pane fade in active" id="ReviewLeave">
-                                @*@if (ViewBag.reviewLeaveNum != 0)
-        {
-        <div class="tab-toollist">
-            <input type="image" name="passmore" src="~/Content/image/audit-leave-passmore.png" />
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <input type="image" name="search" value="@searchText" src="~/Content/image/audit-search.png">
-                </span>
-                <input type="text" id="condition" placeholder="请输入搜索内容">
-                <span class="input-group-btn cancel">
-                    <input type="image" src="~/Content/image/cancel.png">
-                </span>
-            </div>
-        </div>
-        <div class="leavelist">
-            <table class="table table-condensed lesson">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" class="input-sm"></th>
-                        <th>请假单号</th>
-                        <th>驳回</th>
-                        <th>同意</th>
-                        <th>状态</th>
-                        <th>姓名</th>
-                        <th>班级</th>
-                        <th>请假类型</th>
-                        <th>请假原因</th>
-                        <th>提交时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewBag.reviewLeaveNum != 0)
-                    {
-                        foreach (var LL in Model)
-                        {
-                            if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="input-sm" value="@LL.ID">
-                                    </td>
-                                    <td>@LL.ID</td>
-                                    <td>
-                                        <input type="image" name="back" src="~/Content/image/auditleave-back.png">
-                                    </td>
-                                    <td>
-                                        <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
-                                    </td>
-                                    <td>@LL.AuditState</td>
-                                    <td><span>@LL.ST_Name</span></td>
-                                    <td><span>@LL.ST_Class</span></td>
-                                    <td>@LL.LeaveType</td>
-                                    <td><span class="reason">@LL.Reason</span></td>
-                                    <td>@LL.SubmitTime</td>
-                                </tr>
-                            }
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="10">
-                                <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        }
-        else
-        {
-            <div class="leavelist-none">
-                <img src="~/Content/image/leavelist-none.png" />
-            </div>
-        }*@
                 <div class="leavelist-none">
                     <img src="~/Content/image/leavelist-none.png" />
                 </div>
@@ -1251,82 +1176,6 @@
         else
         {
             <div class="tab-pane fade" id="ReviewLeave">
-                                @*@if (ViewBag.reviewLeaveNum != 0)
-        {
-        <div class="tab-toollist">
-            <input type="image" name="passmore" src="~/Content/image/audit-leave-passmore.png" />
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <input type="image" name="search" src="~/Content/image/audit-search.png">
-                </span>
-                <input type="text" id="condition" value="@searchText" placeholder="请输入搜索内容">
-                <span class="input-group-btn cancel">
-                    <input type="image" src="~/Content/image/cancel.png">
-                </span>
-            </div>
-        </div>
-        <div class="leavelist">
-            <table class="table table-condensed lesson">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" class="input-sm"></th>
-                        <th>请假单号</th>
-                        <th>驳回</th>
-                        <th>同意</th>
-                        <th>状态</th>
-                        <th>姓名</th>
-                        <th>班级</th>
-                        <th>请假类型</th>
-                        <th>请假原因</th>
-                        <th>提交时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewBag.reviewLeaveNum != 0)
-                    {
-                        foreach (var LL in Model)
-                        {
-                            if (LL.LeaveType.ToString().Substring(0, 3) == "上课请")
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="input-sm" value="@LL.ID">
-                                    </td>
-                                    <td>@LL.ID</td>
-                                    <td>
-                                        <input type="image" name="back" src="~/Content/image/auditleave-back.png">
-                                    </td>
-                                    <td>
-                                        <input type="image" name="agree" src="~/Content/image/auditleave-pass.png">
-                                    </td>
-                                    <td>@LL.AuditState</td>
-                                    <td><span>@LL.ST_Name</span></td>
-                                    <td><span>@LL.ST_Class</span></td>
-                                    <td>@LL.LeaveType</td>
-                                    <td><span class="reason">@LL.Reason</span></td>
-                                    <td>@LL.SubmitTime</td>
-                                </tr>
-                            }
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="10">
-                                <img class="leavelist-none" src="~/Content/image/leavelist-none.png" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        }
-        else
-        {
-            <div class="leavelist-none">
-                <img src="~/Content/image/leavelist-none.png" />
-            </div>
-        }*@
                 <div class="leavelist-none">
                     <img src="~/Content/image/leavelist-none.png" />
                 </div>
