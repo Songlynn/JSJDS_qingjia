@@ -26,6 +26,10 @@ namespace qingjia_MVC.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 登录 Ajax登录请求
+        /// </summary>
+        /// <returns></returns>
         public string AjaxLogin()
         {
             string UserID = Request["UserID"].ToString();
@@ -51,6 +55,10 @@ namespace qingjia_MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <returns></returns>
         public ActionResult login()
         {
             string txbAccount = Request["UserID"].ToString();
@@ -110,22 +118,11 @@ namespace qingjia_MVC.Controllers
             }
         }
 
-        /// <summary>
-        /// Alert.MessageBoxIcon可设置提示框图标样式,可选样式：None无 Information消息 Warning警告 Question问题 Error错误 Success成功,Alert.Target可设置显示提示框的位置,可选样式：Self当前页面 Parent父页面 Top顶层页面
-        /// </summary>
-        /// <param name="title">标题</param>
-        /// <param name="message">信息</param>
-        /// <param name="icon">Icon类型</param>
-        public void alertInfo(string title, string message, string icon)
-        {
-            Alert alert = new Alert();
-            alert.Title = title;
-            alert.Message = message;
-            alert.MessageBoxIcon = (MessageBoxIcon)Enum.Parse(typeof(MessageBoxIcon), icon, true);
-            alert.Target = (Target)Enum.Parse(typeof(Target), "Self", true);
-            alert.Show();
-        }
+        
 
+        /// <summary>
+        /// 设置将账号相关信息存入Session
+        /// </summary>
         protected void SetSession()
         {
             string UserID = Session["UserID"].ToString();
@@ -447,6 +444,22 @@ namespace qingjia_MVC.Controllers
             n.Show();
         }
 
+        /// <summary>
+        /// Alert.MessageBoxIcon可设置提示框图标样式,可选样式：None无 Information消息 Warning警告 Question问题 Error错误 Success成功,Alert.Target可设置显示提示框的位置,可选样式：Self当前页面 Parent父页面 Top顶层页面
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="message">信息</param>
+        /// <param name="icon">Icon类型</param>
+        public void alertInfo(string title, string message, string icon)
+        {
+            Alert alert = new Alert();
+            alert.Title = title;
+            alert.Message = message;
+            alert.MessageBoxIcon = (MessageBoxIcon)Enum.Parse(typeof(MessageBoxIcon), icon, true);
+            alert.Target = (Target)Enum.Parse(typeof(Target), "Self", true);
+            alert.Show();
+        }
+
         //暂时未使用到
         /// <summary>
         /// 获取网址的完整路径
@@ -464,7 +477,6 @@ namespace qingjia_MVC.Controllers
 
             return urlBuilder.ToString();
         }
-
 
         #endregion
     }

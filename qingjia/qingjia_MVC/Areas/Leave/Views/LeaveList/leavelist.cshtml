@@ -15,6 +15,9 @@
     <script>
         var LeaveType = "AllLeave";
         var roleid = "";
+
+        var loading = 0;//1代表正在访问数据中
+
         //事件绑定
         $(document).ready(function () {
             roleid = $('#roleid').val();
@@ -37,11 +40,13 @@
                 });
             });
             setRowNum();
+
             //切换Table
             $('#mainTab a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
             });
+
             //打印按钮
             $('#content').on('click', 'input[name="print"]', function () {
                 var cb = $(this).parent().parent().children('td').next();
@@ -82,13 +87,13 @@
                     //注意URL的格式
                     url: '/Leave/LeaveList/SearchClick?condition=' + LeaveType,
                     success: function (response) {
-                        notify('取消搜索！',0);
+                        notify('取消搜索！', 0);
                         $("#content").html(response);
                         checkDelete();
                         setRowNum();
                     },
                     error: function () {
-                        notify('发生错误！',2);
+                        notify('发生错误！', 2);
                     }
                 });
             });
@@ -110,7 +115,6 @@
             $('#content').on("click", ".table>tbody>tr", function () {
                 var tr = $(this);
                 var rowid = tr.children('td').eq(1).html();
-                //alert(rowid);
                 var url = '@Url.Content("~/Leave/LeaveList/leavedetail")' + '?ID=' + rowid;
                 layer.ready(function () {
                     layer.open({
@@ -129,14 +133,81 @@
             });
         });
 
+        //页面滚动事件
         $(window).scroll(function () {
-            if ((($(window).scrollTop() + $(window).height())) >= $(document).height()) {
-                //alert('滚动到底部');
-                console.log('滑到底部');
+            var trNum = $('#content .tab-pane.fade.in.active .table>tbody tr').size() + 1;
+
+            if (((($(window).scrollTop() + $(window).height()) + 1) >= $(document).height()) && loading == 0) {//1个像素点 
+                loading = 1;
+                notify('正在加载数据...', 6);
+
+                //访问后台获取数据
+                $.ajax({
+                    //注意URL的格式
+                    url: '/Leave/LeaveList/ReLoadNext?leavetype=' + LeaveType + '&index=' + trNum + '&num=' + 20,//ReLoadNext
+                    dataType: 'json',
+                    type: 'post',
+                    success: function (response) {
+                        //alert('加载成功！');
+                        $('#content .tab-pane.fade.in.active .table>tbody').append(DataToTable(response));
+                        loading = 0;//允许再次请求数据
+                    },
+                    error: function () {
+                        notify('发生错误！', 6);
+                        loading = 0;//允许在此请求数据
+                    }
+                });
             }
         });
-        
 
+        //json数据转换成html显示到界面
+        function DataToTable(jsonData) {
+            //对数据处理，转换为html中的table中的tr行 并返回到界面
+            var data, num, leaveType;
+            var returnHtml = '';
+            var trNumIndex = $('#content .tab-pane.fade.in.active .table>tbody tr').size() + 1;//添加数据行起始索引
+
+            data = jsonData["data"];
+            num = jsonData["num"];
+            leaveType = jsonData["leaveType"];
+
+            if (num == 0) {
+                notify('已加载完全部记录！', 6);
+            }
+            else if (num < 20) {
+                notify('已加载全部记录！更新了' + num + '条记录！', 1);
+            }
+            else {
+                notify('加载了' + num + '条记录！', 1);
+            }
+
+            for (var k in data) {
+                returnHtml += '<tr>';
+                returnHtml += '<td>' + (trNumIndex++) + '</td>';
+                returnHtml += '<td>' + data[k]['ID'] + '</td>';
+                returnHtml += '<td style="width: 0px; min-width:0px;"></td>';
+                if ((data[k]['AuditState'] == '待销假' || data[k]['AuditState'] == '已销假') && (data[k]['LeaveType'].substring(0, 2) == '上课' || data[k]['LeaveType'].substring(0, 2) == '短期' || data[k]['LeaveType'].substring(0, 2) == '长期' || data[k]['LeaveType'].substring(0, 2) == '节假')) {
+                    returnHtml += '<td><input type="image" name="print" src="/Content/image/leavelist-print.png"></td>';
+                }
+                else {
+                    returnHtml += '<td><input type="image" name="print" disabled src="/Content/image/leavelist-print-disabled.png"></td>';
+                }
+                returnHtml += '<td>' + data[k]['AuditState'] + '</td>';
+                returnHtml += '<td><span>' + data[k]['ST_Name'] + '</span></td>';
+                returnHtml += '<td><span>' + data[k]['ST_Class'] + '</span></td>';
+                if (data[k]['LeaveType'] == '短期请假' || data[k]['LeaveType'] == '长期请假' || data[k]['LeaveType'].substring(0, 3) == '节假日') {
+                    returnHtml += '<td>' + data[k]['LeaveType'] + '</td>';
+                }
+                else {
+                    returnHtml += '<td>' + data[k]['LeaveType'].substring(0, data[k]['LeaveType'].length - 4) + '</td>';
+                }
+                returnHtml += '<td><span class="reason">' + data[k]['Reason'] + '</span></td>';
+                returnHtml += '<td>' + data[k]['SubmitTime'] + '</td>';
+                returnHtml += '</tr>';
+            }
+            return returnHtml;
+        }
+        
         //是否允许撤回请假
         function checkDelete() {
             if (roleid != "1") {
@@ -163,7 +234,7 @@
                 tr.each(function (index) {
                     var td = $(this).children('td').eq(0);
                     td.html(index + 1);
-                    
+
                 });
             });
         }
@@ -197,6 +268,7 @@
             });
         }
 
+        //搜索按钮
         function SearchClick() {
             var searchText = $('.tab-pane.fade.in.active').find('#condition').val();
             if (searchText != "") {
@@ -219,27 +291,6 @@
             else {
                 notify('搜索内容不能为空！', 0);
             }
-        }
-
-        //随滚动条事件加载数据
-        function LoadNextData() {
-            var index = 15;//已有数据条数
-            var num = 15;//加载数目
-            //alert('加载' + LeaveType + '类型数据' + ' ' + '从第' + (index + 1) + '条开始，加载' + num + '条。');
-            notify('加载' + LeaveType + '类型数据' + ' ' + '从第' + (index + 1) + '条开始，加载' + num + '条。',6)
-            $.ajax({
-                //注意URL的格式
-                url: '/Leave/LeaveList/ReLoadNext?index=' + index + '&leavetype=' + LeaveType + '&num=' + num,
-                success: function (response) {
-                    notify('加载完成！',1);
-                    //$('#' + LeaveType + '.table>tbody').append(response);
-                    $('#' + LeaveType).find('tbody').append(response);
-                    setRowNum();
-                },
-                error: function () {
-                    notify('发生错误！',2);
-                }
-            });
         }
 
         //通知

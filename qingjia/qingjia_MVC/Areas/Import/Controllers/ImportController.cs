@@ -8,15 +8,9 @@ using System.Data;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
-using NPOI.HSSF.Util;
-using NPOI.SS.Util;
-using System.Security.Cryptography;
-using System.Collections;
 using System.Collections.Generic;
 using qingjia_MVC.Models;
 using System.Web.Script.Serialization;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Data.Entity.Infrastructure;
 using qingjia_MVC.Controllers;
 
@@ -67,7 +61,7 @@ namespace qingjia_MVC.Areas.Import.Controllers
     {
         public string ID { get; set; }
         public string Name { get; set; }
-        
+
     }
 
     public class ImportController : BaseController
@@ -221,9 +215,51 @@ namespace qingjia_MVC.Areas.Import.Controllers
             JavaScriptSerializer js = new JavaScriptSerializer();
             var list = js.Deserialize<List<StudentModel>>(stream);
 
-            model.successNum = 1;
-            model.failNum = 2;
-            model.FailedInfo = list;
+            int successNum = 0;
+            int failedNum = 0;
+
+            List<StudentModel> failedList = new List<StudentModel>();
+
+            foreach (StudentModel studnetmodel in list)
+            {
+                string studentID = studnetmodel.ID;
+                string studentclass = studnetmodel.ClassName;
+                T_Student student = db.T_Student.Find(studentID);
+                if (student == null)
+                {
+                    student = new T_Student();
+                    student.ID = studnetmodel.ID;
+                    student.Name = studnetmodel.Name;
+                    student.ClassName = studnetmodel.ClassName;
+                    student.Tel = studnetmodel.Tel;
+                    student.Email = studnetmodel.Email;
+                    student.QQ = studnetmodel.QQ;
+                    student.Sex = studnetmodel.Sex;
+                    student.Room = studnetmodel.Door;
+                    student.ContactOne = studnetmodel.Contact + "-" + studnetmodel.ContactName;
+                    student.OneTel = studnetmodel.ContactTel;
+                    student.ContactTwo = null;
+                    student.ContactThree = null;
+                    student.ThreeTel = null;
+
+                    db.T_Student.Add(student);
+
+                    T_Class classModel = (from T_Class in db.T_Class where (T_Class.ClassName == studentclass) select T_Class).ToList().First();
+                    classModel.Total = classModel.Total + 1;
+
+                    db.SaveChanges();
+                    successNum++;
+                }
+                else
+                {
+                    failedList.Add(studnetmodel);
+                    failedNum++;
+                }
+            }
+
+            model.successNum = successNum;
+            model.failNum = failedNum;
+            model.FailedInfo = failedList;
 
             res.JsonRequestBehavior = JsonRequestBehavior.AllowGet;//允许使用GET方式获取，否则用GET获取是会报错
             res.Data = model;
@@ -427,7 +463,7 @@ namespace qingjia_MVC.Areas.Import.Controllers
             string classname = Request["classname"].ToString();
             string grade = Request["grade"].ToString().Substring(0, 4);
 
-            
+
             try
             {
                 T_Class newclass = new T_Class();
@@ -447,7 +483,7 @@ namespace qingjia_MVC.Areas.Import.Controllers
             }
             return ClassInfo();
         }
-        
+
         public ActionResult editView()
         {
             string classid = Request["id"].ToString();
@@ -462,7 +498,7 @@ namespace qingjia_MVC.Areas.Import.Controllers
                               Name = stu.ST_Name
                           };
             List<string> ddlStu = new List<string>();
-            foreach(var stu in stulist)
+            foreach (var stu in stulist)
             {
                 ddlStu.Add(stu.Name + '-' + stu.ID);
             }
@@ -484,7 +520,7 @@ namespace qingjia_MVC.Areas.Import.Controllers
             {
                 //.Data.Entity.Infrastructure.DbUpdateException
             }
-           
+
             return ClassInfo();
         }
     }

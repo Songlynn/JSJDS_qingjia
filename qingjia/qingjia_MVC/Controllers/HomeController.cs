@@ -10,6 +10,8 @@ using System.Web.Script.Serialization;
 
 namespace qingjia_MVC.Controllers
 {
+    #region 数据模型
+
     public class BatchModel
     {
         public string batchName { get; set; }
@@ -54,6 +56,7 @@ namespace qingjia_MVC.Controllers
         public string teacherEmail { get; set; }
     }
 
+    #endregion
 
     public class HomeController : BaseController
     {
@@ -674,7 +677,7 @@ namespace qingjia_MVC.Controllers
                 teacherModel.ID = teacherJsonModel.teacherID;
                 teacherModel.Name = teacherJsonModel.teacherName;
                 teacherModel.Sex = teacherJsonModel.teacherSex;
-                teacherModel.Grade = teacherJsonModel.teacherGrade.ToString().Substring(0,4);
+                teacherModel.Grade = teacherJsonModel.teacherGrade.ToString().Substring(0, 4);
                 teacherModel.Tel = teacherJsonModel.teacherTel;
                 teacherModel.Email = teacherJsonModel.teacherEmail;
                 db.T_Teacher.Add(teacherModel);

@@ -179,7 +179,7 @@
         
 
         $('#content').on("click", "input[name='btnUpLoad']", function (e) {
-            alert('开始保存');
+            //alert('开始保存');
             var jsonData = getCheckedData();
             if (jsonData.length != 0) {
                 //console.log(jsonData);
@@ -275,27 +275,30 @@
                 }
             });
             //alert(ids.valueOf());
+            //console.log(dataArr);
             return dataArr;
         }
 
         function GetDataBytr(tr) {
             var trData = {
-                "ID": tr.children('td').eq(2).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Name": tr.children('td').eq(3).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "ClassName": tr.children('td').eq(4).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Sex": tr.children('td').eq(5).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Door": tr.children('td').eq(6).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Nation": tr.children('td').eq(7).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Tel": tr.children('td').eq(8).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Email": tr.children('td').eq(9).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "QQ": tr.children('td').eq(10).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "ContactName": tr.children('td').eq(11).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "ContactTel": tr.children('td').eq(12).text().replace(/(^\s*)|(\s*$)/g, ""),
-                "Contact": tr.children('td').eq(13).text().replace(/(^\s*)|(\s*$)/g, "")
+                "ID": tr.children('td').eq(1).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Name": tr.children('td').eq(2).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ClassName": tr.children('td').eq(3).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Sex": tr.children('td').eq(4).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Door": tr.children('td').eq(5).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Nation": tr.children('td').eq(6).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Tel": tr.children('td').eq(7).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Email": tr.children('td').eq(8).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "QQ": tr.children('td').eq(9).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ContactName": tr.children('td').eq(10).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "ContactTel": tr.children('td').eq(11).text().replace(/(^\s*)|(\s*$)/g, ""),
+                "Contact": tr.children('td').eq(12).text().replace(/(^\s*)|(\s*$)/g, "")
             };
             return trData;
         }
 
+
+        //ajax 异步上传
         $("#fileupload").on("change", function () {
             layer.msg('开始上传！', {
                 icon: 1,

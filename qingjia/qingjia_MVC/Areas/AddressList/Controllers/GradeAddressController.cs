@@ -257,6 +257,7 @@ namespace qingjia_MVC.Areas.AddressList.Controllers
 
             string text = Request["text"].ToString();
             string tel = Request["tel"].ToString();
+            tel = "15307179930";
 
             if (ShortMessageClass.SendShortMessage(teacher.Name, text, tel))
             {
@@ -264,6 +265,5 @@ namespace qingjia_MVC.Areas.AddressList.Controllers
             }
             return "0";
         }
-
     }
 }

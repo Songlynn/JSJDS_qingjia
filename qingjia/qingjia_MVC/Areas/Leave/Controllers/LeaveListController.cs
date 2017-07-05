@@ -22,6 +22,15 @@ namespace qingjia_MVC.Areas.Leave.Controllers
         public List<LL_Table> TopList { get; set; }
     }
 
+    public class JsonDataModel //返回到前台的数据Json数据Model
+    {
+        public string leaveType { get; set; }
+
+        public int num { get; set; }
+
+        public List<LL_Table> data { get; set; }
+    }
+
     public class LeaveListController : BaseController
     {
         //实例化数据库
@@ -1132,6 +1141,8 @@ namespace qingjia_MVC.Areas.Leave.Controllers
             }
             #endregion
 
+            LL_Count(TopList);
+
             model.TopTotalList = changeLLModel(TopTotalList);
             model.TopList = changeLLModel(TopList);
 
@@ -1505,27 +1516,30 @@ namespace qingjia_MVC.Areas.Leave.Controllers
         }
         #endregion
 
-        #region 随着页面滚动加载数据 -- 尚未完成
+        #region 随着页面滚动加载数据 数据加载已完成
+
         /// <summary>
         /// 加载数据
         /// </summary>
         /// <returns></returns>
-        public ActionResult ReLoadNext()
+        public JsonResult ReLoadNext()
         {
-            string leavetype = "";
-            string index = "";
-            string num = "";
-            if (Request["leavetype"] == null)
+            string leavetype = "";//需要加载的请假类型
+            string index = "";//加载起始编号
+            string num = "";//加载数目
+
+            if (Request["leavetype"] != null)
             {
                 leavetype = Request["leavetype"].ToString();
             }
-            if (Request["index"] == null)
+            if (Request["index"] != null)
             {
                 index = Request["index"].ToString();
             }
-            if (Request["num"] == null)
+            if (Request["num"] != null)
             {
-                num = Request["num"].ToString();
+                //num = Request["num"].ToString();
+                num = "20";
             }
             return LoadNextData(leavetype, index, num);
         }
@@ -1537,8 +1551,11 @@ namespace qingjia_MVC.Areas.Leave.Controllers
         /// <param name="index">加载起始编号</param>
         /// <param name="num">加载数目</param>
         /// <returns></returns>
-        protected ActionResult LoadNextData(string leavetype, string index, string num)
+        protected JsonResult LoadNextData(string leavetype, string index, string num)
         {
+            var res = new JsonResult();//res为放回json数据
+            JsonDataModel model = new JsonDataModel();
+
             string UserID = Session["UserID"].ToString();
             string RoleID = Session["RoleID"].ToString();
             int _index = Convert.ToInt32(index);
@@ -1573,22 +1590,20 @@ namespace qingjia_MVC.Areas.Leave.Controllers
             }
             #endregion
 
-            ViewBag.LeaveType = leavetype;
-
             #region 获取数据
+            List<LL_Table> _list = new List<LL_Table>();
+
             if (RoleID == "1")//学生
             {
                 if (_leavetype == "")
                 {
-                    var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.StudentID == UserID) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.StudentID == UserID) orderby vw_LeaveList.SubmitTime descending select vw_LeaveList;
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
                 else
                 {
                     var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.StudentID == UserID && vw_LeaveList.LeaveType.StartsWith(_leavetype)) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
             }
             else if (RoleID == "2")//班级
@@ -1599,14 +1614,12 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 if (_leavetype == "")
                 {
                     var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_Class == className) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
                 else
                 {
                     var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_Class == className && vw_LeaveList.LeaveType.StartsWith(_leavetype)) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
             }
             else if (RoleID == "3")//辅导员
@@ -1614,14 +1627,12 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 if (_leavetype == "")
                 {
                     var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_TeacherID == UserID) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
                 else
                 {
                     var LL = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ST_TeacherID == UserID && vw_LeaveList.LeaveType.StartsWith(_leavetype)) orderby vw_LeaveList.ID descending select vw_LeaveList;
-                    LL.Skip(_index - 1).Take(_num);
-                    return PartialView("_trlist", changeLLModel(LL.ToList()));
+                    _list = changeLLModel(LL.Skip(_index - 1).Take(_num).ToList());
                 }
             }
             else
@@ -1629,8 +1640,17 @@ namespace qingjia_MVC.Areas.Leave.Controllers
                 //未知错误
                 return null;
             }
+
+            model.leaveType = leavetype;
+            model.num = (_list == null) ? 0 : _list.Count();
+            model.data = _list;
             #endregion
+
+            res.Data = model;//返回数赋值
+            res.JsonRequestBehavior = JsonRequestBehavior.AllowGet;//允许使用GET方式获取，否则用GET获取是会报错
+            return res;
         }
+
         #endregion
 
         #region 修改晚点名批次

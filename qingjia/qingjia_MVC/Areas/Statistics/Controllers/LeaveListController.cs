@@ -11,6 +11,8 @@ using System.Web.Script.Serialization;
 
 namespace qingjia_MVC.Areas.Statistics.Controllers
 {
+    #region 数据模型
+
     public class JsonModel
     {
         public ArrayList indexNameArr { get; set; }
@@ -30,6 +32,14 @@ namespace qingjia_MVC.Areas.Statistics.Controllers
         public string population { get; set; }
         public string reason { get; set; }
     }
+
+    public class SimulationData
+    {
+        public string className{get;set;}
+        public Dictionary<string,int> data{get;set;}
+    }
+
+    #endregion
 
     public class LeaveListController : BaseController
     {
@@ -200,37 +210,95 @@ namespace qingjia_MVC.Areas.Statistics.Controllers
             }
             if (type == "vacation")
             {
-                string StartTime = "170102";
-                string EndTime = "170105";
+                //string StartTime = "170102";
+                //string EndTime = "170105";
 
-                var sr = new StreamReader(Request.InputStream);
-                var stream = sr.ReadToEnd();
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                var list = js.Deserialize<GeoJsonModel>(stream);
+                //var sr = new StreamReader(Request.InputStream);
+                //var stream = sr.ReadToEnd();
+                //JavaScriptSerializer js = new JavaScriptSerializer();
+                //var list = js.Deserialize<GeoJsonModel>(stream);
 
-                var LL_Address = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ID.CompareTo(StartTime) >= 0 && vw_LeaveList.ID.CompareTo(EndTime) <= 0 && vw_LeaveList.TypeChildID == 6) select vw_LeaveList.Address;
+                //var LL_Address = from vw_LeaveList in db.vw_LeaveList where (vw_LeaveList.ID.CompareTo(StartTime) >= 0 && vw_LeaveList.ID.CompareTo(EndTime) <= 0 && vw_LeaveList.TypeChildID == 6) select vw_LeaveList.Address;
 
-                Dictionary<string, int> returnData = new Dictionary<string, int>();
+                //Dictionary<string, int> returnData = new Dictionary<string, int>();
 
-                foreach (string geo in list.data)
-                {
-                    int n = 0;
-                    foreach (string address in LL_Address)
-                    {
-                        if (address.Contains(geo))
-                        {
-                            n++;
-                        }
-                    }
-                    if (n != 0)
-                    {
-                        returnData.Add(geo, n);
-                    }
-                }
+                //foreach (string geo in list.data)
+                //{
+                //    int n = 0;
+                //    foreach (string address in LL_Address)
+                //    {
+                //        if (address.Contains(geo))
+                //        {
+                //            n++;
+                //        }
+                //    }
+                //    if (n != 0)
+                //    {
+                //        returnData.Add(geo, n);
+                //    }
+                //}
 
-                res.JsonRequestBehavior = JsonRequestBehavior.AllowGet;//允许使用GET方式获取，否则用GET获取是会报错
-                //res.Data = returnData.Count();
-                res.Data = returnData;
+                //res.JsonRequestBehavior = JsonRequestBehavior.AllowGet;//允许使用GET方式获取，否则用GET获取是会报错
+                //res.Data = returnData;
+
+                #region 模拟数据
+                SimulationData simulationData_01 = new SimulationData();
+                simulationData_01.className = "信管1401班";
+                Dictionary<string, int> data = new Dictionary<string, int>();
+                data.Add("上海", 95);
+                data.Add("广州", 90);
+                data.Add("大连", 70);
+                data.Add("南宁", 60);
+                data.Add("南昌", 50);
+                data.Add("南京", 40);
+                data.Add("长春", 40);
+                data.Add("哈尔滨", 35);
+                data.Add("重庆", 34);
+                data.Add("包头", 30);
+                data.Add("常州", 10);
+                simulationData_01.data = data;
+
+                SimulationData simulationData_02 = new SimulationData();
+                simulationData_02.className = "信管1402班";
+                Dictionary<string, int> data_02 = new Dictionary<string, int>();
+                data_02.Add("包头", 95);
+                data_02.Add("长春", 90);
+                data_02.Add("昆明", 70);
+                data_02.Add("郑州", 60);
+                data_02.Add("南昌", 50);
+                data_02.Add("长沙", 40);
+                data_02.Add("丹东", 40);
+                data_02.Add("大连", 35);
+                data_02.Add("拉萨", 34);
+                data_02.Add("太原", 30);
+                data_02.Add("常州", 10);
+                simulationData_02.data = data_02;
+
+                SimulationData simulationData_03 = new SimulationData();
+                simulationData_03.className = "信管1403班";
+                Dictionary<string, int> data_03 = new Dictionary<string, int>();
+                data_03.Add("福州", 95);
+                data_03.Add("太原", 90);
+                data_03.Add("长春", 70);
+                data_03.Add("重庆", 60);
+                data_03.Add("西安", 50);
+                data_03.Add("成都", 40);
+                data_03.Add("北京", 40);
+                data_03.Add("天津", 35);
+                data_03.Add("海口", 34);
+                data_03.Add("北海", 30);
+                data_03.Add("沈阳", 10);
+                simulationData_03.data = data_03;
+
+                List<SimulationData> simulationDataList = new List<SimulationData>();
+                simulationDataList.Add(simulationData_01);
+                simulationDataList.Add(simulationData_02);
+                simulationDataList.Add(simulationData_03);
+
+                #endregion
+
+                res.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                res.Data = simulationDataList;//模拟数据
                 return res;
             }
 

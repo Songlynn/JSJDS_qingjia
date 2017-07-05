@@ -148,6 +148,8 @@
         @if (LeaveType == "AllLeave")
         {
             <div class="tab-pane fade in active" id="AllLeave">
+                @if (ViewBag.totalNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -223,11 +225,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="AllLeave">
+                @if (ViewBag.totalNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -303,11 +314,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         @if (LeaveType == "ShortLeave")
         {
             <div class="tab-pane fade in active" id="ShortLeave">
+                @if (ViewBag.shortNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -379,11 +399,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="ShortLeave">
+                @if (ViewBag.shortNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -455,11 +484,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         @if (LeaveType == "LongLeave")
         {
             <div class="tab-pane fade in active" id="LongLeave">
+                @if (ViewBag.longNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -531,11 +569,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="LongLeave">
+                @if (ViewBag.longNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -607,11 +654,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         @if (LeaveType == "VacationLeave")
         {
             <div class="tab-pane fade in active" id="VacationLeave">
+                @if (ViewBag.holidayNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -683,11 +739,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="VacationLeave">
+                @if (ViewBag.holidayNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -759,11 +824,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         @if (LeaveType == "NightLeave")
         {
             <div class="tab-pane fade in active" id="NightLeave">
+                @if (ViewBag.nightNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -835,11 +909,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="NightLeave">
+                @if (ViewBag.nightNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -911,11 +994,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         @if (LeaveType == "LessonLeave")
         {
             <div class="tab-pane fade in active" id="LessonLeave">
+                @if (ViewBag.classNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -987,11 +1079,20 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="LessonLeave">
+                @if (ViewBag.classNumLeave != 0)
+                { 
                 <div class="tab-toollist">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -1063,158 +1164,29 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="leavelist-none">
+                        <img src="~/Content/image/leavelist-none.png" />
+                    </div>
+                }
             </div>
         }
         <!--早晚自习请假-->
         @if (LeaveType == "ReviewLeave")
         {
             <div class="tab-pane fade in active" id="ReviewLeave">
-                <div class="tab-toollist">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <input type="image" name="search" src="~/Content/image/audit-search.png">
-                        </span>
-                        <input type="text" id="condition" placeholder="请输入搜索内容">
-                        <span class="input-group-btn cancel">
-                            <input type="image" src="~/Content/image/cancel.png">
-                        </span>
-                    </div>
-                </div>
-                <div class="leavelist">
-                    <table class="table table-condensed lesson">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>请假单号</th>
-                                <th>撤回</th>
-                                <th>请假条</th>
-                                <th>状态</th>
-                                <th>姓名</th>
-                                <th>班级</th>
-                                <th>请假类型</th>
-                                <th>请假原因</th>
-                                <th>请假时间</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var LL in Model.TopList)
-                            {
-                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自")
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>@LL.ID</td>
-                                        <td>
-                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
-                                            {
-                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
-                                            }
-                                            else
-                                            {
-                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
-                                            }
-                                        </td>
-                                        <td>
-                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
-                                            {
-                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
-                                            }
-                                            else
-                                            {
-                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
-                                            }
-                                        </td>
-                                        <td>@LL.AuditState</td>
-                                        <td><span>@LL.ST_Name</span></td>
-                                        <td><span>@LL.ST_Class</span></td>
-                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
-                                        <td>
-                                            <span class="reason">
-                                                @LL.Reason
-                                            </span>
-                                        </td>
-                                        <td>@LL.SubmitTime</td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+                <div class="leavelist-none">
+                    <img src="~/Content/image/leavelist-none.png" />
                 </div>
             </div>
         }
         else
         {
             <div class="tab-pane fade" id="ReviewLeave">
-                <div class="tab-toollist">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <input type="image" name="search" src="~/Content/image/audit-search.png">
-                        </span>
-                        <input type="text" id="condition" placeholder="请输入搜索内容">
-                        <span class="input-group-btn cancel">
-                            <input type="image" src="~/Content/image/cancel.png">
-                        </span>
-                    </div>
-                </div>
-                <div class="leavelist">
-                    <table class="table table-condensed lesson">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>请假单号</th>
-                                <th>撤回</th>
-                                <th>请假条</th>
-                                <th>状态</th>
-                                <th>姓名</th>
-                                <th>班级</th>
-                                <th>请假类型</th>
-                                <th>请假原因</th>
-                                <th>请假时间</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var LL in Model.TopList)
-                            {
-                                if (LL.LeaveType.ToString().Substring(0, 3) == "早晚自")
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>@LL.ID</td>
-                                        <td>
-                                            @if (LL.TimeLeave.AsDateTime().Date > date && LL.AuditState != "已驳回")
-                                            {
-                                                <input type="image" name="delete" src="~/Content/image/auditleave-back.png" />
-                                            }
-                                            else
-                                            {
-                                                <input type="image" name="delete" disabled src="~/Content/image/delete-disabled.png">
-                                            }
-                                        </td>
-                                        <td>
-                                            @if ((LL.AuditState == "待销假" || LL.AuditState == "已销假") && (LL.LeaveType.Substring(0, 2) == "上课" || LL.LeaveType.Substring(0, 2) == "短期" || LL.LeaveType.Substring(0, 2) == "长期" || LL.LeaveType.Substring(0, 2) == "节假"))
-                                            {
-                                                <input type="image" name="print" src="~/Content/image/leavelist-print.png">
-                                            }
-                                            else
-                                            {
-                                                <input type="image" name="print" disabled src="~/Content/image/leavelist-print-disabled.png">
-                                            }
-                                        </td>
-                                        <td>@LL.AuditState</td>
-                                        <td><span>@LL.ST_Name</span></td>
-                                        <td><span>@LL.ST_Class</span></td>
-                                        <td>@LL.LeaveType.Substring(0, LL.LeaveType.Length - 4)</td>
-                                        <td>
-                                            <span class="reason">
-                                                @LL.Reason
-                                            </span>
-                                        </td>
-                                        <td>@LL.SubmitTime</td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+                <div class="leavelist-none">
+                    <img src="~/Content/image/leavelist-none.png" />
                 </div>
             </div>
         }
